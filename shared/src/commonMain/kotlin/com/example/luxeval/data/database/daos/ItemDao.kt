@@ -1,12 +1,9 @@
 package com.example.luxeval.data.database.daos
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
-import androidx.room.Update
 import com.example.luxeval.data.database.entities.BraceletDetailsEntity
 import com.example.luxeval.data.database.entities.BroochDetailsEntity
 import com.example.luxeval.data.database.entities.EarringsDetailsEntity
@@ -17,7 +14,6 @@ import com.example.luxeval.data.database.entities.PearlDetailsEntity
 import com.example.luxeval.data.database.entities.PendantDetailsEntity
 import com.example.luxeval.data.database.entities.RingDetailsEntity
 import com.example.luxeval.data.database.entities.WatchDetailsEntity
-import com.example.luxeval.data.database.relationships.ItemComplete
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -110,7 +106,4 @@ interface ItemDao {
     @Query("SELECT * FROM pearl_details WHERE itemId = :itemId")
     suspend fun getPearlDetails(itemId: String): PearlDetailsEntity?
 
-    // TODO: repeat the insert/get pair above for each remaining detail entity
-    // once you've created NecklaceDetailsEntity, PendantDetailsEntity, etc.
-    // (insertNecklaceDetails/getNecklaceDetails, and so on) — same two lines each time.
 }

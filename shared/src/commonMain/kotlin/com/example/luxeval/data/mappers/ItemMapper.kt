@@ -1,4 +1,4 @@
-package com.example.luxeval.data
+package com.example.luxeval.data.mappers
 
 import com.example.luxeval.data.database.entities.BraceletDetailsEntity
 import com.example.luxeval.data.database.entities.BroochDetailsEntity

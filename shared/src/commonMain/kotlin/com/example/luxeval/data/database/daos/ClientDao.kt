@@ -22,6 +22,12 @@ interface ClientDao {
     @Delete
     suspend fun delete(client: ClientEntity)
 
-    @Query("SELECT * FROM ClientEntity")
+    @Query("SELECT * FROM clients ORDER BY name ASC")
     fun observeClients(): Flow<List<ClientEntity>>
+
+    @Query("SELECT * FROM clients WHERE id = :clientId LIMIT 1")
+    suspend fun getById(clientId: String): ClientEntity?
+
+    @Query("DELETE FROM clients WHERE id = :clientId")
+    suspend fun deleteById(clientId: String)
 }

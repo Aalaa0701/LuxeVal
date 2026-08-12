@@ -3,7 +3,7 @@ package com.example.luxeval.data.database.entities
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "clients")
 data class ClientEntity(
     @PrimaryKey
     val id: String,
