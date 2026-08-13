@@ -10,6 +10,12 @@ class AppraiserProfileStore(private val settings: Settings) {
     fun getLicenseNumber(): String = settings.getString("license_number", "")
     fun setLicenseNumber(value: String) = settings.putString("license_number", value)
 
+    fun getBusinessPhone(): String = settings.getString("business_phone", "")
+    fun setBusinessPhone(value: String) = settings.putString("business_phone", value)
+
+    fun getBusinessAddress(): String = settings.getString("business_address", "")
+    fun setBusinessAddress(value: String) = settings.putString("business_address", value)
+
     fun getLetterheadText(): String = settings.getString("letterhead_text", "")
     fun setLetterheadText(value: String) = settings.putString("letterhead_text", value)
 

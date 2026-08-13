@@ -90,6 +90,7 @@ data class GemstoneDetails(
 
 sealed class AppraisalItem {
     abstract val id: String
+    abstract val itemName: String
     abstract val appraisalId: String
     abstract val photoUris: List<String>
     abstract val condition: ItemCondition
@@ -106,6 +107,7 @@ sealed class AppraisalItem {
 
     data class Ring(
         override val id: String,
+        override val itemName: String,
         override val appraisalId: String,
         override val photoUris: List<String>,
         override val condition: ItemCondition,
@@ -130,6 +132,7 @@ sealed class AppraisalItem {
 
     data class Necklace(
         override val id: String,
+        override val itemName: String,
         override val appraisalId: String,
         override val photoUris: List<String>,
         override val condition: ItemCondition,
@@ -153,6 +156,7 @@ sealed class AppraisalItem {
 
     data class Pendant(
         override val id: String,
+        override val itemName: String,
         override val appraisalId: String,
         override val photoUris: List<String>,
         override val condition: ItemCondition,
@@ -176,6 +180,7 @@ sealed class AppraisalItem {
 
     data class Bracelet(
         override val id: String,
+        override val itemName: String,
         override val appraisalId: String,
         override val photoUris: List<String>,
         override val condition: ItemCondition,
@@ -201,6 +206,7 @@ sealed class AppraisalItem {
 
     data class Earrings(
         override val id: String,
+        override val itemName: String,
         override val appraisalId: String,
         override val photoUris: List<String>,
         override val condition: ItemCondition,
@@ -224,6 +230,7 @@ sealed class AppraisalItem {
 
     data class Brooch(
         override val id: String,
+        override val itemName: String,
         override val appraisalId: String,
         override val photoUris: List<String>,
         override val condition: ItemCondition,
@@ -248,6 +255,7 @@ sealed class AppraisalItem {
     /** No metal/gemstone blocks — watches are structured completely differently. */
     data class Watch(
         override val id: String,
+        override val itemName: String,
         override val appraisalId: String,
         override val photoUris: List<String>,
         override val condition: ItemCondition,
@@ -281,6 +289,7 @@ sealed class AppraisalItem {
     /** Gemstone block is the entire record — no metal, no setting. */
     data class LooseGemstone(
         override val id: String,
+        override val itemName: String,
         override val appraisalId: String,
         override val photoUris: List<String>,
         override val condition: ItemCondition,
@@ -300,6 +309,7 @@ sealed class AppraisalItem {
     /** Pearls are graded completely differently from gemstones — own pathway. */
     data class PearlJewelry(
         override val id: String,
+        override val itemName: String,
         override val appraisalId: String,
         override val photoUris: List<String>,
         override val condition: ItemCondition,
@@ -327,6 +337,7 @@ sealed class AppraisalItem {
     /** Escape hatch for anything that doesn't fit the categories above. */
     data class Other(
         override val id: String,
+        override val itemName: String,
         override val appraisalId: String,
         override val photoUris: List<String>,
         override val condition: ItemCondition,

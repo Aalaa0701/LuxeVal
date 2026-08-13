@@ -10,6 +10,6 @@ import org.koin.core.module.Module
  */
 fun initKoin(platformModules: List<Module> = emptyList()) {
     startKoin {
-        modules(platformModules + listOf(daoModule, repositoryModule, settingsModule))
+        modules(platformModules + listOf(daoModule, repositoryModule, settingsModule, viewModelModule))
     }
 }

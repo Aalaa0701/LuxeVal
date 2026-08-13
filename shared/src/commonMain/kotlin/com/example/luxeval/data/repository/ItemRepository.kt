@@ -7,6 +7,7 @@ import com.example.luxeval.data.mappers.toDomain
 import com.example.luxeval.data.mappers.toItemEntity
 import com.example.luxeval.domain.AppraisalItem
 import com.example.luxeval.domain.ItemCategory
+import com.example.luxeval.domain.ItemSummary
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -38,6 +39,7 @@ class ItemRepository(private val dao: ItemDao) {
         }
     }
 
+
     /** One-shot read — simplest option, good enough for the appraisal-creation flow. */
     suspend fun getItemsForAppraisal(appraisalId: String): List<AppraisalItem> {
         return buildList {
@@ -60,6 +62,22 @@ class ItemRepository(private val dao: ItemDao) {
             entities.mapNotNull { reconstruct(it) }
         }
 
+
+    fun observeAllItemSummaries(): Flow<List<ItemSummary>> =
+        dao.observeAllItems().map { entities ->
+            entities.map {
+                ItemSummary(
+                    id = it.id,
+                    appraisalId = it.appraisalId,
+                    itemName = it.itemName,
+                    category = ItemCategory.valueOf(it.category),
+                    estimatedValue = it.estimatedValue,
+                    currency = it.currency,
+                    primaryPhotoUri = it.photoUris.firstOrNull(),
+                    createdAt = it.createdAt
+                )
+            }
+        }
     suspend fun deleteItem(itemId: String) = dao.deleteItem(itemId)
 
     private suspend fun reconstruct(entity: ItemEntity): AppraisalItem? =

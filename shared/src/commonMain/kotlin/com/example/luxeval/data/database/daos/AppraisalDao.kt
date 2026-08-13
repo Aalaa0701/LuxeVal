@@ -23,4 +23,7 @@ interface AppraisalDao {
 
     @Query("SELECT * FROM appraisals WHERE id = :id")
     suspend fun getById(id: String): AppraisalEntity?
+
+    @Query("SELECT * FROM appraisals WHERE id = :id")
+    fun observeById(id: String): Flow<AppraisalEntity?>
 }

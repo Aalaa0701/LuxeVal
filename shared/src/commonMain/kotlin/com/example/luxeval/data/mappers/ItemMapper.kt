@@ -96,6 +96,7 @@ private fun GemstoneDetails.toColumns() = GemstoneDetailsColumns(
 /** Every AppraisalItem subtype maps to the same base ItemEntity columns. */
 fun AppraisalItem.toItemEntity() = ItemEntity(
     id = id,
+    itemName = itemName,
     appraisalId = appraisalId,
     category = category.name,
     photoUris = photoUris,
@@ -127,6 +128,7 @@ fun AppraisalItem.Ring.toDetailsEntity() = RingDetailsEntity(
 
 fun RingDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.Ring(
     id = item.id,
+    itemName = item.itemName,
     appraisalId = item.appraisalId,
     photoUris = item.photoUris,
     condition = ItemCondition.valueOf(item.condition),
@@ -172,6 +174,7 @@ fun AppraisalItem.Watch.toDetailsEntity() = WatchDetailsEntity(
 
 fun WatchDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.Watch(
     id = item.id,
+    itemName = item.itemName,
     appraisalId = item.appraisalId,
     photoUris = item.photoUris,
     condition = ItemCondition.valueOf(item.condition),
@@ -211,6 +214,7 @@ fun AppraisalItem.LooseGemstone.toDetailsEntity() = LooseGemstoneDetailsEntity(
 
 fun LooseGemstoneDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.LooseGemstone(
     id = item.id,
+    itemName = item.itemName,
     appraisalId = item.appraisalId,
     photoUris = item.photoUris,
     condition = ItemCondition.valueOf(item.condition),
@@ -241,6 +245,7 @@ fun AppraisalItem.Necklace.toDetailsEntity() = NecklaceDetailsEntity(
 
 fun NecklaceDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.Necklace(
     id = item.id,
+    itemName = item.itemName,
     appraisalId = item.appraisalId,
     photoUris = item.photoUris,
     condition = ItemCondition.valueOf(item.condition),
@@ -276,6 +281,7 @@ fun AppraisalItem.Pendant.toDetailsEntity() = PendantDetailsEntity(
 
 fun PendantDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.Pendant(
     id = item.id,
+    itemName = item.itemName,
     appraisalId = item.appraisalId,
     photoUris = item.photoUris,
     condition = ItemCondition.valueOf(item.condition),
@@ -313,6 +319,7 @@ fun AppraisalItem.Bracelet.toDetailsEntity() = BraceletDetailsEntity(
 
 fun BraceletDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.Bracelet(
     id = item.id,
+    itemName = item.itemName,
     appraisalId = item.appraisalId,
     photoUris = item.photoUris,
     condition = ItemCondition.valueOf(item.condition),
@@ -355,6 +362,7 @@ fun AppraisalItem.Earrings.toDetailsEntity() = EarringsDetailsEntity(
 
 fun EarringsDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.Earrings(
     id = item.id,
+    itemName = item.itemName,
     appraisalId = item.appraisalId,
     photoUris = item.photoUris,
     condition = ItemCondition.valueOf(item.condition),
@@ -390,6 +398,7 @@ fun AppraisalItem.Brooch.toDetailsEntity() = BroochDetailsEntity(
 
 fun BroochDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.Brooch(
     id = item.id,
+    itemName = item.itemName,
     appraisalId = item.appraisalId,
     photoUris = item.photoUris,
     condition = ItemCondition.valueOf(item.condition),
@@ -428,6 +437,7 @@ fun AppraisalItem.PearlJewelry.toDetailsEntity() = PearlDetailsEntity(
 
 fun PearlDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.PearlJewelry(
     id = item.id,
+    itemName = item.itemName,
     appraisalId = item.appraisalId,
     photoUris = item.photoUris,
     condition = ItemCondition.valueOf(item.condition),

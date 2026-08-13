@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey
 data class ItemEntity(
     @PrimaryKey val id: String,
     val appraisalId: String,
+    val itemName: String,
     val category: String,
     val photoUris: List<String>,
     val condition: String,

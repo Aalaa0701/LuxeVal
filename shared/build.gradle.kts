@@ -49,6 +49,8 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.navigation.compose)
             implementation(libs.kotlinx.serialization.json)
             implementation("com.russhwolf:multiplatform-settings:1.1.1")
             implementation("com.russhwolf:multiplatform-settings-no-arg:1.1.1")

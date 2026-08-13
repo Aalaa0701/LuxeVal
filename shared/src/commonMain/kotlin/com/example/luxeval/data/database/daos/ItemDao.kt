@@ -27,6 +27,8 @@ interface ItemDao {
     @Query("SELECT * FROM items WHERE appraisalId = :appraisalId ORDER BY createdAt ASC")
     fun observeItemsForAppraisal(appraisalId: String): Flow<List<ItemEntity>>
 
+    @Query("SELECT * FROM items ORDER BY createdAt DESC")
+    fun observeAllItems(): Flow<List<ItemEntity>>
     @Query("SELECT * FROM items WHERE appraisalId = :appraisalId ORDER BY createdAt ASC")
     suspend fun getItemsForAppraisalOnce(appraisalId: String): List<ItemEntity>
 
