@@ -5,13 +5,15 @@ import androidx.lifecycle.ViewModel
 import com.example.luxeval.data.AppSettingsStore
 import com.example.luxeval.data.AppraiserProfileStore
 import com.example.luxeval.data.MeasurementUnit
+import com.example.luxeval.presentation.theme.ThemeController
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class SettingsViewModel(
     private val profileStore: AppraiserProfileStore,
-    private val settingsStore: AppSettingsStore
+    private val settingsStore: AppSettingsStore,
+    private val themeController: ThemeController
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(loadCurrentState())
@@ -76,7 +78,7 @@ class SettingsViewModel(
     }
 
     fun onDarkModeChanged(enabled: Boolean) {
-        settingsStore.setDarkModeEnabled(enabled)
+        themeController.setDarkTheme(enabled)
         _uiState.value = _uiState.value.copy(isDarkModeEnabled = enabled)
     }
 }

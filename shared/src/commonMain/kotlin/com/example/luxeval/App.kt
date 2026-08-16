@@ -16,15 +16,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.luxeval.navigation.AppNavHost
 import com.example.luxeval.presentation.theme.LuxeValTheme
+import com.example.luxeval.presentation.theme.ThemeController
 import org.jetbrains.compose.resources.painterResource
 
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.compose_multiplatform
+import org.koin.compose.koinInject
 
 @Composable
 @Preview
 fun App() {
-    LuxeValTheme {
+    val themeController: ThemeController = koinInject()
+    val isDarkTheme by themeController.isDarkTheme.collectAsState()
+
+    LuxeValTheme(darkTheme = isDarkTheme) {
         AppNavHost()
     }
 }

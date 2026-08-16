@@ -67,14 +67,25 @@ class SearchViewModel(
                 appraisalResults = matchingAppraisals,
                 clientResults = matchingClients
             )
-        }.onEach { _uiState.value = it }.launchIn(viewModelScope)
+        }
+            // Only apply the debounced result to the results fields — never let it
+            // clobber `query`, which is already being driven instantly below.
+            .onEach { debouncedState ->
+                _uiState.value = _uiState.value.copy(
+                    hasSearched = debouncedState.hasSearched,
+                    appraisalResults = debouncedState.appraisalResults,
+                    clientResults = debouncedState.clientResults
+                )
+            }
+            .launchIn(viewModelScope)
     }
 
     fun onQueryChanged(value: String) {
+         _uiState.value = _uiState.value.copy(query = value)
         queryFlow.value = value
     }
 
     fun clearSearch() {
-        queryFlow.value = ""
+        onQueryChanged("")
     }
 }

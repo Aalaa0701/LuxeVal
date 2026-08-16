@@ -40,7 +40,6 @@ fun AppraisalCardView(card: AppraisalCard, onClick: () -> Unit, modifier: Modifi
             StatusPill(
                 status = card.appraisal.status,
                 modifier = Modifier.align(Alignment.TopEnd).padding(12.dp),
-                darkTheme = isSystemInDarkTheme()
             )
         }
         Column(modifier = Modifier.padding(16.dp)) {

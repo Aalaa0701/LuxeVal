@@ -9,11 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.luxeval.domain.AppraisalStatus
+import com.example.luxeval.presentation.theme.LocalDarkTheme
 import com.example.luxeval.presentation.theme.LuxeShapes
 import com.example.luxeval.presentation.theme.StatusColors
 
 @Composable
-fun StatusPill(status: AppraisalStatus, darkTheme: Boolean, modifier: Modifier = Modifier) {
+fun StatusPill(status: AppraisalStatus, modifier: Modifier = Modifier) {
+    val darkTheme = LocalDarkTheme.current
     val (bg, fg, label) = when (status) {
         AppraisalStatus.DRAFT -> if (darkTheme) Triple(StatusColors.DraftBgDark, StatusColors.DraftFgDark, "Draft")
         else Triple(StatusColors.DraftBg, StatusColors.DraftFg, "Draft")
@@ -23,9 +25,7 @@ fun StatusPill(status: AppraisalStatus, darkTheme: Boolean, modifier: Modifier =
         else Triple(StatusColors.ArchivedBg, StatusColors.ArchivedFg, "Archived")
     }
     Text(
-        text = "• $label",
-        color = fg,
-        style = MaterialTheme.typography.labelSmall,
+        text = "• $label", color = fg, style = MaterialTheme.typography.labelSmall,
         modifier = modifier.background(bg, LuxeShapes.full).padding(horizontal = 10.dp, vertical = 4.dp)
     )
 }
