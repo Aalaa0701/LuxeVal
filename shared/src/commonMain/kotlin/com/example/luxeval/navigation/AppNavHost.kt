@@ -18,7 +18,7 @@ import org.koin.core.parameter.parametersOf
 
 @Composable
 fun AppNavHost(navController: NavHostController = rememberNavController()) {
-    NavHost(navController = navController, startDestination = Splash) {
+    NavHost(navController = navController, startDestination = Dashboard) {
         composable<Splash> { /* SplashScreen(navController) */ }
         composable<Login> { /* LoginScreen(navController) */ }
         composable<SignUp> { /* SignUpScreen(navController) */ }

@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 @Entity(
     tableName = "appraisals",
     indices = [
-        Index(value = ["documentNumber"], unique = true)
+        Index(value = ["documentId"], unique = true)
     ],
     foreignKeys = [ForeignKey(
         entity = ClientEntity::class,

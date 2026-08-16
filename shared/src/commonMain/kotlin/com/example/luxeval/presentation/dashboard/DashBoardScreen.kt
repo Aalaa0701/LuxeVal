@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -16,7 +14,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.luxeval.presentation.util.AppraisalCardView
 import com.example.luxeval.presentation.util.LuxeTopBar
-import com.example.luxeval.presentation.theme.LuxeColors
+import kotlinx.datetime.toLocalDateTime
+import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.ic_add
+import org.jetbrains.compose.resources.painterResource
+import kotlin.time.Clock
 
 @Composable
 fun DashboardScreen(
@@ -30,9 +32,9 @@ fun DashboardScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { viewModel.createDraftAndGetId(onOpenAppraisal) },
-                containerColor = LuxeColors.Olive
+                containerColor = MaterialTheme.colorScheme.secondary
             ) {
-                Icon(Icons.Filled.Add, contentDescription = "New Appraisal")
+                Icon(painterResource(Res.drawable.ic_add), contentDescription = "New Appraisal")
             }
         }
     ) { padding ->
@@ -51,7 +53,7 @@ fun DashboardScreen(
             item {
                 Column {
                     Text("Good Morning", style = MaterialTheme.typography.displayLarge, fontWeight = FontWeight.Bold)
-                    Text(currentDateLabel(), style = MaterialTheme.typography.bodyMedium, color = LuxeColors.OnSurfaceMuted)
+                    Text(currentDateLabel(), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
 
@@ -63,7 +65,7 @@ fun DashboardScreen(
             }
             item {
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    StatCard("Drafts", uiState.draftsCount.toString(), Modifier.weight(1f), valueColor = LuxeColors.Olive)
+                    StatCard("Drafts", uiState.draftsCount.toString(), Modifier.weight(1f), valueColor = MaterialTheme.colorScheme.secondary)
                     StatCard("Customers", uiState.customersCount.toString(), Modifier.weight(1f))
                 }
             }
@@ -89,10 +91,10 @@ fun DashboardScreen(
 }
 
 @Composable
-private fun StatCard(label: String, value: String, modifier: Modifier = Modifier, valueColor: androidx.compose.ui.graphics.Color = LuxeColors.Navy) {
+private fun StatCard(label: String, value: String, modifier: Modifier = Modifier, valueColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.surface) {
     Card(modifier = modifier, shape = RoundedCornerShape(16.dp)) {
         Column(Modifier.padding(16.dp)) {
-            Text(label.uppercase(), style = MaterialTheme.typography.labelSmall, color = LuxeColors.OnSurfaceMuted)
+            Text(label.uppercase(), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(Modifier.height(6.dp))
             Text(value, style = MaterialTheme.typography.displayLarge, color = valueColor)
         }
@@ -100,7 +102,7 @@ private fun StatCard(label: String, value: String, modifier: Modifier = Modifier
 }
 
 private fun currentDateLabel(): String {
-    val now = kotlinx.datetime.Clock.System.now().toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault())
+    val now = Clock.System.now().toLocalDateTime(kotlinx.datetime.TimeZone.currentSystemDefault())
     val day = now.dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }
     val month = now.month.name.lowercase().replaceFirstChar { it.uppercase() }
     return "$day, $month ${now.dayOfMonth}, ${now.year}"

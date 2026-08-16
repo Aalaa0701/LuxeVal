@@ -10,9 +10,12 @@ fun getDatabaseBuilder(context: Context): RoomDatabase.Builder<AppDatabase> {
     val dbFile = context.getDatabasePath("luxeval.db")
     return Room.databaseBuilder<AppDatabase>(context = context, name = dbFile.absolutePath)
 }
-
-fun buildDatabase(context: Context): AppDatabase =
-    getDatabaseBuilder(context)
+fun buildDatabase(context: Context): AppDatabase {
+    return Room.databaseBuilder<AppDatabase>(
+        context = context,
+        name = "luxeval.db"
+    )
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
         .build()
+}

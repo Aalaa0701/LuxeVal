@@ -85,5 +85,7 @@ room {
     schemaDirectory("$projectDir/schemas")
 }
 dependencies {
+    add("kspCommonMainMetadata", libs.androidx.room.compiler)
+
     androidRuntimeClasspath(libs.compose.uiTooling)
 }
