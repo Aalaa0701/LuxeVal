@@ -1,0 +1,134 @@
+package com.example.luxeval.presentation.itemEditor.ring
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.luxeval.data.repository.ItemRepository
+import com.example.luxeval.domain.*
+import com.example.luxeval.presentation.itemEditor.common.GemstoneFormState
+import com.example.luxeval.presentation.itemEditor.common.MetalFormState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import kotlin.time.Clock
+import kotlin.uuid.Uuid
+
+class RingEditorViewModel(
+    private val appraisalId: String,
+    private val itemId: String,
+    private val itemRepository: ItemRepository
+) : ViewModel() {
+
+    private val _uiState = MutableStateFlow(RingEditorUiState(isNewItem = itemId == null))
+    val uiState: StateFlow<RingEditorUiState> = _uiState.asStateFlow()
+
+    init {
+        if (itemId != null) {
+            viewModelScope.launch {
+                _uiState.value = _uiState.value.copy(isLoading = true)
+                val existing = itemRepository.getRing(appraisalId, itemId)
+                if (existing != null) _uiState.value = existing.toUiState()
+                _uiState.value = _uiState.value.copy(isLoading = false)
+            }
+        }
+    }
+
+    fun update(transform: (RingEditorUiState) -> RingEditorUiState) {
+        _uiState.value = transform(_uiState.value)
+    }
+
+    fun save(onSaved: () -> Unit) {
+        val state = _uiState.value
+        if (!state.canSave) return
+        viewModelScope.launch {
+            _uiState.value = state.copy(isSaving = true, saveError = null)
+            try {
+                val now = Clock.System.now().toEpochMilliseconds()
+                val ring = AppraisalItem.Ring(
+                    id = itemId,
+                    itemName = state.itemName,
+                    appraisalId = appraisalId,
+                    photoUris = state.photoUris,
+                    condition = state.condition,
+                    conditionNotes = state.conditionNotes.ifBlank { null },
+                    grossWeightGrams = state.grossWeightGrams.toDoubleOrNull(),
+                    hallmarks = state.hallmarks.ifBlank { null },
+                    estimatedValue = state.estimatedValue.toDoubleOrNull(),
+                    currency = "USD",
+                    valuationBasis = ValuationBasis.RETAIL_REPLACEMENT,
+                    valueSource = ValueSource.MANUAL,
+                    notes = state.notes.ifBlank { null },
+                    createdAt = now,
+                    updatedAt = now,
+                    ringSize = state.ringSize.ifBlank { null },
+                    bandWidthMm = state.bandWidthMm.toDoubleOrNull(),
+                    bandStyle = state.bandStyle,
+                    shankType = state.shankType,
+                    engraving = state.engraving.ifBlank { null },
+                    metal = MetalDetails(
+                        metalType = state.metal.metalType,
+                        purity = state.metal.purity,
+                        color = state.metal.color,
+                        netWeightGrams = state.metal.netWeightGrams.toDoubleOrNull(),
+                        isPlated = state.metal.isPlated,
+                        platingBaseMetal = state.metal.platingBaseMetal.ifBlank { null }
+                    ),
+                    gemstone = state.gemstone.takeIf { it.enabled }?.let {
+                        GemstoneDetails(
+                            stoneType = it.stoneType,
+                            originType = it.originType,
+                            caratWeight = it.caratWeight.toDoubleOrNull() ?: 0.0,
+                            shape = it.shape,
+                            colorGrade = it.colorGrade.ifBlank { null },
+                            clarityGrade = it.clarityGrade.ifBlank { null },
+                            treatment = it.treatment,
+                            fluorescence = it.fluorescence,
+                            settingType = it.settingType,
+                            stoneCount = it.stoneCount.toIntOrNull() ?: 1,
+                            certificationLab = it.certificationLab.ifBlank { null },
+                            certificationNumber = it.certificationNumber.ifBlank { null },
+                            measurementsMm = it.measurementsMm.ifBlank { null }
+                        )
+                    }
+                )
+                itemRepository.saveItem(ring)
+                _uiState.value = _uiState.value.copy(isSaving = false)
+                onSaved()
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(isSaving = false, saveError = e.message)
+            }
+        }
+    }
+}
+
+private fun AppraisalItem.Ring.toUiState() = RingEditorUiState(
+    isNewItem = false,
+    photoUris = photoUris,
+    itemName = itemName,
+    condition = condition,
+    conditionNotes = conditionNotes.orEmpty(),
+    hallmarks = hallmarks.orEmpty(),
+    grossWeightGrams = grossWeightGrams?.toString().orEmpty(),
+    ringSize = ringSize.orEmpty(),
+    bandWidthMm = bandWidthMm?.toString().orEmpty(),
+    bandStyle = bandStyle,
+    shankType = shankType,
+    engraving = engraving.orEmpty(),
+    metal = MetalFormState(
+        metalType = metal.metalType, purity = metal.purity, color = metal.color,
+        netWeightGrams = metal.netWeightGrams?.toString().orEmpty(),
+        isPlated = metal.isPlated, platingBaseMetal = metal.platingBaseMetal.orEmpty()
+    ),
+    gemstone = gemstone?.let {
+        GemstoneFormState(
+            enabled = true, stoneType = it.stoneType, originType = it.originType,
+            caratWeight = it.caratWeight.toString(), shape = it.shape,
+            colorGrade = it.colorGrade.orEmpty(), clarityGrade = it.clarityGrade.orEmpty(),
+            treatment = it.treatment, fluorescence = it.fluorescence, settingType = it.settingType,
+            stoneCount = it.stoneCount.toString(), certificationLab = it.certificationLab.orEmpty(),
+            certificationNumber = it.certificationNumber.orEmpty(), measurementsMm = it.measurementsMm.orEmpty()
+        )
+    } ?: GemstoneFormState(),
+    estimatedValue = estimatedValue?.toString().orEmpty(),
+    notes = notes.orEmpty()
+)

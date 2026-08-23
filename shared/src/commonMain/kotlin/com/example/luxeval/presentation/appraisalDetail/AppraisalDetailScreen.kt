@@ -372,6 +372,31 @@ private fun ClientInfoSection(
 @Composable
 private fun ItemRow(item: com.example.luxeval.domain.AppraisalItem, onDelete: () -> Unit) {
     ListItem(
+        leadingContent = {
+            Card(
+                modifier = Modifier.size(36.dp),
+                shape = LuxeShapes.sm,
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                    contentColor = MaterialTheme.colorScheme.primary
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 0.dp
+                )
+            ) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        painter = painterResource(item.category.icon()),
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp),
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+        },
         headlineContent = { Text(item.itemName, fontWeight = FontWeight.Medium) },
         supportingContent = { Text(item.category.label()) },
         trailingContent = {

@@ -3,6 +3,7 @@ package com.example.luxeval.di
 import com.example.luxeval.presentation.appraisalDetail.AppraisalDetailViewModel
 import com.example.luxeval.presentation.appraisalsList.AppraisalsListViewModel
 import com.example.luxeval.presentation.dashboard.DashboardViewModel
+import com.example.luxeval.presentation.itemEditor.ring.RingEditorViewModel
 import com.example.luxeval.presentation.search.SearchViewModel
 import com.example.luxeval.presentation.settings.SettingsViewModel
 import org.koin.core.module.dsl.viewModel
@@ -24,6 +25,14 @@ val viewModelModule = module {
             itemRepository = get()
         )
     }
+    viewModel { params ->
+        RingEditorViewModel(
+            appraisalId = params.get(),
+            itemId = params.get(),
+            itemRepository = get()
+        )
+    }
+
     viewModel { AppraisalsListViewModel(get(), get(), get()) }
     viewModel { SearchViewModel(get(), get(), get()) }
     viewModel { SettingsViewModel(get(), get(), get()) }

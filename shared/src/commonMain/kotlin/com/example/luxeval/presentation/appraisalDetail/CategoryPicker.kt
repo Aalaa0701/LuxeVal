@@ -89,7 +89,7 @@ fun ItemCategory.label(): String = when (this) {
     ItemCategory.OTHER -> "Other"
 }
 
-private fun ItemCategory.icon(): DrawableResource = when (this) {
+fun ItemCategory.icon(): DrawableResource = when (this) {
     ItemCategory.RING -> Res.drawable.ic_ring
     ItemCategory.NECKLACE -> Res.drawable.ic_necklace
     ItemCategory.PENDANT -> Res.drawable.ic_pendant

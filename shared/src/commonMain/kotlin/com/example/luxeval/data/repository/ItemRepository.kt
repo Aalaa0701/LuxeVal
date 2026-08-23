@@ -93,4 +93,9 @@ class ItemRepository(private val dao: ItemDao) {
             ItemCategory.PEARL_JEWELRY -> dao.getPearlDetails(entity.id)?.toDomain(entity)
             ItemCategory.OTHER -> null
         }
+
+    suspend fun getRing(appraisalId: String, itemId: String): AppraisalItem.Ring? {
+        val entity = dao.getItemsForAppraisalOnce(appraisalId).find { it.id == itemId } ?: return null
+        return dao.getRingDetails(itemId)?.toDomain(entity)
+    }
 }

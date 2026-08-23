@@ -49,6 +49,8 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
             implementation(libs.kotlinx.datetime)
             implementation(libs.navigation.compose)
             implementation(libs.kotlinx.serialization.json)
