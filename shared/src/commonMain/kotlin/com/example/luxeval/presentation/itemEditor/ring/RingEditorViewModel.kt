@@ -6,6 +6,7 @@ import com.example.luxeval.data.repository.ItemRepository
 import com.example.luxeval.domain.*
 import com.example.luxeval.presentation.itemEditor.common.GemstoneFormState
 import com.example.luxeval.presentation.itemEditor.common.MetalFormState
+import com.example.luxeval.presentation.photo.PhotoStorage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +17,8 @@ import kotlin.uuid.Uuid
 class RingEditorViewModel(
     private val appraisalId: String,
     private val itemId: String,
-    private val itemRepository: ItemRepository
+    private val itemRepository: ItemRepository,
+    private val photoStorage: PhotoStorage
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(RingEditorUiState(isNewItem = itemId == null))
@@ -26,7 +28,7 @@ class RingEditorViewModel(
         if (itemId != null) {
             viewModelScope.launch {
                 _uiState.value = _uiState.value.copy(isLoading = true)
-                val existing = itemRepository.getRing(appraisalId, itemId)
+                val existing = itemRepository.getRing(itemId)
                 if (existing != null) _uiState.value = existing.toUiState()
                 _uiState.value = _uiState.value.copy(isLoading = false)
             }
@@ -35,6 +37,10 @@ class RingEditorViewModel(
 
     fun update(transform: (RingEditorUiState) -> RingEditorUiState) {
         _uiState.value = transform(_uiState.value)
+    }
+    fun removePhoto(uri: String) {
+        _uiState.value = _uiState.value.copy(photoUris = _uiState.value.photoUris - uri)
+        viewModelScope.launch { photoStorage.deleteImage(uri) }
     }
 
     fun save(onSaved: () -> Unit) {

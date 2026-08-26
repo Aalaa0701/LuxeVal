@@ -119,4 +119,10 @@ actual class PhotoStorage {
         return path
     }
 
+    actual suspend fun deleteImage(path: String) {
+        runCatching {
+            NSFileManager.defaultManager.removeItemAtPath(path, null)
+        }
+    }
+
 }

@@ -8,6 +8,7 @@ import com.example.luxeval.data.mappers.toItemEntity
 import com.example.luxeval.domain.AppraisalItem
 import com.example.luxeval.domain.ItemCategory
 import com.example.luxeval.domain.ItemSummary
+import com.example.luxeval.presentation.photo.PhotoStorage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -19,7 +20,10 @@ import kotlinx.coroutines.flow.map
  * Room entities, or the fully-typed AppraisalItem sealed class. Nothing else
  * in the app needs to know two tables are involved.
  */
-class ItemRepository(private val dao: ItemDao) {
+class ItemRepository(
+    private val dao: ItemDao,
+    private val photoStorage: PhotoStorage
+) {
 
     suspend fun saveItem(item: AppraisalItem) {
         dao.insertItem(item.toItemEntity())
@@ -47,6 +51,11 @@ class ItemRepository(private val dao: ItemDao) {
                 reconstruct(entity)?.let(::add)
             }
         }
+    }
+    suspend fun deleteItem(itemId: String) {
+        val entity = dao.getItemById(itemId)
+        dao.deleteItem(itemId)
+        entity?.photoUris?.forEach { photoStorage.deleteImage(it) }
     }
 
     /**
@@ -78,7 +87,7 @@ class ItemRepository(private val dao: ItemDao) {
                 )
             }
         }
-    suspend fun deleteItem(itemId: String) = dao.deleteItem(itemId)
+
 
     private suspend fun reconstruct(entity: ItemEntity): AppraisalItem? =
         when (ItemCategory.valueOf(entity.category)) {
@@ -94,8 +103,44 @@ class ItemRepository(private val dao: ItemDao) {
             ItemCategory.OTHER -> null
         }
 
-    suspend fun getRing(appraisalId: String, itemId: String): AppraisalItem.Ring? {
-        val entity = dao.getItemsForAppraisalOnce(appraisalId).find { it.id == itemId } ?: return null
+    
+    suspend fun getRing(itemId: String): AppraisalItem.Ring? {
+        val entity = dao.getItemById(itemId) ?: return null
         return dao.getRingDetails(itemId)?.toDomain(entity)
+    }
+
+    suspend fun getNecklace(itemId: String): AppraisalItem.Necklace? {
+        val entity = dao.getItemById(itemId) ?: return null
+        return dao.getNecklaceDetails(itemId)?.toDomain(entity)
+    }
+    suspend fun getWatch(itemId: String): AppraisalItem.Watch? {
+        val entity = dao.getItemById(itemId) ?: return null
+        return dao.getWatchDetails(itemId)?.toDomain(entity)
+    }
+
+    suspend fun getPearlJewelry(itemId: String): AppraisalItem.PearlJewelry? {
+        val entity = dao.getItemById(itemId) ?: return null
+        return dao.getPearlDetails(itemId)?.toDomain(entity)
+    }
+
+    suspend fun getPendant(itemId: String): AppraisalItem.Pendant? {
+        val entity = dao.getItemById(itemId) ?: return null
+        return dao.getPendantDetails(itemId)?.toDomain(entity)
+    }
+    suspend fun getBracelet(itemId: String): AppraisalItem.Bracelet? {
+        val entity = dao.getItemById(itemId) ?: return null
+        return dao.getBraceletDetails(itemId)?.toDomain(entity)
+    }
+    suspend fun getEarrings(itemId: String): AppraisalItem.Earrings? {
+        val entity = dao.getItemById(itemId) ?: return null
+        return dao.getEarringsDetails(itemId)?.toDomain(entity)
+    }
+    suspend fun getBrooch(itemId: String): AppraisalItem.Brooch? {
+        val entity = dao.getItemById(itemId) ?: return null
+        return dao.getBroochDetails(itemId)?.toDomain(entity)
+    }
+    suspend fun getLooseGemstone(itemId: String): AppraisalItem.LooseGemstone? {
+        val entity = dao.getItemById(itemId) ?: return null
+        return dao.getLooseGemstoneDetails(itemId)?.toDomain(entity)
     }
 }

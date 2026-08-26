@@ -19,8 +19,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ItemDao {
 
-    // ── base item rows ──────────────────────────────────────
-
+    @Query("SELECT * FROM items WHERE id = :id")
+    suspend fun getItemById(id: String): ItemEntity?
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertItem(item: ItemEntity)
 

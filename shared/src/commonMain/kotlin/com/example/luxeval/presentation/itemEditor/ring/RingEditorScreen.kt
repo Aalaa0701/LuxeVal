@@ -56,7 +56,7 @@ fun RingEditorScreen(
                 PhotoGridEditor(
                     photoUris = uiState.photoUris,
                     onAddPhoto = { photoLauncher.launch() },
-                    onRemovePhoto = { uri -> viewModel.update { it.copy(photoUris = it.photoUris - uri) } }
+                    onRemovePhoto = { uri -> viewModel.removePhoto(uri) }
                 )
             }
             item {

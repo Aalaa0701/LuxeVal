@@ -53,4 +53,10 @@ actual class PhotoStorage(private val context: Context) {
             file.writeBytes(bytes)
             file.absolutePath
         }
+
+    actual suspend fun deleteImage(path: String) {
+        runCatching { File(path).delete() }
+        Unit
+    }
+
 }
