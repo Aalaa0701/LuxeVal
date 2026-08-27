@@ -150,12 +150,6 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
             ReportPreviewScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
-                onExportPdf = {
-                    viewModel.exportPdf(
-                        onExported = { path -> /* share sheet / open file — platform share intent, next step if wanted */ },
-                        onError = { /* show snackbar */ }
-                    )
-                }
             )
         }
     }

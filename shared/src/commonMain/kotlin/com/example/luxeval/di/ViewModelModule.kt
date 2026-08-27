@@ -86,7 +86,8 @@ val viewModelModule = module {
             itemRepository = get(),
             profileStore = get(),
             settingsStore = get(),
-            pdfExporter = get()
+            pdfExporter = get(),
+            fileSharer = get()
         )
     }
     viewModel { AppraisalsListViewModel(get(), get(), get()) }

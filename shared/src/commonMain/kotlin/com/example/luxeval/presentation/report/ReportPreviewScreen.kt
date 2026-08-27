@@ -32,7 +32,6 @@ import org.jetbrains.compose.resources.painterResource
 fun ReportPreviewScreen(
     viewModel: ReportPreviewViewModel,
     onBack: () -> Unit,
-    onExportPdf: () -> Unit   // wired up in the next step
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -42,7 +41,22 @@ fun ReportPreviewScreen(
                 title = { Text("Report Preview") },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(painterResource(Res.drawable.ic_back), contentDescription = "Back") } },
                 actions = {
-                    TextButton(onClick = onExportPdf) { Text("Export PDF") }
+                    TextButton(onClick = {
+                        viewModel.exportPdf(
+                            onExported = { path ->
+                                // Handle successful export
+                            },
+                            onError = { error ->
+                                // Handle error
+                            }
+                        )
+                    }, enabled = !uiState.isExporting) {
+                        if (uiState.isExporting) {
+                            CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                        } else {
+                            Text("Export PDF")
+                        }
+                    }
                 }
             )
         }

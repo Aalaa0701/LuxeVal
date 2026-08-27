@@ -24,7 +24,9 @@ data class ReportPreviewUiState(
     val client: Client? = null,
     val items: List<ReportItemRow> = emptyList(),
     val business: ReportBusinessInfo = ReportBusinessInfo("", "", "", "", null, null),
-    val currencyCode: String = "USD"
+    val currencyCode: String = "USD",
+    val isExporting: Boolean = false,
+    val exportError: String? = null
 ) {
     val totalValue: Double get() = items.sumOf { it.item.estimatedValue ?: 0.0 }
     val reportDate: Long get() = appraisal?.appraisalDate ?: 0L
