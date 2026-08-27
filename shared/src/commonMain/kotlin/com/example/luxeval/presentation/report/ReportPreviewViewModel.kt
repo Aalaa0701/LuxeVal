@@ -7,12 +7,14 @@ import com.example.luxeval.data.AppraiserProfileStore
 import com.example.luxeval.data.repository.AppraisalRepository
 import com.example.luxeval.data.repository.ClientRepository
 import com.example.luxeval.data.repository.ItemRepository
+import io.ktor.util.logging.Logger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 class ReportPreviewViewModel(
     private val appraisalId: String,
@@ -20,7 +22,8 @@ class ReportPreviewViewModel(
     private val clientRepository: ClientRepository,
     private val itemRepository: ItemRepository,
     private val profileStore: AppraiserProfileStore,
-    private val settingsStore: AppSettingsStore
+    private val settingsStore: AppSettingsStore,
+    private val pdfExporter: PdfExporter
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ReportPreviewUiState())
@@ -50,5 +53,18 @@ class ReportPreviewViewModel(
                 )
             }
             .launchIn(viewModelScope)
+    }
+    fun exportPdf(onExported: (path: String) -> Unit, onError: (String) -> Unit) {
+
+        viewModelScope.launch {
+            try {
+                val html = ReportHtmlBuilder.build(uiState.value)
+                val fileName = "${uiState.value.appraisal?.documentId ?: "report"}.pdf"
+                val path = pdfExporter.exportToPdf(html, fileName)
+                onExported(path)
+            } catch (e: Exception) {
+                onError(e.message ?: "Export failed")
+            }
+        }
     }
 }
