@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import coil3.util.Logger
 import com.example.luxeval.presentation.theme.LuxeShapes
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import kotlinx.datetime.Instant
@@ -43,12 +44,8 @@ fun ReportPreviewScreen(
                 actions = {
                     TextButton(onClick = {
                         viewModel.exportPdf(
-                            onExported = { path ->
-                                // Handle successful export
-                            },
-                            onError = { error ->
-                                // Handle error
-                            }
+                            onExported = { path -> viewModel.shareFile(path) },
+                            onError = { error -> Logger.Level.Debug.name/*exportErrorMessage = error*/ }
                         )
                     }, enabled = !uiState.isExporting) {
                         if (uiState.isExporting) {

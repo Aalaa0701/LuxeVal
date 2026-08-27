@@ -7,6 +7,7 @@ import com.example.luxeval.data.repository.AppraisalRepository
 import com.example.luxeval.data.repository.ClientRepository
 import com.example.luxeval.data.repository.ItemRepository
 import com.example.luxeval.domain.AppraisalPurpose
+import com.example.luxeval.domain.AppraisalStatus
 import com.example.luxeval.domain.Client
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -73,7 +74,20 @@ class AppraisalDetailViewModel(
     fun onClientNameChanged(value: String) = updateForm { it.copy(name = value) }
     fun onClientEmailChanged(value: String) = updateForm { it.copy(email = value) }
     fun onClientPhoneChanged(value: String) = updateForm { it.copy(phone = value) }
-
+    fun markCompleted() {
+        val appraisal = _uiState.value.appraisal ?: return
+        if (!_uiState.value.canFinalize) return
+        viewModelScope.launch {
+            appraisalRepository.save(
+                appraisal.copy(
+                    status = AppraisalStatus.COMPLETED,
+                    updatedAt = Clock.System.now().toEpochMilliseconds()
+                )
+            )
+            // no need to touch _uiState manually — observeById() already re-emits
+            // the updated appraisal through the existing combine/onEach pipeline
+        }
+    }
     fun onPurposeChanged(value: AppraisalPurpose) {
         _uiState.value = _uiState.value.copy(purpose = value)
         recomputeDirty()

@@ -35,11 +35,17 @@ class DashboardViewModel(
                 val itemsByAppraisal = items.groupBy { it.appraisalId }
                 val clientsById = clients.associateBy { it.id }
 
-                fun cardFor(appraisal: Appraisal) = AppraisalCard(
-                    appraisal = appraisal,
-                    representativeItem = itemsByAppraisal[appraisal.id]?.maxByOrNull { it.createdAt },
-                    clientName = appraisal.clientId?.let { clientsById[it]?.name }
-                )
+                fun cardFor(appraisal: Appraisal): AppraisalCard {
+                    val appraisalItems = itemsByAppraisal[appraisal.id].orEmpty()
+                    val itemForDisplay = appraisalItems.filter { it.primaryPhotoUri != null }.maxByOrNull { it.createdAt }
+                        ?: appraisalItems.maxByOrNull { it.createdAt }
+                    return AppraisalCard(
+                        appraisal = appraisal,
+                        representativeItem = itemForDisplay,
+                        clientName = appraisal.clientId?.let { clientsById[it]?.name },
+                        totalValue = appraisalItems.sumOf { it.estimatedValue ?: 0.0 }
+                    )
+                }
 
                 val continueDraft = appraisals
                     .filter { it.status == AppraisalStatus.DRAFT }

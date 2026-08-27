@@ -33,11 +33,16 @@ class AppraisalsListViewModel(
             .onEach { (appraisals, clients, items) ->
                 val itemsByAppraisal = items.groupBy { it.appraisalId }
                 val clientsById = clients.associateBy { it.id }
+                // AppraisalsListViewModel.kt — inside .onEach, replace the allCards map with:
                 val allCards = appraisals.map { appraisal ->
+                    val appraisalItems = itemsByAppraisal[appraisal.id].orEmpty()
+                    val itemForDisplay = appraisalItems.filter { it.primaryPhotoUri != null }.maxByOrNull { it.createdAt }
+                        ?: appraisalItems.maxByOrNull { it.createdAt }
                     AppraisalCard(
                         appraisal = appraisal,
-                        representativeItem = itemsByAppraisal[appraisal.id]?.maxByOrNull { it.createdAt },
-                        clientName = appraisal.clientId?.let { clientsById[it]?.name }
+                        representativeItem = itemForDisplay,
+                        clientName = appraisal.clientId?.let { clientsById[it]?.name },
+                        totalValue = appraisalItems.sumOf { it.estimatedValue ?: 0.0 }
                     )
                 }
                 _uiState.value = _uiState.value.copy(isLoading = false, cards = applyFilters(allCards))
@@ -79,7 +84,8 @@ class AppraisalsListViewModel(
             }
         return when (sort) {
             AppraisalSort.DATE_ADDED -> filtered.sortedByDescending { it.appraisal.createdAt }
-            AppraisalSort.ESTIMATED_VALUE -> filtered.sortedByDescending { it.representativeItem?.estimatedValue ?: 0.0 }
+            // AppraisalsListViewModel.kt — in applyFilters()
+            AppraisalSort.ESTIMATED_VALUE -> filtered.sortedByDescending { it.totalValue }  // was it.representativeItem?.estimatedValue
             AppraisalSort.CLIENT_NAME -> filtered.sortedBy { it.clientName.orEmpty() }
         }
     }

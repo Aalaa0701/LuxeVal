@@ -1,6 +1,7 @@
 package com.example.luxeval.presentation.appraisalDetail
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,6 +21,7 @@ import luxeval.shared.generated.resources.ic_back
 import luxeval.shared.generated.resources.ic_delete
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.material3.OutlinedButton
+import com.example.luxeval.domain.AppraisalStatus
 import luxeval.shared.generated.resources.ic_appraisal_detail
 import luxeval.shared.generated.resources.ic_client_info
 import luxeval.shared.generated.resources.ic_other_jewelry
@@ -30,6 +32,7 @@ fun AppraisalDetailScreen(
     viewModel: AppraisalDetailViewModel,
     onBack: () -> Unit,
     onAddItem: (category: ItemCategory) -> Unit,
+    onEditItem: (com.example.luxeval.domain.AppraisalItem) -> Unit,   // new
     onPreviewReport: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -119,8 +122,13 @@ fun AppraisalDetailScreen(
             if (uiState.items.isEmpty()) {
                 item { EmptyItemsState(onAddItem = { showCategoryPicker = true }) }
             } else {
+                // where items are rendered, pass the click through:
                 items(uiState.items, key = { it.id }) { appraisalItem ->
-                    ItemRow(item = appraisalItem, onDelete = { viewModel.deleteItem(appraisalItem.id) })
+                    ItemRow(
+                        item = appraisalItem,
+                        onClick = { onEditItem(appraisalItem) },
+                        onDelete = { viewModel.deleteItem(appraisalItem.id) }
+                    )
                 }
                 item {
                     OutlinedButton(
@@ -139,16 +147,27 @@ fun AppraisalDetailScreen(
             }
 
             item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)
-                ) {
-                    OutlinedButton(onClick = onBack, modifier = Modifier.weight(1f)) { Text("Cancel") }
+                Column(verticalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
                     Button(
                         onClick = onPreviewReport,
                         enabled = uiState.canFinalize,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.fillMaxWidth()
                     ) { Text("Preview Report") }
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)
+                    ) {
+                        OutlinedButton(onClick = onBack, modifier = Modifier.weight(1f)) { Text("Cancel") }
+                        if (uiState.appraisal?.status == AppraisalStatus.DRAFT) {
+                            Button(
+                                onClick = viewModel::markCompleted,
+                                enabled = uiState.canFinalize,
+                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
+                                modifier = Modifier.weight(1f)
+                            ) { Text("Mark Completed") }
+                        }
+                    }
                 }
                 Spacer(Modifier.height(LuxeSpacing.xl))
             }
@@ -370,8 +389,9 @@ private fun ClientInfoSection(
 }
 
 @Composable
-private fun ItemRow(item: com.example.luxeval.domain.AppraisalItem, onDelete: () -> Unit) {
+private fun ItemRow(item: com.example.luxeval.domain.AppraisalItem, onClick: () -> Unit, onDelete: () -> Unit) {
     ListItem(
+        modifier = Modifier.clickable(onClick = onClick),
         leadingContent = {
             Card(
                 modifier = Modifier.size(36.dp),

@@ -18,4 +18,5 @@ import kotlinx.serialization.Serializable
 // Flow destinations
 @Serializable data class AppraisalDetail(val appraisalId: String)
 @Serializable data class ItemEditor(val appraisalId: String, val category: String, val itemId: String)
-@Serializable data class ReportPreview(val appraisalId: String)
+@Serializable data class ReportPreview(val appraisalId: String)// navigation/Routes.kt — add
+@Serializable data object BusinessProfile

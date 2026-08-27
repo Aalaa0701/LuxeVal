@@ -1,39 +1,23 @@
 package com.example.luxeval.presentation.settings
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import com.example.luxeval.data.MeasurementUnit
+import com.example.luxeval.presentation.photo.rememberPhotoPickerLauncher
 import com.example.luxeval.presentation.theme.LuxeShapes
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import com.example.luxeval.presentation.util.LuxeTopBar
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.ic_arrow_forward
-import org.jetbrains.compose.resources.painterResource
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.size
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.unit.dp
 import luxeval.shared.generated.resources.ic_business
 import luxeval.shared.generated.resources.ic_image
 import luxeval.shared.generated.resources.ic_info
@@ -42,18 +26,25 @@ import luxeval.shared.generated.resources.ic_measurements
 import luxeval.shared.generated.resources.ic_money
 import luxeval.shared.generated.resources.ic_signature
 import luxeval.shared.generated.resources.ic_theme
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel,
     onNavigateToBusinessProfile: () -> Unit = {},
-    onNavigateToBrandLogo: () -> Unit = {},
-    onNavigateToSignature: () -> Unit = {},
-    onNavigateToCurrency: () -> Unit = {},
-    onNavigateToMeasurementUnits: () -> Unit = {},
     onLogOut: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    var showCurrencyPicker by remember { mutableStateOf(false) }
+    var showUnitPicker by remember { mutableStateOf(false) }
+    var showLogOutConfirm by remember { mutableStateOf(false) }
+
+    val logoPickerLauncher = rememberPhotoPickerLauncher { paths ->
+        paths.firstOrNull()?.let { viewModel.onLogoPathChanged(it) }
+    }
+    val signaturePickerLauncher = rememberPhotoPickerLauncher { paths ->
+        paths.firstOrNull()?.let { viewModel.onSignaturePathChanged(it) }
+    }
 
     Scaffold(topBar = { LuxeTopBar() }) { padding ->
         LazyColumn(
@@ -83,14 +74,14 @@ fun SettingsScreen(
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_image),
                         title = "Brand Logo",
-                        subtitle = "Update report branding",
-                        onClick = onNavigateToBrandLogo
+                        subtitle = if (uiState.logoPath != null) "Logo set" else "Update report branding",
+                        onClick = { logoPickerLauncher.launch() }
                     )
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_signature),
                         title = "Digital Signature",
-                        subtitle = "Manage appraisal signatures",
-                        onClick = onNavigateToSignature
+                        subtitle = if (uiState.signaturePath != null) "Signature set" else "Manage appraisal signatures",
+                        onClick = { signaturePickerLauncher.launch() }
                     )
                 }
             }
@@ -101,13 +92,13 @@ fun SettingsScreen(
                         icon = painterResource(Res.drawable.ic_money),
                         title = "Currency",
                         subtitle = uiState.currencyCode,
-                        onClick = onNavigateToCurrency
+                        onClick = { showCurrencyPicker = true }
                     )
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_measurements),
                         title = "Measurement Units",
                         subtitle = uiState.measurementUnit.label(),
-                        onClick = onNavigateToMeasurementUnits
+                        onClick = { showUnitPicker = true }
                     )
                     SettingsToggleRow(
                         icon = painterResource(Res.drawable.ic_theme),
@@ -132,10 +123,81 @@ fun SettingsScreen(
                         title = "Log Out",
                         subtitle = null,
                         titleColor = MaterialTheme.colorScheme.error,
-                        onClick = onLogOut
+                        onClick = { showLogOutConfirm = true }
                     )
                 }
             }
+        }
+    }
+
+    if (showCurrencyPicker) {
+        CurrencyPickerSheet(
+            current = uiState.currencyCode,
+            onSelected = { viewModel.onCurrencyChanged(it); showCurrencyPicker = false },
+            onDismiss = { showCurrencyPicker = false }
+        )
+    }
+    if (showUnitPicker) {
+        MeasurementUnitPickerSheet(
+            current = uiState.measurementUnit,
+            onSelected = { viewModel.onMeasurementUnitChanged(it); showUnitPicker = false },
+            onDismiss = { showUnitPicker = false }
+        )
+    }
+    if (showLogOutConfirm) {
+        AlertDialog(
+            onDismissRequest = { showLogOutConfirm = false },
+            title = { Text("Log Out") },
+            text = { Text("Are you sure you want to log out?") },
+            confirmButton = {
+                TextButton(onClick = { showLogOutConfirm = false; onLogOut() }) { Text("Log Out") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showLogOutConfirm = false }) { Text("Cancel") }
+            }
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun CurrencyPickerSheet(current: String, onSelected: (String) -> Unit, onDismiss: () -> Unit) {
+    val currencies = listOf("USD", "EUR", "GBP", "CAD", "AUD")
+    ModalBottomSheet(onDismissRequest = onDismiss) {
+        Column(Modifier.padding(LuxeSpacing.md)) {
+            Text("Select Currency", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.height(LuxeSpacing.sm))
+            currencies.forEach { code ->
+                ListItem(
+                    headlineContent = { Text(code) },
+                    trailingContent = { RadioButton(selected = code == current, onClick = { onSelected(code) }) },
+                    modifier = Modifier.clickable { onSelected(code) }
+                )
+            }
+            Spacer(Modifier.height(LuxeSpacing.md))
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun MeasurementUnitPickerSheet(
+    current: MeasurementUnit,
+    onSelected: (MeasurementUnit) -> Unit,
+    onDismiss: () -> Unit
+) {
+    ModalBottomSheet(onDismissRequest = onDismiss) {
+        Column(Modifier.padding(LuxeSpacing.md)) {
+            Text("Measurement Units", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.height(LuxeSpacing.sm))
+            MeasurementUnit.entries.forEach { unit ->
+                ListItem(
+                    headlineContent = { Text(unit.label()) },
+                    trailingContent = { RadioButton(selected = unit == current, onClick = { onSelected(unit) }) },
+                    modifier = Modifier.clickable { onSelected(unit) }
+                )
+            }
+            Spacer(Modifier.height(LuxeSpacing.md))
         }
     }
 }

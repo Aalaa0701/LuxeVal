@@ -30,6 +30,10 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.pdf.PdfDocument
+import android.os.ParcelFileDescriptor
+import android.print.PageRange
+import android.print.PrintAttributes
+import android.print.PrintDocumentAdapter
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
@@ -38,22 +42,105 @@ import android.widget.FrameLayout
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+
 actual class PdfExporter(private val context: Context) {
 
-    actual suspend fun exportToPdf(html: String, outputFileName: String): String {
-        val activity = CurrentActivityHolder.current
-            ?: error("No foreground activity available to render PDF")
+    actual suspend fun exportToPdf(html: String, outputFileName: String): String =
+        withContext(Dispatchers.Main) { // WebView + print adapter must be driven from the main thread
+            val outputFile = File(context.filesDir, "exports/$outputFileName").apply {
+                parentFile?.mkdirs()
+            }
+            val webView = WebView(context)
+            webView.settings.javaScriptEnabled = false
+            webView.settings.allowFileAccess = true   // <-- the key line; false by default on targetSdk 30+
 
-        val bitmap = withContext(Dispatchers.Main) {
-            renderHtmlToBitmap(activity, html, pageWidthPx = 595)
+            withTimeout(10_000) {
+                suspendCancellableCoroutine<Unit> { cont ->
+                    webView.webViewClient = object : WebViewClient() {
+                        override fun onPageFinished(view: WebView, url: String) {
+                            if (cont.isActive) cont.resume(Unit)
+                        }
+                    }
+                    webView.loadDataWithBaseURL(
+                        "file://${context.filesDir.absolutePath}/", // real file:// base, matches image origin
+                        html,
+                        "text/html",
+                        "UTF-8",
+                        null
+                    )
+                }
+            }
+//            val webView = WebView(context)
+//            webView.settings.javaScriptEnabled = false
+//
+//            // Step 1: wait for the HTML (and any file:// images) to finish loading.
+//            withTimeout(10_000) {
+//                suspendCancellableCoroutine<Unit> { cont ->
+//                    webView.webViewClient = object : WebViewClient() {
+//                        override fun onPageFinished(view: WebView, url: String) {
+//                            if (cont.isActive) cont.resume(Unit)
+//                        }
+//                    }
+//                    webView.loadDataWithBaseURL(null, html, "text/html", "UTF-8", null)
+//                }
+//            }
+
+            val adapter = webView.createPrintDocumentAdapter(outputFileName)
+            val attributes = PrintAttributes.Builder()
+                .setMediaSize(PrintAttributes.MediaSize.NA_LETTER)
+                .setResolution(PrintAttributes.Resolution("pdf", "pdf", 300, 300))
+                .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
+                .build()
+
+            adapter.onStart() // easy to forget — some WebView versions rely on this to init internal state
+
+            // Step 2: layout, then write straight to our own file instead of the system print dialog.
+            suspendCancellableCoroutine<Unit> { cont ->
+                adapter.onLayout(
+                    null, attributes, null,
+                    object : android.print.PublicLayoutResultCallback() {
+                        override fun onLayoutFinished(info: android.print.PrintDocumentInfo, changed: Boolean) {
+                            val pfd = ParcelFileDescriptor.open(
+                                outputFile,
+                                ParcelFileDescriptor.MODE_CREATE or
+                                        ParcelFileDescriptor.MODE_TRUNCATE or
+                                        ParcelFileDescriptor.MODE_READ_WRITE
+                            )
+                            adapter.onWrite(
+                                arrayOf(PageRange.ALL_PAGES), pfd, null,
+                                object : android.print.PublicWriteResultCallback() {
+                                    override fun onWriteFinished(pages: Array<out PageRange>?) {
+                                        pfd.close()
+                                        adapter.onFinish()
+                                        if (cont.isActive) cont.resume(Unit)
+                                    }
+                                    override fun onWriteFailed(error: CharSequence?) {
+                                        pfd.close()
+                                        adapter.onFinish()
+                                        if (cont.isActive) cont.resumeWithException(
+                                            Exception(error?.toString() ?: "PDF write failed")
+                                        )
+                                    }
+                                }
+                            )
+                        }
+                        override fun onLayoutFailed(error: CharSequence?) {
+                            if (cont.isActive) cont.resumeWithException(
+                                Exception(error?.toString() ?: "PDF layout failed")
+                            )
+                        }
+                    },
+                    null
+                )
+            }
+
+            outputFile.absolutePath
         }
-        return withContext(Dispatchers.IO) {
-            writeBitmapToPdf(bitmap, outputFileName)
-        }
-    }
 
     private suspend fun renderHtmlToBitmap(
         activity: Activity,

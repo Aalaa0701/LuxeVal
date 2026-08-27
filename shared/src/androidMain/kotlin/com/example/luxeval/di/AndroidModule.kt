@@ -22,9 +22,6 @@ fun androidModule(context: Context) = module {
 
 //    single { PdfExporter(context) }
     single { FileSharer(context) }
-    single {
-        CurrentActivityHolder.ensureRegistered(context)
-        PdfExporter(context)
-    }
+    single { PdfExporter(context) }
 
 }

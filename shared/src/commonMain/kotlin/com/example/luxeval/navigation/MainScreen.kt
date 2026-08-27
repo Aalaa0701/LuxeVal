@@ -84,11 +84,11 @@ fun MainScreen(outerNavController: NavHostController) {
                     onOpenAppraisal = { id -> outerNavController.navigate(AppraisalDetail(id)) }
                 )
             }
-            composable<Search> {
-                val viewModel: SearchViewModel = koinViewModel()
-                SearchScreen(
+            composable<Settings> {
+                val viewModel: SettingsViewModel = koinViewModel()
+                SettingsScreen(
                     viewModel = viewModel,
-                    onOpenAppraisal = { id -> outerNavController.navigate(AppraisalDetail(id)) }
+                    onNavigateToBusinessProfile = { outerNavController.navigate(BusinessProfile) }
                 )
             }
             composable<Settings> {

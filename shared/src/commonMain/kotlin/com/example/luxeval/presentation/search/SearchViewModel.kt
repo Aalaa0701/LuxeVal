@@ -49,11 +49,16 @@ class SearchViewModel(
                             client?.name?.contains(query, ignoreCase = true) == true ||
                             appraisalItems.any { it.itemName.contains(query, ignoreCase = true) }
                 }
+                // SearchViewModel.kt — inside the combine block, replace the .map { appraisal -> ... } for matchingAppraisals with:
                 .map { appraisal ->
+                    val appraisalItems = itemsByAppraisal[appraisal.id].orEmpty()
+                    val itemForDisplay = appraisalItems.filter { it.primaryPhotoUri != null }.maxByOrNull { it.createdAt }
+                        ?: appraisalItems.maxByOrNull { it.createdAt }
                     AppraisalCard(
                         appraisal = appraisal,
-                        representativeItem = itemsByAppraisal[appraisal.id]?.maxByOrNull { it.createdAt },
-                        clientName = appraisal.clientId?.let { clientsById[it]?.name }
+                        representativeItem = itemForDisplay,
+                        clientName = appraisal.clientId?.let { clientsById[it]?.name },
+                        totalValue = appraisalItems.sumOf { it.estimatedValue ?: 0.0 }
                     )
                 }
 

@@ -29,6 +29,8 @@ import com.example.luxeval.presentation.itemEditor.watch.WatchEditorScreen
 import com.example.luxeval.presentation.itemEditor.watch.WatchEditorViewModel
 import com.example.luxeval.presentation.report.ReportPreviewScreen
 import com.example.luxeval.presentation.report.ReportPreviewViewModel
+import com.example.luxeval.presentation.settings.BusinessProfileScreen
+import com.example.luxeval.presentation.settings.SettingsViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import kotlin.uuid.Uuid
@@ -56,6 +58,9 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
                 onBack = { navController.popBackStack() },
                 onAddItem = { category ->
                     navController.navigate(ItemEditor(appraisalId = route.appraisalId, category = category.name, itemId = Uuid.random().toString()))
+                },
+                onEditItem = { item ->
+                    navController.navigate(ItemEditor(appraisalId = route.appraisalId, category = item.category.name, itemId = item.id))
                 },
                 onPreviewReport = { navController.navigate(ReportPreview(route.appraisalId)) }
             )
@@ -152,5 +157,11 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
                 onBack = { navController.popBackStack() },
             )
         }
+
+        composable<BusinessProfile> {
+            val viewModel: SettingsViewModel = koinViewModel()
+            BusinessProfileScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
+        }
     }
+
 }

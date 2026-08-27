@@ -11,8 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import com.example.luxeval.domain.AppraisalPurpose
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -31,12 +33,25 @@ fun AppraisalCardView(card: AppraisalCard, onClick: () -> Unit, modifier: Modifi
     ) {
         Box {
             // Photo placeholder — swap for AsyncImage(card.representativeItem?.primaryPhotoUri) once image loading is wired.
+            // replace the placeholder Box inside the outer Box { ... } with:
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(180.dp)
                     .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-            )
+            ) {
+                card.representativeItem?.primaryPhotoUri?.let { photoUri ->
+                    AsyncImage(
+                        model = localPhotoModel(photoUri),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                        onState = { state ->
+                            println("COIL DEBUG: uri=$photoUri state=$state")
+                        }
+                    )
+                }
+            }
             StatusPill(
                 status = card.appraisal.status,
                 modifier = Modifier.align(Alignment.TopEnd).padding(12.dp),
@@ -64,11 +79,11 @@ fun AppraisalCardView(card: AppraisalCard, onClick: () -> Unit, modifier: Modifi
             ) {
                 Column {
                     Text("Est. Value", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    val value = card.representativeItem?.estimatedValue
+                    val hasItems = card.representativeItem != null
                     Text(
-                        text = if (value != null) formatCurrency(value, card.representativeItem.currency) else "Pending",
+                        text = if (hasItems) formatCurrency(card.totalValue, card.representativeItem?.currency ?: "USD") else "Pending",
                         style = MaterialTheme.typography.titleLarge,
-                        color = if (value != null) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurfaceVariant
+                        color = if (hasItems) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 IconButton(onClick = onClick, modifier = Modifier.clip(RoundedCornerShape(50)).background(MaterialTheme.colorScheme.background)) {

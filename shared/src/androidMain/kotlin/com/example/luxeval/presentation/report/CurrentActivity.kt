@@ -9,11 +9,7 @@ object CurrentActivityHolder {
     var current: Activity? = null
         private set
 
-    private var registered = false
-
-    fun ensureRegistered(context: android.content.Context) {
-        if (registered) return
-        val app = context.applicationContext as Application
+    fun register(app: Application) {
         app.registerActivityLifecycleCallbacks(object : Application.ActivityLifecycleCallbacks {
             override fun onActivityResumed(activity: Activity) { current = activity }
             override fun onActivityPaused(activity: Activity) {
@@ -25,6 +21,5 @@ object CurrentActivityHolder {
             override fun onActivitySaveInstanceState(a: Activity, b: Bundle) {}
             override fun onActivityDestroyed(a: Activity) {}
         })
-        registered = true
     }
 }

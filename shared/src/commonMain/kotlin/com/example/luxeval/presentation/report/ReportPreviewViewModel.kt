@@ -59,20 +59,34 @@ class ReportPreviewViewModel(
             .launchIn(viewModelScope)
     }
     fun exportPdf(onExported: (String) -> Unit, onError: (String) -> Unit) {
+        println("exportPdf: starting")
         viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isExporting = true, exportError = null)
+            println("exportPdf: isExporting set true, uiState now = ${_uiState.value.isExporting}")
             try {
                 val html = ReportHtmlBuilder.build(uiState.value)
+                println("exportPdf: html built, length=${html.length}")
                 val fileName = "${uiState.value.appraisal?.documentId ?: "report"}.pdf"
                 val path = withTimeout(15_000) {
                     pdfExporter.exportToPdf(html, fileName)
                 }
+                println("exportPdf: got path=$path")
+                _uiState.value = _uiState.value.copy(isExporting = false)
                 onExported(path)
             } catch (e: TimeoutCancellationException) {
+                println("exportPdf: TIMED OUT")
+                _uiState.value = _uiState.value.copy(isExporting = false, exportError = "PDF export timed out")
                 onError("PDF export timed out")
             } catch (e: Exception) {
+                println("exportPdf: EXCEPTION ${e::class.simpleName}: ${e.message}")
+                e.printStackTrace()
+                _uiState.value = _uiState.value.copy(isExporting = false, exportError = e.message)
                 onError(e.message ?: "Export failed")
             }
         }
+    }
+    fun shareFile(path: String) {
+        fileSharer.shareFile(path)
     }
 //    fun exportPdf(onExported: (path: String) -> Unit, onError: (String) -> Unit) {
 //
