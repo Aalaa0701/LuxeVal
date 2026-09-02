@@ -1,6 +1,7 @@
 package com.example.luxeval.presentation.itemEditor.loose_gemstone
 
 import com.example.luxeval.domain.ItemCondition
+import com.example.luxeval.domain.ValueSource
 import com.example.luxeval.presentation.itemEditor.common.GemstoneFormState
 
 data class LooseGemstoneEditorUiState(
@@ -19,7 +20,10 @@ data class LooseGemstoneEditorUiState(
     val gemstone: GemstoneFormState = GemstoneFormState(enabled = true),
 
     val estimatedValue: String = "",
-    val notes: String = ""
+    val notes: String = "",
+
+    val isFetchingPrice: Boolean = false,
+    val valueSource: ValueSource = ValueSource.MANUAL,
 ) {
     val canSave: Boolean get() = itemName.isNotBlank() && gemstone.caratWeight.isNotBlank()
 }

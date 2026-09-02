@@ -49,6 +49,9 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
+            // shared/build.gradle.kts — commonMain.dependencies
+            implementation(libs.supabase.auth)
+            implementation(libs.supabase.postgrest)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
             implementation(libs.kotlinx.datetime)

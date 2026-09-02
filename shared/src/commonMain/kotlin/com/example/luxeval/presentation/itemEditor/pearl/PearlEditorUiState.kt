@@ -1,6 +1,7 @@
 package com.example.luxeval.presentation.itemEditor.pearl
 
 import com.example.luxeval.domain.ItemCondition
+import com.example.luxeval.domain.ValueSource
 import com.example.luxeval.presentation.itemEditor.common.MetalFormState
 import com.example.luxeval.presentation.itemEditor.common.PearlFormState
 
@@ -22,7 +23,9 @@ data class PearlEditorUiState(
     val metal: MetalFormState = MetalFormState(),
 
     val estimatedValue: String = "",
-    val notes: String = ""
+    val notes: String = "",
+    val isFetchingPrice: Boolean = false,
+    val valueSource: ValueSource = ValueSource.MANUAL,
 ) {
     val canSave: Boolean get() = itemName.isNotBlank()
 }

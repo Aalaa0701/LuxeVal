@@ -1,5 +1,6 @@
 package com.example.luxeval.di
 
+import com.example.luxeval.data.remote.supabaseModule
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 
@@ -10,6 +11,8 @@ import org.koin.core.module.Module
  */
 fun initKoin(platformModules: List<Module> = emptyList()) {
     startKoin {
-        modules(platformModules + listOf(daoModule, repositoryModule, settingsModule, viewModelModule,))
+        modules(platformModules + listOf(daoModule, repositoryModule, settingsModule, viewModelModule, networkModule,
+            supabaseModule
+        ))
     }
 }

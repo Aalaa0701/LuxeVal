@@ -24,7 +24,8 @@ val viewModelModule = module {
             appraisalId = params.get(),
             appraisalRepository = get(),
             clientRepository = get(),
-            itemRepository = get()
+            itemRepository = get(),
+            profileStore = get(),
         )
     }
     viewModel {
@@ -40,7 +41,8 @@ val viewModelModule = module {
             appraisalId = params.get(),
             itemId = params.get(),
             itemRepository = get(),
-            photoStorage = get()
+            photoStorage = get(),
+            pricingRepository = get()
         )
     }
     viewModel { params ->
@@ -48,8 +50,8 @@ val viewModelModule = module {
             appraisalId = params.get(),
             itemId = params.get(),
             itemRepository = get(),
-            photoStorage = get()
-
+            photoStorage = get(),
+            pricingRepository = get()
         )
     }
 
@@ -58,8 +60,8 @@ val viewModelModule = module {
             appraisalId = params.get(),
             itemId = params.get(),
             itemRepository = get(),
-            photoStorage = get()
-
+            photoStorage = get(),
+            pricingRepository = get()
         )
     }
     viewModel { params ->
@@ -67,17 +69,18 @@ val viewModelModule = module {
             appraisalId = params.get(),
             itemId = params.get(),
             itemRepository = get(),
-            photoStorage = get()
+            photoStorage = get() ,
+            pricingRepository = get()
 
         )
     }
 
 
-    viewModel { params -> PendantEditorViewModel(params.get(), params.get(), get(), get()) }
-    viewModel { params -> BraceletEditorViewModel(params.get(), params.get(), get(), get()) }
-    viewModel { params -> EarringsEditorViewModel(params.get(), params.get(), get(), get()) }
-    viewModel { params -> BroochEditorViewModel(params.get(), params.get(), get(), get()) }
-    viewModel { params -> LooseGemstoneEditorViewModel(params.get(), params.get(), get(), get()) }
+    viewModel { params -> PendantEditorViewModel(params.get(), params.get(), get(), get(), get()) }
+    viewModel { params -> BraceletEditorViewModel(params.get(), params.get(), get(), get(), get()) }
+    viewModel { params -> EarringsEditorViewModel(params.get(), params.get(), get(), get(), get()) }
+    viewModel { params -> BroochEditorViewModel(params.get(), params.get(), get(), get(), get()) }
+    viewModel { params -> LooseGemstoneEditorViewModel(params.get(), params.get(), get(), get(), get()) }
 
     viewModel { params ->
         ReportPreviewViewModel(

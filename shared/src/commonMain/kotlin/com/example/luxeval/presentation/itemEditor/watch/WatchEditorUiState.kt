@@ -1,6 +1,7 @@
 package com.example.luxeval.presentation.itemEditor.watch
 
 import com.example.luxeval.domain.ItemCondition
+import com.example.luxeval.domain.ValueSource
 import com.example.luxeval.domain.WatchComplication
 import com.example.luxeval.domain.WatchMovementType
 import com.example.luxeval.domain.WatchRunningCondition
@@ -35,7 +36,10 @@ data class WatchEditorUiState(
     val yearOfManufacture: String = "",
 
     val estimatedValue: String = "",
-    val notes: String = ""
+    val notes: String = "",
+
+    val isFetchingPrice: Boolean = false,
+    val valueSource: ValueSource = ValueSource.MANUAL,
 ) {
     val canSave: Boolean get() = itemName.isNotBlank() && brand.isNotBlank()
 }

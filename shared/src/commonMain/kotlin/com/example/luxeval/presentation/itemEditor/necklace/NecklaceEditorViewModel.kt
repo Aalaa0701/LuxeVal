@@ -3,6 +3,7 @@ package com.example.luxeval.presentation.itemEditor.necklace
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.luxeval.data.repository.ItemRepository
+import com.example.luxeval.data.repository.PricingRepository
 import com.example.luxeval.domain.*
 import com.example.luxeval.presentation.itemEditor.common.GemstoneFormState
 import com.example.luxeval.presentation.itemEditor.common.MetalFormState
@@ -17,7 +18,8 @@ class NecklaceEditorViewModel(
     private val appraisalId: String,
     private val itemId: String,
     private val itemRepository: ItemRepository,
-    private val photoStorage: PhotoStorage
+    private val photoStorage: PhotoStorage,
+    private val pricingRepository: PricingRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NecklaceEditorUiState())
@@ -31,6 +33,27 @@ class NecklaceEditorViewModel(
                 existing.toUiState().copy(isLoading = false)
             } else {
                 _uiState.value.copy(isLoading = false, isNewItem = true)
+            }
+        }
+    }
+    fun onEstimatedValueChanged(v: String) {
+        _uiState.value = _uiState.value.copy(estimatedValue = v, valueSource = ValueSource.MANUAL)
+    }
+
+    fun fetchMarketPrice() {
+        val state = _uiState.value
+        viewModelScope.launch {
+            _uiState.value = state.copy(isFetchingPrice = true)
+            pricingRepository.estimateMetalValue(
+                state.metal.metalType, state.metal.purity, state.metal.netWeightGrams.toDoubleOrNull() ?: 0.0
+            ).onSuccess { value ->
+                _uiState.value = _uiState.value.copy(
+                    estimatedValue = value.toString(),
+                    valueSource = ValueSource.API_FETCHED,
+                    isFetchingPrice = false
+                )
+            }.onFailure {
+                _uiState.value = _uiState.value.copy(isFetchingPrice = false, saveError = "Couldn't fetch market price")
             }
         }
     }

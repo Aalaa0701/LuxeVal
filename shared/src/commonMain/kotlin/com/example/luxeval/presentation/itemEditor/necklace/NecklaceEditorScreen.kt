@@ -119,7 +119,9 @@ fun NecklaceEditorScreen(
                     estimatedValue = uiState.estimatedValue,
                     onValueChanged = { v -> viewModel.update { it.copy(estimatedValue = v) } },
                     notes = uiState.notes,
-                    onNotesChanged = { v -> viewModel.update { it.copy(notes = v) } }
+                    onNotesChanged = { v -> viewModel.update { it.copy(notes = v) } },
+                    valueSource = uiState.valueSource,
+
                 )
                 uiState.saveError?.let {
                     Text(it, color = MaterialTheme.colorScheme.error)

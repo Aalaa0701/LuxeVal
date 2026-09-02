@@ -27,7 +27,9 @@ data class RingEditorUiState(
     val gemstone: GemstoneFormState = GemstoneFormState(),
 
     val estimatedValue: String = "",
-    val notes: String = ""
+    val notes: String = "",
+    val isFetchingPrice: Boolean = false,
+    val valueSource: ValueSource = ValueSource.MANUAL,
 ) {
     /** Gate for the Save button — mirrors AppraisalDetailUiState.canFinalize style. */
     val canSave: Boolean get() = itemName.isNotBlank() && metal.purity.isNotBlank()
