@@ -25,5 +25,9 @@ class AppraiserProfileStore(private val settings: Settings) {
     fun getSignaturePath(): String? = settings.getStringOrNull("signature_path")
     fun setSignaturePath(value: String) = settings.putString("signature_path", value)
 
-    fun isProfileComplete(): Boolean = getName().isNotBlank() && getLicenseNumber().isNotBlank()
+    fun isProfileComplete(): Boolean =
+        getName().isNotBlank() &&
+                getLicenseNumber().isNotBlank() &&
+                !getLogoPath().isNullOrBlank() &&
+                !getSignaturePath().isNullOrBlank()
 }

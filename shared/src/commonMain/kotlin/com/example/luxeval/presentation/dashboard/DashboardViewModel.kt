@@ -2,6 +2,7 @@ package com.example.luxeval.presentation.dashboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.luxeval.data.AppraiserProfileStore
 import com.example.luxeval.data.repository.AppraisalRepository
 import com.example.luxeval.data.repository.ClientRepository
 import com.example.luxeval.data.repository.ItemRepository
@@ -19,7 +20,8 @@ import kotlinx.coroutines.launch
 class DashboardViewModel(
     private val appraisalRepository: AppraisalRepository,
     private val clientRepository: ClientRepository,
-    private val itemRepository: ItemRepository
+    private val itemRepository: ItemRepository,
+    private val profileStore: AppraiserProfileStore
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DashboardUiState())
@@ -71,7 +73,11 @@ class DashboardViewModel(
     }
 
     /** Called from the "+ New Appraisal" FAB. Returns the new id so the caller can navigate. */
-    fun createDraftAndGetId(onCreated: (String) -> Unit) {
+    fun createDraftAndGetId(onCreated: (String) -> Unit, onProfileIncomplete: () -> Unit) {
+        if (!profileStore.isProfileComplete()) {
+            onProfileIncomplete()
+            return
+        }
         viewModelScope.launch {
             val draft = appraisalRepository.createDraft()
             onCreated(draft.id)

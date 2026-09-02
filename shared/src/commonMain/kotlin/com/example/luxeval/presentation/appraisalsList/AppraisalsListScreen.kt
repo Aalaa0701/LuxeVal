@@ -23,9 +23,11 @@ import com.example.luxeval.presentation.util.AppraisalCardView
 @Composable
 fun AppraisalsListScreen(
     viewModel: AppraisalsListViewModel,
-    onOpenAppraisal: (String) -> Unit
+    onOpenAppraisal: (String) -> Unit,
+    onNavigateToBusinessProfile: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    var showIncompleteProfileDialog by remember { mutableStateOf(false) }
 
     Scaffold(topBar = { LuxeTopBar() }) { padding ->
         LazyColumn(
@@ -52,7 +54,12 @@ fun AppraisalsListScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     FilledTonalButton(
-                        onClick = { viewModel.createDraftAndGetId(onOpenAppraisal) },
+                        onClick = {
+                            viewModel.createDraftAndGetId(
+                                onCreated = onOpenAppraisal,
+                                onProfileIncomplete = { showIncompleteProfileDialog = true }
+                            )
+                        },
                         colors = ButtonDefaults.filledTonalButtonColors(
                         containerColor = MaterialTheme.colorScheme.primary,
                         contentColor = MaterialTheme.colorScheme.onPrimary
@@ -104,7 +111,12 @@ fun AppraisalsListScreen(
                 }
             } else if (uiState.cards.isEmpty()) {
                 item {
-                    EmptyAppraisalsState(onCreate = { viewModel.createDraftAndGetId(onOpenAppraisal) })
+                    EmptyAppraisalsState(onCreate = {
+                        viewModel.createDraftAndGetId(
+                            onCreated = onOpenAppraisal,
+                            onProfileIncomplete = { showIncompleteProfileDialog = true }
+                        )
+                    })
                 }
             } else {
                 items(uiState.cards, key = { it.appraisal.id }) { card ->
@@ -112,6 +124,20 @@ fun AppraisalsListScreen(
                 }
             }
         }
+    }
+    if (showIncompleteProfileDialog) {
+        AlertDialog(
+            onDismissRequest = { showIncompleteProfileDialog = false },
+            title = { Text("Complete Your Business Profile") },
+            text = { Text("Add your business name, license number, logo, and signature before creating an appraisal — these appear on every generated report.") },
+            confirmButton = {
+                TextButton(onClick = {
+                    showIncompleteProfileDialog = false
+                    onNavigateToBusinessProfile() // pass this in from MainScreen, same as SettingsScreen already does
+                }) { Text("Go to Profile") }
+            },
+            dismissButton = { TextButton(onClick = { showIncompleteProfileDialog = false }) { Text("Cancel") } }
+        )
     }
 }
 

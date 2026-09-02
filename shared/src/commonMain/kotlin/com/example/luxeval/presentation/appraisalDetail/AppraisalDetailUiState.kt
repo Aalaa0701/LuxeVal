@@ -19,9 +19,10 @@ data class AppraisalDetailUiState(
     val internalNotes: String = "",
     val hasUnsavedChanges: Boolean = false,
     val isSaving: Boolean = false,
-    val saveError: String? = null
+    val saveError: String? = null,
+    val businessProfileComplete: Boolean = false
 ) {
     /** Mirrors your mockup: items must exist and client must be filled before finalize/report actions light up. */
     val canFinalize: Boolean
-        get() = items.isNotEmpty() && clientForm.name.isNotBlank()
+        get() = items.isNotEmpty() && clientForm.name.isNotBlank() && businessProfileComplete
 }

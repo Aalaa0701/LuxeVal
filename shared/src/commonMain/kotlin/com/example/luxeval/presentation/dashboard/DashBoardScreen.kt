@@ -10,6 +10,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -25,16 +28,23 @@ import kotlin.time.Clock
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel,
-    onOpenAppraisal: (String) -> Unit
+    onOpenAppraisal: (String) -> Unit,
+    onNavigateToBusinessProfile: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    var showIncompleteProfileDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         topBar = { LuxeTopBar() },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { viewModel.createDraftAndGetId(onOpenAppraisal) },
+                onClick = {
+                    viewModel.createDraftAndGetId(
+                        onCreated = onOpenAppraisal,
+                        onProfileIncomplete = { showIncompleteProfileDialog = true }
+                    )
+                },
                 containerColor = MaterialTheme.colorScheme.secondary
             ) {
                 Icon(painterResource(Res.drawable.ic_add), contentDescription = "New Appraisal")
@@ -94,6 +104,20 @@ fun DashboardScreen(
                 AppraisalCardView(card = card, onClick = { onOpenAppraisal(card.appraisal.id) })
             }
         }
+    }
+    if (showIncompleteProfileDialog) {
+        AlertDialog(
+            onDismissRequest = { showIncompleteProfileDialog = false },
+            title = { Text("Complete Your Business Profile") },
+            text = { Text("Add your business name, license number, logo, and signature before creating an appraisal — these appear on every generated report.") },
+            confirmButton = {
+                TextButton(onClick = {
+                    showIncompleteProfileDialog = false
+                    onNavigateToBusinessProfile() // pass this in from MainScreen, same as SettingsScreen already does
+                }) { Text("Go to Profile") }
+            },
+            dismissButton = { TextButton(onClick = { showIncompleteProfileDialog = false }) { Text("Cancel") } }
+        )
     }
 }
 @Composable

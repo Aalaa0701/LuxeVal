@@ -74,14 +74,16 @@ fun MainScreen(outerNavController: NavHostController) {
                 val viewModel: DashboardViewModel = koinViewModel()
                 DashboardScreen(
                     viewModel = viewModel,
-                    onOpenAppraisal = { id -> outerNavController.navigate(AppraisalDetail(id)) }
+                    onOpenAppraisal = { id -> outerNavController.navigate(AppraisalDetail(id)) },
+                    onNavigateToBusinessProfile = { outerNavController.navigate(BusinessProfile) },
                 )
             }
             composable<AppraisalsList> {
                 val viewModel: AppraisalsListViewModel = koinViewModel()
                 AppraisalsListScreen(
                     viewModel = viewModel,
-                    onOpenAppraisal = { id -> outerNavController.navigate(AppraisalDetail(id)) }
+                    onOpenAppraisal = { id -> outerNavController.navigate(AppraisalDetail(id)) },
+                    onNavigateToBusinessProfile = { outerNavController.navigate(BusinessProfile) },
                 )
             }
             composable<Settings> {

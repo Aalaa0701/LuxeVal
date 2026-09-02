@@ -10,46 +10,90 @@ object ReportHtmlBuilder {
     fun build(uiState: ReportPreviewUiState): String {
         val appraisal = requireNotNull(uiState.appraisal)
         val b = uiState.business
-
+        // ReportHtmlBuilder.kt
         return """
-            <html>
-            <head>
-            <meta charset="utf-8">
-            <style>
-                body { font-family: -apple-system, Helvetica, Arial, sans-serif; color: #0B1C30; margin: 32px; }
-                .letterhead { text-align: center; margin-bottom: 24px; }
-                .logo { width: 64px; height: 64px; margin-bottom: 8px; }
-                .business-name { font-size: 22px; font-weight: 700; margin: 0; }
-                .muted { color: #44474C; font-size: 12px; }
-                hr { border: none; border-top: 1px solid #C4C6CD; margin: 16px 0; }
-                .meta-row { display: flex; justify-content: space-between; font-size: 13px; margin: 4px 0; }
-                .meta-label { color: #44474C; }
-                .meta-value { font-weight: 600; }
-                .section-title { font-size: 16px; font-weight: 700; margin: 24px 0 12px; }
-                .item-card { border: 1px solid #D3E4FE; border-radius: 8px; padding: 16px; margin-bottom: 16px; page-break-inside: avoid; }
-                .item-photos { display: flex; gap: 6px; margin-bottom: 10px; }
-                .item-photos img { width: 70px; height: 70px; object-fit: cover; border-radius: 6px; }
-                .item-name { font-size: 15px; font-weight: 700; margin: 0; }
-                .item-category { font-size: 11px; color: #44474C; text-transform: capitalize; margin-bottom: 8px; }
-                .spec-row { display: flex; justify-content: space-between; font-size: 12px; margin: 2px 0; }
-                .item-value-row { display: flex; justify-content: space-between; font-weight: 700; margin-top: 10px; padding-top: 8px; border-top: 1px solid #E5EEFF; }
-                .total-box { background: #243447; color: #E5C372; border-radius: 8px; padding: 16px; display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
-                .total-label { font-size: 14px; }
-                .total-value { font-size: 20px; font-weight: 700; }
-                .signature-block { margin-top: 32px; }
-                .signature-img { height: 48px; }
-            </style>
-            </head>
-            <body>
-                ${letterheadHtml(b)}
-                ${metaHtml(appraisal, uiState)}
-                <div class="section-title">Itemized Valuation</div>
-                ${uiState.items.joinToString("") { itemCardHtml(it, uiState.currencyCode) }}
-                ${totalHtml(uiState.totalValue, uiState.currencyCode)}
-                ${signatureHtml(b)}
-            </body>
-            </html>
-        """.trimIndent()
+    <html>
+    <head>
+    <meta charset="utf-8">
+    <style>
+        @page { margin: 32px; }               /* NEW — reapplies on every printed page */
+        body { font-family: -apple-system, Helvetica, Arial, sans-serif; color: #0B1C30; margin: 0; } /* margin moved to @page */
+        .letterhead { text-align: center; margin-bottom: 24px; }
+        .logo { width: 64px; height: 64px; margin-bottom: 8px; }
+        .business-name { font-size: 22px; font-weight: 700; margin: 0; }
+        .muted { color: #44474C; font-size: 12px; }
+        hr { border: none; border-top: 1px solid #C4C6CD; margin: 16px 0; }
+        .meta-row { display: flex; justify-content: space-between; font-size: 13px; margin: 4px 0; }
+        .meta-label { color: #44474C; }
+        .meta-value { font-weight: 600; }
+        .section-title { font-size: 16px; font-weight: 700; margin: 24px 0 12px; }
+        .item-card { border: 1px solid #D3E4FE; border-radius: 8px; padding: 16px; margin-bottom: 16px; page-break-inside: avoid; }
+        .item-photos { display: flex; gap: 6px; margin-bottom: 10px; }
+        .item-photos img { width: 70px; height: 70px; object-fit: cover; border-radius: 6px; }
+        .item-name { font-size: 15px; font-weight: 700; margin: 0; }
+        .item-category { font-size: 11px; color: #44474C; text-transform: capitalize; margin-bottom: 8px; }
+        .spec-row { display: flex; justify-content: space-between; font-size: 12px; margin: 2px 0; }
+        .item-value-row { display: flex; justify-content: space-between; font-weight: 700; margin-top: 10px; padding-top: 8px; border-top: 1px solid #E5EEFF; }
+        .total-box { background: #243447; color: #E5C372; border-radius: 8px; padding: 16px; display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+        .total-label { font-size: 14px; }
+        .total-value { font-size: 20px; font-weight: 700; }
+        .signature-block { margin-top: 32px; }
+        .signature-img { height: 48px; }
+        .closing-section { page-break-inside: avoid; }   /* NEW — keeps total + signature glued together */
+    </style>
+    </head>
+    <body>
+        ${letterheadHtml(b)}
+        ${metaHtml(appraisal, uiState)}
+        <div class="section-title">Itemized Valuation</div>
+        ${uiState.items.joinToString("") { itemCardHtml(it, uiState.currencyCode) }}
+        <div class="closing-section">
+            ${totalHtml(uiState.totalValue, uiState.currencyCode)}
+            ${signatureHtml(b)}
+        </div>
+    </body>
+    </html>
+""".trimIndent()
+
+//        return """
+//            <html>
+//            <head>
+//            <meta charset="utf-8">
+//            <style>
+//                body { font-family: -apple-system, Helvetica, Arial, sans-serif; color: #0B1C30; margin: 32px; }
+//                .letterhead { text-align: center; margin-bottom: 24px; }
+//                .logo { width: 64px; height: 64px; margin-bottom: 8px; }
+//                .business-name { font-size: 22px; font-weight: 700; margin: 0; }
+//                .muted { color: #44474C; font-size: 12px; }
+//                hr { border: none; border-top: 1px solid #C4C6CD; margin: 16px 0; }
+//                .meta-row { display: flex; justify-content: space-between; font-size: 13px; margin: 4px 0; }
+//                .meta-label { color: #44474C; }
+//                .meta-value { font-weight: 600; }
+//                .section-title { font-size: 16px; font-weight: 700; margin: 24px 0 12px; }
+//                .item-card { border: 1px solid #D3E4FE; border-radius: 8px; padding: 16px; margin-bottom: 16px; page-break-inside: avoid; }
+//                .item-photos { display: flex; gap: 6px; margin-bottom: 10px; }
+//                .item-photos img { width: 70px; height: 70px; object-fit: cover; border-radius: 6px; }
+//                .item-name { font-size: 15px; font-weight: 700; margin: 0; }
+//                .item-category { font-size: 11px; color: #44474C; text-transform: capitalize; margin-bottom: 8px; }
+//                .spec-row { display: flex; justify-content: space-between; font-size: 12px; margin: 2px 0; }
+//                .item-value-row { display: flex; justify-content: space-between; font-weight: 700; margin-top: 10px; padding-top: 8px; border-top: 1px solid #E5EEFF; }
+//                .total-box { background: #243447; color: #E5C372; border-radius: 8px; padding: 16px; display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+//                .total-label { font-size: 14px; }
+//                .total-value { font-size: 20px; font-weight: 700; }
+//                .signature-block { margin-top: 32px; }
+//                .signature-img { height: 48px; }
+//            </style>
+//            </head>
+//            <body>
+//                ${letterheadHtml(b)}
+//                ${metaHtml(appraisal, uiState)}
+//                <div class="section-title">Itemized Valuation</div>
+//                ${uiState.items.joinToString("") { itemCardHtml(it, uiState.currencyCode) }}
+//                ${totalHtml(uiState.totalValue, uiState.currencyCode)}
+//                ${signatureHtml(b)}
+//            </body>
+//            </html>
+//        """.trimIndent()
     }
 
     private fun letterheadHtml(b: ReportBusinessInfo): String = """

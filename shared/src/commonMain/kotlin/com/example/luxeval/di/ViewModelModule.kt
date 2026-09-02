@@ -31,7 +31,8 @@ val viewModelModule = module {
         DashboardViewModel(
             appraisalRepository = get(),
             clientRepository = get(),
-            itemRepository = get()
+            itemRepository = get(),
+            profileStore = get()
         )
     }
     viewModel { params ->
@@ -90,7 +91,7 @@ val viewModelModule = module {
             fileSharer = get()
         )
     }
-    viewModel { AppraisalsListViewModel(get(), get(), get()) }
+    viewModel { AppraisalsListViewModel(get(), get(), get(), get()) }
     viewModel { SearchViewModel(get(), get(), get()) }
     viewModel { SettingsViewModel(get(), get(), get()) }
 }
