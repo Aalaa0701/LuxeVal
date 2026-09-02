@@ -88,12 +88,16 @@ fun MainScreen(outerNavController: NavHostController) {
                 val viewModel: SettingsViewModel = koinViewModel()
                 SettingsScreen(
                     viewModel = viewModel,
-                    onNavigateToBusinessProfile = { outerNavController.navigate(BusinessProfile) }
+                    onNavigateToBusinessProfile = { outerNavController.navigate(BusinessProfile) },
+                    onLogOut = {}
                 )
             }
-            composable<Settings> {
-                val viewModel: SettingsViewModel = koinViewModel()
-                SettingsScreen(viewModel = viewModel,)
+            composable<Search> {
+                val viewModel: SearchViewModel = koinViewModel()
+                SearchScreen(
+                    viewModel = viewModel,
+                    onOpenAppraisal = { id -> outerNavController.navigate(AppraisalDetail(id)) }
+                )
             }
         }
     }

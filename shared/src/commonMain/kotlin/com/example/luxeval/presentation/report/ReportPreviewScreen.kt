@@ -9,8 +9,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,6 +23,8 @@ import coil3.compose.AsyncImage
 import coil3.util.Logger
 import com.example.luxeval.presentation.theme.LuxeShapes
 import com.example.luxeval.presentation.theme.LuxeSpacing
+import com.example.luxeval.presentation.util.formatCurrency
+import com.example.luxeval.presentation.util.formatDate
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -35,8 +39,16 @@ fun ReportPreviewScreen(
     onBack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
 
+    LaunchedEffect(uiState.exportError) {
+        uiState.exportError?.let { message ->
+            snackbarHostState.showSnackbar("Export failed: $message")
+            viewModel.dismissExportError()
+        }
+    }
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = { Text("Report Preview") },
@@ -219,18 +231,7 @@ private fun SignatureSection(business: ReportBusinessInfo) {
     }
 }
 
-private fun formatDate(epochMillis: Long): String {
-    val dt = Instant.fromEpochMilliseconds(epochMillis).toLocalDateTime(TimeZone.currentSystemDefault())
-    val month = dt.month.name.take(3).lowercase().replaceFirstChar { it.uppercase() }
-    return "$month ${dt.dayOfMonth}, ${dt.year}"
-}
 
-private fun formatCurrency(value: Double, currencyCode: String): String {
-    val symbol = when (currencyCode) { "USD" -> "$"; "EUR" -> "€"; "GBP" -> "£"; else -> "$currencyCode " }
-    val whole = value.toLong()
-    val formatted = whole.toString().reversed().chunked(3).joinToString(",").reversed()
-    return "$symbol$formatted"
-}
 
 private fun com.example.luxeval.domain.AppraisalPurpose.reportLabel(): String = when (this) {
     com.example.luxeval.domain.AppraisalPurpose.INSURANCE_REPLACEMENT -> "Insurance Replacement"

@@ -2,9 +2,8 @@ package com.example.luxeval.presentation.report
 
 
 import com.example.luxeval.domain.AppraisalPurpose
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import com.example.luxeval.presentation.util.formatCurrency
+import com.example.luxeval.presentation.util.formatDate
 
 object ReportHtmlBuilder {
 
@@ -119,17 +118,6 @@ object ReportHtmlBuilder {
         </div>
     """.trimIndent()
 
-    private fun formatDate(epochMillis: Long): String {
-        val dt = Instant.fromEpochMilliseconds(epochMillis).toLocalDateTime(TimeZone.currentSystemDefault())
-        val month = dt.month.name.take(3).lowercase().replaceFirstChar { it.uppercase() }
-        return "$month ${dt.dayOfMonth}, ${dt.year}"
-    }
-
-    private fun formatCurrency(value: Double, currencyCode: String): String {
-        val symbol = when (currencyCode) { "USD" -> "$"; "EUR" -> "€"; "GBP" -> "£"; else -> "$currencyCode " }
-        val formatted = value.toLong().toString().reversed().chunked(3).joinToString(",").reversed()
-        return "$symbol$formatted"
-    }
 
     private fun AppraisalPurpose.reportLabel(): String = when (this) {
         AppraisalPurpose.INSURANCE_REPLACEMENT -> "Insurance Replacement"

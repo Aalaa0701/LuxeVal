@@ -28,6 +28,18 @@ import luxeval.shared.generated.resources.ic_signature
 import luxeval.shared.generated.resources.ic_theme
 import org.jetbrains.compose.resources.painterResource
 
+// (label, code) pairs — no dedicated globe/language icon exists in your drawable
+// set yet, so the Language row reuses ic_info below. Swap in a real icon later.
+private val supportedLanguages = listOf(
+    "en" to "English",
+    "ar" to "العربية (Arabic)",
+    "es" to "Español (Spanish)",
+    "fr" to "Français (French)"
+)
+
+private fun String.toLanguageLabel(): String =
+    supportedLanguages.firstOrNull { it.first == this }?.second ?: this
+
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel,
@@ -37,7 +49,9 @@ fun SettingsScreen(
     val uiState by viewModel.uiState.collectAsState()
     var showCurrencyPicker by remember { mutableStateOf(false) }
     var showUnitPicker by remember { mutableStateOf(false) }
+    var showLanguagePicker by remember { mutableStateOf(false) }
     var showLogOutConfirm by remember { mutableStateOf(false) }
+    var showAboutDialog by remember { mutableStateOf(false) }
 
     val logoPickerLauncher = rememberPhotoPickerLauncher { paths ->
         paths.firstOrNull()?.let { viewModel.onLogoPathChanged(it) }
@@ -100,6 +114,12 @@ fun SettingsScreen(
                         subtitle = uiState.measurementUnit.label(),
                         onClick = { showUnitPicker = true }
                     )
+                    SettingsRow(
+                        icon = painterResource(Res.drawable.ic_info),
+                        title = "Language",
+                        subtitle = uiState.languageCode.toLanguageLabel(),
+                        onClick = { showLanguagePicker = true }
+                    )
                     SettingsToggleRow(
                         icon = painterResource(Res.drawable.ic_theme),
                         title = "Dark Mode",
@@ -116,7 +136,7 @@ fun SettingsScreen(
                         icon = painterResource(Res.drawable.ic_info),
                         title = "About LuxeValuation",
                         subtitle = "Version 1.0.0",
-                        onClick = {}
+                        onClick = { showAboutDialog = true }
                     )
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_logout),
@@ -144,6 +164,13 @@ fun SettingsScreen(
             onDismiss = { showUnitPicker = false }
         )
     }
+    if (showLanguagePicker) {
+        LanguagePickerSheet(
+            current = uiState.languageCode,
+            onSelected = { viewModel.onLanguageChanged(it); showLanguagePicker = false },
+            onDismiss = { showLanguagePicker = false }
+        )
+    }
     if (showLogOutConfirm) {
         AlertDialog(
             onDismissRequest = { showLogOutConfirm = false },
@@ -154,6 +181,27 @@ fun SettingsScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showLogOutConfirm = false }) { Text("Cancel") }
+            }
+        )
+    }
+    if (showAboutDialog) {
+        AlertDialog(
+            onDismissRequest = { showAboutDialog = false },
+            title = { Text("About LuxeValuation") },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(LuxeSpacing.xs)) {
+                    Text("Version 1.0.0", style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        "LuxeValuation helps certified appraisers create professional " +
+                                "jewelry appraisal reports with business letterhead, item-level " +
+                                "valuation, and signed PDF export.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showAboutDialog = false }) { Text("OK") }
             }
         )
     }
@@ -195,6 +243,29 @@ private fun MeasurementUnitPickerSheet(
                     headlineContent = { Text(unit.label()) },
                     trailingContent = { RadioButton(selected = unit == current, onClick = { onSelected(unit) }) },
                     modifier = Modifier.clickable { onSelected(unit) }
+                )
+            }
+            Spacer(Modifier.height(LuxeSpacing.md))
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun LanguagePickerSheet(
+    current: String,
+    onSelected: (String) -> Unit,
+    onDismiss: () -> Unit
+) {
+    ModalBottomSheet(onDismissRequest = onDismiss) {
+        Column(Modifier.padding(LuxeSpacing.md)) {
+            Text("Select Language", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.height(LuxeSpacing.sm))
+            supportedLanguages.forEach { (code, label) ->
+                ListItem(
+                    headlineContent = { Text(label) },
+                    trailingContent = { RadioButton(selected = code == current, onClick = { onSelected(code) }) },
+                    modifier = Modifier.clickable { onSelected(code) }
                 )
             }
             Spacer(Modifier.height(LuxeSpacing.md))

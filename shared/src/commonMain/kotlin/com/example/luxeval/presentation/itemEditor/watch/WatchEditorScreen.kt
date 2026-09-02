@@ -145,8 +145,10 @@ fun WatchEditorScreen(
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
                     Text("Complications", style = MaterialTheme.typography.titleSmall)
-                    // Simple flow of filter chips — swap for FlowRow if you add the layout lib later
-                    Row(horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.xs)) {
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.xs),
+                        verticalArrangement = Arrangement.spacedBy(LuxeSpacing.xs)
+                    ) {
                         WatchComplication.entries.filter { it != WatchComplication.NONE }.forEach { complication ->
                             FilterChip(
                                 selected = complication in uiState.complications,

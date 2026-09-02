@@ -94,12 +94,6 @@ fun AppraisalCardView(card: AppraisalCard, onClick: () -> Unit, modifier: Modifi
     }
 }
 
-private fun formatDate(epochMillis: Long): String {
-    val dt = Instant.fromEpochMilliseconds(epochMillis).toLocalDateTime(TimeZone.currentSystemDefault())
-    val month = dt.month.name.take(3).lowercase().replaceFirstChar { it.uppercase() }
-    return "$month ${dt.dayOfMonth}, ${dt.year}"
-}
-
 
 private fun AppraisalPurpose.displayName(): String = when (this) {
     AppraisalPurpose.INSURANCE_REPLACEMENT -> "Insurance Replacement"
@@ -107,14 +101,4 @@ private fun AppraisalPurpose.displayName(): String = when (this) {
     AppraisalPurpose.ESTATE_VALUATION -> "Estate Valuation"
     AppraisalPurpose.WHOLESALE_LIQUIDATION -> "Wholesale Liquidation"
     AppraisalPurpose.OTHER -> "Other"
-}
-private fun formatCurrency(value: Double, currencyCode: String): String {
-    val symbol = when (currencyCode) {
-        "USD" -> "$"
-        "EUR" -> "€"
-        "GBP" -> "£"
-        else -> "$currencyCode "
-    }
-
-    return "$symbol${value.toLong()}"
 }

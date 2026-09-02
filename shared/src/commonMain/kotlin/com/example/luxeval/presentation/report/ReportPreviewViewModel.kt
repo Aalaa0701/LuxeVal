@@ -58,6 +58,9 @@ class ReportPreviewViewModel(
             }
             .launchIn(viewModelScope)
     }
+    fun dismissExportError() {
+        _uiState.value = _uiState.value.copy(exportError = null)
+    }
     fun exportPdf(onExported: (String) -> Unit, onError: (String) -> Unit) {
         println("exportPdf: starting")
         viewModelScope.launch {

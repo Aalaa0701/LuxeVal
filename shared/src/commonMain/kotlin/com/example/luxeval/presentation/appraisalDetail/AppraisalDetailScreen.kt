@@ -22,6 +22,7 @@ import luxeval.shared.generated.resources.ic_delete
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.material3.OutlinedButton
 import com.example.luxeval.domain.AppraisalStatus
+import com.example.luxeval.presentation.util.formatGroupedAmount
 import luxeval.shared.generated.resources.ic_appraisal_detail
 import luxeval.shared.generated.resources.ic_client_info
 import luxeval.shared.generated.resources.ic_other_jewelry
@@ -423,7 +424,7 @@ private fun ItemRow(item: com.example.luxeval.domain.AppraisalItem, onClick: () 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 item.estimatedValue?.let {
                     Text(
-                        "${item.currency} ${formatAmount(it)}",
+                        "${item.currency} ${formatGroupedAmount(it)}",
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.secondary
                     )
@@ -434,15 +435,6 @@ private fun ItemRow(item: com.example.luxeval.domain.AppraisalItem, onClick: () 
             }
         }
     )
-}
-fun formatAmount(amount: Double): String {
-    val value = amount.toLong()
-    return value
-        .toString()
-        .reversed()
-        .chunked(3)
-        .joinToString(",")
-        .reversed()
 }
 @Composable
 private fun EmptyItemsState(onAddItem: () -> Unit) {
