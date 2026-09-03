@@ -15,7 +15,7 @@ fun RootNavHost() {
 
     var minSplashElapsed by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
-        delay(700)
+        delay(600) // your brand's splash gets to be seen, deliberately, not skipped
         minSplashElapsed = true
     }
 

@@ -26,7 +26,7 @@ import org.koin.compose.koinInject
 
 @Composable
 @Preview
-fun App() {
+fun App(onReady: () -> Unit = {}) {
     val themeController: ThemeController = koinInject()
     val isDarkTheme by themeController.isDarkTheme.collectAsState()
 

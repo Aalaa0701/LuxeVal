@@ -1,5 +1,6 @@
 package com.example.luxeval.presentation.onboarding
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -102,8 +103,8 @@ private fun OnboardingSlideContent(
     onCta: () -> Unit
 ) {
     Box(Modifier.fillMaxSize()) {
-        AsyncImage(
-            model = slide.imageUrl,
+        Image(
+            painter = painterResource(slide.imageUrl),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()

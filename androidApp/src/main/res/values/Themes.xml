@@ -1,0 +1,11 @@
+<!-- androidApp/src/main/res/values/themes.xml -->
+<resources>
+    <style name="Theme.LuxeVal.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <!-- values/themes.xml AND values-night/themes.xml -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon_transparent</item>
+        <!-- no windowSplashScreenAnimatedIcon set — omit it entirely rather than pointing at your launcher icon -->
+        <item name="windowSplashScreenIconBackgroundColor">@color/splash_background</item>
+        <item name="postSplashScreenTheme">@android:style/Theme.Material.Light.NoActionBar</item>
+    </style>
+</resources>

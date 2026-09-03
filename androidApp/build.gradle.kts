@@ -12,6 +12,7 @@ kotlin {
 }
 dependencies {
     implementation(project(":shared"))
+    implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("com.russhwolf:multiplatform-settings:1.1.1")
     implementation("com.russhwolf:multiplatform-settings-no-arg:1.1.1")
     implementation(libs.androidx.activity.compose)

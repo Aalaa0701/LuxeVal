@@ -1,0 +1,5 @@
+<!-- androidApp/src/main/res/values/colors.xml -->
+<!-- values/colors.xml -->
+<resources>
+    <color name="splash_background">#F8F9FF</color> <!-- exact hex of LightColors.background -->
+</resources>

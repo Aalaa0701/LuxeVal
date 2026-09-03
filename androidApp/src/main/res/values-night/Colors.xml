@@ -1,0 +1,5 @@
+<!-- androidApp/src/main/res/values/colors.xml -->
+<!-- values-night/colors.xml -->
+<resources>
+    <color name="splash_background">#0B1326</color> <!-- exact hex of DarkColors.background -->
+</resources>
