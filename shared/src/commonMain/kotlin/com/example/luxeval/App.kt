@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.luxeval.navigation.AppNavHost
+import com.example.luxeval.navigation.RootNavHost
 import com.example.luxeval.presentation.theme.LuxeValTheme
 import com.example.luxeval.presentation.theme.ThemeController
 import org.jetbrains.compose.resources.painterResource
@@ -30,6 +31,6 @@ fun App() {
     val isDarkTheme by themeController.isDarkTheme.collectAsState()
 
     LuxeValTheme(darkTheme = isDarkTheme) {
-        AppNavHost()
+        RootNavHost()
     }
 }

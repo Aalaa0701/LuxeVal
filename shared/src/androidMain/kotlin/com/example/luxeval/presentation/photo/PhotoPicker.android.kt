@@ -49,6 +49,7 @@ actual class PhotoStorage(private val context: Context) {
     actual suspend fun saveImage(bytes: ByteArray, extension: String): String =
         withContext(Dispatchers.IO) {
             val dir = File(context.filesDir, "photos").apply { mkdirs() }
+            @OptIn(kotlin.uuid.ExperimentalUuidApi::class)
             val file = File(dir, "${Uuid.random()}.$extension")
             file.writeBytes(bytes)
             file.absolutePath

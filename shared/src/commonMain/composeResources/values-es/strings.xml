@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">LuxeValuation</string>
+
+    <!-- Bottom nav -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_appraisals">Tasaciones</string>
+    <string name="nav_search">Buscar</string>
+    <string name="nav_settings">Configuración</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_greeting">Buenos días</string>
+    <string name="dashboard_total_appraisals">Total de tasaciones</string>
+    <string name="dashboard_completed">Completadas</string>
+    <string name="dashboard_drafts">Borradores</string>
+    <string name="dashboard_customers">Clientes</string>
+    <string name="dashboard_continue_draft">Continuar borrador</string>
+    <string name="dashboard_recent_appraisals">Tasaciones recientes</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Configuración</string>
+    <string name="settings_subtitle">Gestiona las preferencias de tu cuenta y los datos de tu negocio.</string>
+    <string name="settings_business_info">Información del negocio</string>
+    <string name="settings_business_profile">Perfil del negocio</string>
+    <string name="settings_brand_logo">Logotipo de la marca</string>
+    <string name="settings_digital_signature">Firma digital</string>
+    <string name="settings_preferences">Preferencias</string>
+    <string name="settings_currency">Moneda</string>
+    <string name="settings_measurement_units">Unidades de medida</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_dark_mode">Modo oscuro</string>
+    <string name="settings_about">Acerca de LuxeValuation</string>
+    <string name="settings_log_out">Cerrar sesión</string>
+    <string name="settings_log_out_confirm_title">Cerrar sesión</string>
+    <string name="settings_log_out_confirm_body">¿Estás seguro de que quieres cerrar sesión?</string>
+
+    <!-- Appraisal statuses -->
+    <string name="status_draft">Borrador</string>
+    <string name="status_completed">Completada</string>
+    <string name="status_archived">Archivada</string>
+
+    <!-- Auth -->
+    <string name="auth_welcome_back">Bienvenido de nuevo</string>
+    <string name="auth_sign_in_subtitle">Inicia sesión para continuar con tus tasaciones.</string>
+    <string name="auth_email">Correo electrónico</string>
+    <string name="auth_password">Contraseña</string>
+    <string name="auth_sign_in">Iniciar sesión</string>
+    <string name="auth_sign_up">Registrarse</string>
+    <string name="auth_no_account">¿No tienes una cuenta?</string>
+</resources>

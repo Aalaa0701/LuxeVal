@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">LuxeValuation</string>
+
+    <!-- Bottom nav -->
+    <string name="nav_home">Home</string>
+    <string name="nav_appraisals">Appraisals</string>
+    <string name="nav_search">Search</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_greeting">Good Morning</string>
+    <string name="dashboard_total_appraisals">Total Appraisals</string>
+    <string name="dashboard_completed">Completed</string>
+    <string name="dashboard_drafts">Drafts</string>
+    <string name="dashboard_customers">Customers</string>
+    <string name="dashboard_continue_draft">Continue Draft</string>
+    <string name="dashboard_recent_appraisals">Recent Appraisals</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_subtitle">Manage your account preferences and business details.</string>
+    <string name="settings_business_info">Business Information</string>
+    <string name="settings_business_profile">Business Profile</string>
+    <string name="settings_brand_logo">Brand Logo</string>
+    <string name="settings_digital_signature">Digital Signature</string>
+    <string name="settings_preferences">Preferences</string>
+    <string name="settings_currency">Currency</string>
+    <string name="settings_measurement_units">Measurement Units</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_dark_mode">Dark Mode</string>
+    <string name="settings_about">About LuxeValuation</string>
+    <string name="settings_log_out">Log Out</string>
+    <string name="settings_log_out_confirm_title">Log Out</string>
+    <string name="settings_log_out_confirm_body">Are you sure you want to log out?</string>
+
+    <!-- Appraisal statuses -->
+    <string name="status_draft">Draft</string>
+    <string name="status_completed">Completed</string>
+    <string name="status_archived">Archived</string>
+
+    <!-- Auth -->
+    <string name="auth_welcome_back">Welcome Back</string>
+    <string name="auth_sign_in_subtitle">Sign in to continue your appraisals.</string>
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_sign_in">Sign In</string>
+    <string name="auth_sign_up">Sign Up</string>
+    <string name="auth_no_account">Don\'t have an account?</string>
+</resources>

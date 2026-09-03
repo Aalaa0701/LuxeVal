@@ -2,7 +2,10 @@ package com.example.luxeval.navigation
 
 import kotlinx.serialization.Serializable
 
+
+@Serializable data object Auth
 @Serializable data object MainGraph
+@Serializable data object Onboarding
 // Auth
 @Serializable data object Splash
 @Serializable data object Login

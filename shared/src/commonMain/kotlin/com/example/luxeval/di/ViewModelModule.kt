@@ -2,6 +2,7 @@ package com.example.luxeval.di
 
 import com.example.luxeval.presentation.appraisalDetail.AppraisalDetailViewModel
 import com.example.luxeval.presentation.appraisalsList.AppraisalsListViewModel
+import com.example.luxeval.presentation.auth.AuthViewModel
 import com.example.luxeval.presentation.dashboard.DashboardViewModel
 import com.example.luxeval.presentation.itemEditor.bracelet.BraceletEditorViewModel
 import com.example.luxeval.presentation.itemEditor.brooch.BroochEditorViewModel
@@ -26,6 +27,7 @@ val viewModelModule = module {
             clientRepository = get(),
             itemRepository = get(),
             profileStore = get(),
+            syncRepository = get()
         )
     }
     viewModel {
@@ -33,7 +35,8 @@ val viewModelModule = module {
             appraisalRepository = get(),
             clientRepository = get(),
             itemRepository = get(),
-            profileStore = get()
+            profileStore = get(),
+            syncRepository = get()
         )
     }
     viewModel { params ->
@@ -42,7 +45,8 @@ val viewModelModule = module {
             itemId = params.get(),
             itemRepository = get(),
             photoStorage = get(),
-            pricingRepository = get()
+            pricingRepository = get(),
+            syncRepository = get()
         )
     }
     viewModel { params ->
@@ -51,7 +55,8 @@ val viewModelModule = module {
             itemId = params.get(),
             itemRepository = get(),
             photoStorage = get(),
-            pricingRepository = get()
+            pricingRepository = get(),
+            syncRepository = get()
         )
     }
 
@@ -61,7 +66,8 @@ val viewModelModule = module {
             itemId = params.get(),
             itemRepository = get(),
             photoStorage = get(),
-            pricingRepository = get()
+            pricingRepository = get(),
+            syncRepository = get()
         )
     }
     viewModel { params ->
@@ -70,17 +76,18 @@ val viewModelModule = module {
             itemId = params.get(),
             itemRepository = get(),
             photoStorage = get() ,
-            pricingRepository = get()
+            pricingRepository = get(),
+            syncRepository = get()
 
         )
     }
 
-
-    viewModel { params -> PendantEditorViewModel(params.get(), params.get(), get(), get(), get()) }
-    viewModel { params -> BraceletEditorViewModel(params.get(), params.get(), get(), get(), get()) }
-    viewModel { params -> EarringsEditorViewModel(params.get(), params.get(), get(), get(), get()) }
-    viewModel { params -> BroochEditorViewModel(params.get(), params.get(), get(), get(), get()) }
-    viewModel { params -> LooseGemstoneEditorViewModel(params.get(), params.get(), get(), get(), get()) }
+    viewModel { AuthViewModel(get(), get()) }
+    viewModel { params -> PendantEditorViewModel(params.get(), params.get(), get(), get(), get(), get()) }
+    viewModel { params -> BraceletEditorViewModel(params.get(), params.get(), get(), get(), get(), get()) }
+    viewModel { params -> EarringsEditorViewModel(params.get(), params.get(), get(), get(), get(), get()) }
+    viewModel { params -> BroochEditorViewModel(params.get(), params.get(), get(), get(), get(), get()) }
+    viewModel { params -> LooseGemstoneEditorViewModel(params.get(), params.get(), get(), get(), get(), get()) }
 
     viewModel { params ->
         ReportPreviewViewModel(
@@ -94,7 +101,7 @@ val viewModelModule = module {
             fileSharer = get()
         )
     }
-    viewModel { AppraisalsListViewModel(get(), get(), get(), get()) }
+    viewModel { AppraisalsListViewModel(get(), get(), get(), get(), get()) }
     viewModel { SearchViewModel(get(), get(), get()) }
     viewModel { SettingsViewModel(get(), get(), get()) }
 }

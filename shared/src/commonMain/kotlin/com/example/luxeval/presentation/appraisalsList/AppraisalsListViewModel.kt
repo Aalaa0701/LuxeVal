@@ -7,6 +7,7 @@ import com.example.luxeval.data.AppraiserProfileStore
 import com.example.luxeval.data.repository.AppraisalRepository
 import com.example.luxeval.data.repository.ClientRepository
 import com.example.luxeval.data.repository.ItemRepository
+import com.example.luxeval.data.repository.SyncRepository
 import com.example.luxeval.presentation.util.AppraisalCard
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +21,8 @@ class AppraisalsListViewModel(
     private val appraisalRepository: AppraisalRepository,
     private val clientRepository: ClientRepository,
     private val itemRepository: ItemRepository,
-    private val profileStore: AppraiserProfileStore
+    private val profileStore: AppraiserProfileStore,
+    private val syncRepository: SyncRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AppraisalsListUiState())
@@ -99,6 +101,7 @@ class AppraisalsListViewModel(
         }
         viewModelScope.launch {
             val draft = appraisalRepository.createDraft()
+            syncRepository.pushAppraisalAsync(draft)
             onCreated(draft.id)
         }
     }

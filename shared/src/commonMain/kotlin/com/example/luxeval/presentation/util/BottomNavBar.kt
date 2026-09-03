@@ -12,10 +12,21 @@ import luxeval.shared.generated.resources.ic_settings
 import luxeval.shared.generated.resources.ic_search
 import luxeval.shared.generated.resources.ic_appraisal
 import luxeval.shared.generated.resources.ic_home
+import luxeval.shared.generated.resources.nav_appraisals
+import luxeval.shared.generated.resources.nav_home
+import luxeval.shared.generated.resources.nav_search
+import luxeval.shared.generated.resources.nav_settings
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
-enum class BottomNavDestination(val label: String) {
-    HOME("Home"), APPRAISALS("Appraisals"), SEARCH("Search"), SETTINGS("Settings")
+enum class BottomNavDestination { HOME, APPRAISALS, SEARCH, SETTINGS }
+
+@Composable
+private fun BottomNavDestination.label(): String = when (this) {
+    BottomNavDestination.HOME -> stringResource(Res.string.nav_home)
+    BottomNavDestination.APPRAISALS -> stringResource(Res.string.nav_appraisals)
+    BottomNavDestination.SEARCH -> stringResource(Res.string.nav_search)
+    BottomNavDestination.SETTINGS -> stringResource(Res.string.nav_settings)
 }
 
 @Composable
@@ -31,25 +42,25 @@ fun LuxeBottomNavBar(current: BottomNavDestination, onNavigate: (BottomNavDestin
             selected = current == BottomNavDestination.HOME,
             onClick = { onNavigate(BottomNavDestination.HOME) },
             icon = { Icon(painterResource(Res.drawable.ic_home), contentDescription = null) },
-            label = { Text(BottomNavDestination.HOME.label) },
+            label = { Text(stringResource(Res.string.nav_home)) },
         )
         NavigationBarItem(
             selected = current == BottomNavDestination.APPRAISALS,
             onClick = { onNavigate(BottomNavDestination.APPRAISALS) },
             icon = { Icon(painterResource(Res.drawable.ic_appraisal), contentDescription = null) },
-            label = { Text(BottomNavDestination.APPRAISALS.label) },
+            label = { Text(stringResource(Res.string.nav_appraisals)) },
         )
         NavigationBarItem(
             selected = current == BottomNavDestination.SEARCH,
             onClick = { onNavigate(BottomNavDestination.SEARCH) },
             icon = { Icon(painterResource(Res.drawable.ic_search), contentDescription = null) },
-            label = { Text(BottomNavDestination.SEARCH.label) },
+            label = { Text(stringResource(Res.string.nav_search)) },
         )
         NavigationBarItem(
             selected = current == BottomNavDestination.SETTINGS,
             onClick = { onNavigate(BottomNavDestination.SETTINGS) },
             icon = { Icon(painterResource(Res.drawable.ic_settings), contentDescription = null) },
-            label = { Text(BottomNavDestination.SETTINGS.label) },
+            label = { Text(stringResource(Res.string.nav_settings)) },
         )
     }
 }

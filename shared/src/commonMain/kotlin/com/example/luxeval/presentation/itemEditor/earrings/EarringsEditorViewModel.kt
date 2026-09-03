@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.luxeval.data.repository.ItemRepository
 import com.example.luxeval.data.repository.PricingRepository
+import com.example.luxeval.data.repository.SyncRepository
 import com.example.luxeval.domain.*
 import com.example.luxeval.presentation.itemEditor.common.GemstoneFormState
 import com.example.luxeval.presentation.itemEditor.common.MetalFormState
@@ -20,7 +21,8 @@ class EarringsEditorViewModel(
     private val itemId: String,
     private val itemRepository: ItemRepository,
     private val photoStorage: PhotoStorage,
-    private val pricingRepository: PricingRepository
+    private val pricingRepository: PricingRepository,
+    private val syncRepository: SyncRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(EarringsEditorUiState())
@@ -112,6 +114,7 @@ class EarringsEditorViewModel(
                     }
                 )
                 itemRepository.saveItem(earrings)
+                syncRepository.pushItemAsync(earrings)
                 _uiState.value = _uiState.value.copy(isSaving = false)
                 onSaved()
             } catch (e: Exception) {

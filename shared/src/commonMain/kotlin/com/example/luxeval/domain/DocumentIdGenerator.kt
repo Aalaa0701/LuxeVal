@@ -9,6 +9,7 @@ import kotlin.uuid.Uuid
 object DocumentIdGenerator {
     fun next(): String {
         val year = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).year
+        @OptIn(kotlin.uuid.ExperimentalUuidApi::class)
         val uniquePart = Uuid.random()
             .toString()
             .replace("-", "")

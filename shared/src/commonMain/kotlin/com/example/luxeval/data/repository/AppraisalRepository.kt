@@ -23,6 +23,7 @@ class AppraisalRepository(private val dao: AppraisalDao) {
     fun observeById(id: String): Flow<Appraisal?> = dao.observeById(id).map { it?.toDomain() }
     suspend fun createDraft(): Appraisal {
         val now = Clock.System.now().toEpochMilliseconds()
+        @OptIn(kotlin.uuid.ExperimentalUuidApi::class)
         val draft = Appraisal(
             id = Uuid.random().toString(),
             documentId = DocumentIdGenerator.next(),

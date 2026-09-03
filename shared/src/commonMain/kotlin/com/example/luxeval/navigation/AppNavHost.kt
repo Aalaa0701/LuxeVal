@@ -57,6 +57,7 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
                 onAddItem = { category ->
+                    @OptIn(kotlin.uuid.ExperimentalUuidApi::class)
                     navController.navigate(ItemEditor(appraisalId = route.appraisalId, category = category.name, itemId = Uuid.random().toString()))
                 },
                 onEditItem = { item ->

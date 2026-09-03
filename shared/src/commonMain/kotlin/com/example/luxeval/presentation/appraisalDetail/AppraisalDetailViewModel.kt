@@ -7,6 +7,7 @@ import com.example.luxeval.data.AppraiserProfileStore
 import com.example.luxeval.data.repository.AppraisalRepository
 import com.example.luxeval.data.repository.ClientRepository
 import com.example.luxeval.data.repository.ItemRepository
+import com.example.luxeval.data.repository.SyncRepository
 import com.example.luxeval.domain.AppraisalPurpose
 import com.example.luxeval.domain.AppraisalStatus
 import com.example.luxeval.domain.Client
@@ -25,7 +26,8 @@ class AppraisalDetailViewModel(
     private val appraisalRepository: AppraisalRepository,
     private val clientRepository: ClientRepository,
     private val itemRepository: ItemRepository,
-    private val profileStore: AppraiserProfileStore
+    private val profileStore: AppraiserProfileStore,
+    private val syncRepository: SyncRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AppraisalDetailUiState())
@@ -83,12 +85,12 @@ class AppraisalDetailViewModel(
         val appraisal = _uiState.value.appraisal ?: return
         if (!_uiState.value.canFinalize) return
         viewModelScope.launch {
-            appraisalRepository.save(
-                appraisal.copy(
-                    status = AppraisalStatus.COMPLETED,
-                    updatedAt = Clock.System.now().toEpochMilliseconds()
-                )
+            val updated = appraisal.copy(
+                status = AppraisalStatus.COMPLETED,
+                updatedAt = Clock.System.now().toEpochMilliseconds()
             )
+            appraisalRepository.save(updated)
+            syncRepository.pushAppraisalAsync(updated)
             // no need to touch _uiState manually — observeById() already re-emits
             // the updated appraisal through the existing combine/onEach pipeline
         }
@@ -126,6 +128,7 @@ class AppraisalDetailViewModel(
         viewModelScope.launch {
             _uiState.value = state.copy(isSaving = true, saveError = null)
             try {
+                @OptIn(kotlin.uuid.ExperimentalUuidApi::class)
                 val client = Client(
                     id = loadedClient?.id ?: Uuid.random().toString(),
                     name = state.clientForm.name,
@@ -133,15 +136,15 @@ class AppraisalDetailViewModel(
                     phone = state.clientForm.phone.ifBlank { null }
                 )
                 clientRepository.saveClient(client)
-
-                appraisalRepository.save(
-                    appraisal.copy(
-                        clientId = client.id,
-                        purpose = state.purpose,
-                        internalNotes = state.internalNotes.ifBlank { null },
-                        updatedAt = Clock.System.now().toEpochMilliseconds()
-                    )
+                syncRepository.pushClientAsync(client)
+                val updatedAppraisal = appraisal.copy(
+                    clientId = client.id,
+                    purpose = state.purpose,
+                    internalNotes = state.internalNotes.ifBlank { null },
+                    updatedAt = Clock.System.now().toEpochMilliseconds()
                 )
+                appraisalRepository.save(updatedAppraisal)
+                syncRepository.pushAppraisalAsync(updatedAppraisal)
 
                 loadedClient = client
                 loadedPurpose = state.purpose
@@ -154,6 +157,9 @@ class AppraisalDetailViewModel(
     }
 
     fun deleteItem(itemId: String) {
-        viewModelScope.launch { itemRepository.deleteItem(itemId) }
+        viewModelScope.launch {
+            itemRepository.deleteItem(itemId)
+            syncRepository.deleteItemRemoteAsync(itemId)
+        }
     }
 }

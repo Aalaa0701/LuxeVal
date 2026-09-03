@@ -1,0 +1,323 @@
+package com.example.luxeval.presentation.auth
+
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
+import com.example.luxeval.presentation.theme.LuxeShapes
+import com.example.luxeval.presentation.theme.LuxeSpacing
+import luxeval.shared.generated.resources.*
+import org.jetbrains.compose.resources.painterResource
+
+// Gold gradient lifted straight from the logo's own palette, so the button
+// reads as the same brand gold in both light and dark mode rather than
+// shifting with MaterialTheme.colorScheme.secondary.
+private val GoldGradient = Brush.horizontalGradient(
+    listOf(Color(0xFFB89232), Color(0xFFF0D06A), Color(0xFFB89232))
+)
+
+@Composable
+fun AuthScreen(
+    viewModel: AuthViewModel,
+    onNavigateToResetPassword: () -> Unit
+) {
+    val formState by viewModel.formState.collectAsState()
+    var dialogEvent by remember { mutableStateOf<AuthUiEvent?>(null) }
+
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event -> dialogEvent = event }
+    }
+
+    Scaffold { padding ->
+        Box(
+            Modifier.fillMaxSize().padding(padding).padding(LuxeSpacing.md),
+            contentAlignment = Alignment.Center
+        ) {
+            Card(
+                shape = LuxeShapes.lg,
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLowest),
+                modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())
+            ) {
+                Column(
+                    Modifier.padding(LuxeSpacing.lg),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Box(
+                        Modifier.size(64.dp).clip(CircleShape).background(GoldGradient),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            painterResource(Res.drawable.ic_other_jewelry),
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier.size(28.dp)
+                        )
+                    }
+                    Spacer(Modifier.height(LuxeSpacing.sm))
+                    Text("LuxVal", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+                    Text(
+                        "Professional jewelry valuation at your fingertips",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+
+                    Spacer(Modifier.height(LuxeSpacing.lg))
+                    AuthTabToggle(current = formState.tab, onSelected = viewModel::onTabChanged)
+                    Spacer(Modifier.height(LuxeSpacing.lg))
+
+                    if (formState.tab == AuthTab.SIGN_UP) {
+                        LabeledField(
+                            label = "Full Name",
+                            value = formState.fullName,
+                            onValueChange = viewModel::onFullNameChanged,
+                            placeholder = "Sophia Hartwell",
+                            leadingIcon = Res.drawable.ic_person
+                        )
+                        Spacer(Modifier.height(LuxeSpacing.sm))
+                    }
+
+                    LabeledField(
+                        label = "Email Address",
+                        value = formState.email,
+                        onValueChange = viewModel::onEmailChanged,
+                        placeholder = "your@email.com",
+                        leadingIcon = Res.drawable.ic_mail
+                    )
+                    Spacer(Modifier.height(LuxeSpacing.sm))
+
+                    LabeledField(
+                        label = "Password",
+                        value = formState.password,
+                        onValueChange = viewModel::onPasswordChanged,
+                        placeholder = "••••••••",
+                        leadingIcon = Res.drawable.ic_lock,
+                        isPassword = true,
+                        isVisible = formState.isPasswordVisible,
+                        onToggleVisibility = viewModel::togglePasswordVisibility
+                    )
+                    if (formState.tab == AuthTab.SIGN_UP) {
+                        Spacer(Modifier.height(LuxeSpacing.xs))
+                        Text(
+                            "Minimum 8 characters",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.align(Alignment.Start)
+                        )
+                        Spacer(Modifier.height(LuxeSpacing.sm))
+                        LabeledField(
+                            label = "Confirm Password",
+                            value = formState.confirmPassword,
+                            onValueChange = viewModel::onConfirmPasswordChanged,
+                            placeholder = "••••••••",
+                            leadingIcon = Res.drawable.ic_lock,
+                            isPassword = true,
+                            isVisible = formState.isConfirmPasswordVisible,
+                            onToggleVisibility = viewModel::toggleConfirmPasswordVisibility
+                        )
+                    }
+
+                    Spacer(Modifier.height(LuxeSpacing.sm))
+
+                    if (formState.tab == AuthTab.LOGIN) {
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Checkbox(checked = formState.rememberMe, onCheckedChange = viewModel::onRememberMeChanged)
+                                Text("Remember me", style = MaterialTheme.typography.bodySmall)
+                            }
+                            TextButton(onClick = onNavigateToResetPassword) {
+                                Text("Forgot Password?", color = MaterialTheme.colorScheme.secondary)
+                            }
+                        }
+                    } else {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Checkbox(checked = formState.agreedToTerms, onCheckedChange = viewModel::onAgreedToTermsChanged)
+                            Text("I agree to the Terms of Service and Privacy Policy", style = MaterialTheme.typography.bodySmall)
+                        }
+                    }
+
+                    formState.fieldError?.let {
+                        Spacer(Modifier.height(LuxeSpacing.xs))
+                        Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+                    }
+
+                    Spacer(Modifier.height(LuxeSpacing.md))
+
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .height(50.dp)
+                            .clip(LuxeShapes.full)
+                            .background(GoldGradient)
+                            .let { base ->
+                                if (formState.isSubmitting) base else base // clickable added below via Button overlay
+                            },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        TextButton(
+                            onClick = viewModel::submit,
+                            enabled = !formState.isSubmitting,
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            if (formState.isSubmitting) {
+                                CircularProgressIndicator(Modifier.size(20.dp), color = Color.White, strokeWidth = 2.dp)
+                            } else {
+                                Text(
+                                    if (formState.tab == AuthTab.LOGIN) "Sign In" else "Create Account",
+                                    color = Color.White,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+                    }
+
+                    Spacer(Modifier.height(LuxeSpacing.md))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        HorizontalDivider(Modifier.weight(1f))
+                        Text(
+                            "  or continue with  ",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        HorizontalDivider(Modifier.weight(1f))
+                    }
+                    Spacer(Modifier.height(LuxeSpacing.md))
+
+                    OutlinedButton(
+                        onClick = viewModel::signInWithGoogle,
+                        modifier = Modifier.fillMaxWidth().height(48.dp),
+                        shape = LuxeShapes.full
+                    ) {
+                        Icon(painterResource(Res.drawable.ic_google), contentDescription = null, modifier = Modifier.size(20.dp))
+                        Spacer(Modifier.width(LuxeSpacing.sm))
+                        Text("Continue with Google")
+                    }
+
+                    Spacer(Modifier.height(LuxeSpacing.sm))
+                    Row {
+                        Text(
+                            if (formState.tab == AuthTab.LOGIN) "Don't have an account? " else "Already have an account? ",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                        Text(
+                            if (formState.tab == AuthTab.LOGIN) "Sign Up" else "Login",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.secondary,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.clickable {
+                                viewModel.onTabChanged(
+                                    if (formState.tab == AuthTab.LOGIN)
+                                        AuthTab.SIGN_UP
+                                    else
+                                        AuthTab.LOGIN
+                                )
+                            }
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    AuthStatusDialogHost(
+        event = dialogEvent,
+        onDismiss = { dialogEvent = null },
+        onResendConfirmation = { email -> viewModel.resendConfirmation(email) },
+        onSwitchToLogin = { viewModel.onTabChanged(AuthTab.LOGIN) }
+    )
+}
+
+@Composable
+private fun AuthTabToggle(current: AuthTab, onSelected: (AuthTab) -> Unit) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clip(LuxeShapes.full)
+            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+            .padding(4.dp)
+    ) {
+        listOf(AuthTab.LOGIN to "Login", AuthTab.SIGN_UP to "Sign Up").forEach { (tab, label) ->
+            val selected = current == tab
+            Box(
+                Modifier
+                    .weight(1f)
+                    .clip(LuxeShapes.full)
+                    .background(
+                        if (selected)
+                            MaterialTheme.colorScheme.surfaceContainerLowest
+                        else
+                            Color.Transparent
+                    )
+                    .clickable { onSelected(tab) }
+                    .padding(vertical = 10.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    label,
+                    fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
+                    color = if (selected) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun LabeledField(
+    label: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String,
+    leadingIcon: org.jetbrains.compose.resources.DrawableResource,
+    isPassword: Boolean = false,
+    isVisible: Boolean = false,
+    onToggleVisibility: (() -> Unit)? = null
+) {
+    Column(Modifier.fillMaxWidth()) {
+        Text(label, style = MaterialTheme.typography.labelMedium, modifier = Modifier.padding(bottom = 4.dp))
+        OutlinedTextField(
+            value = value,
+            onValueChange = onValueChange,
+            placeholder = { Text(placeholder, color = MaterialTheme.colorScheme.onSurfaceVariant) },
+            leadingIcon = {
+                Icon(painterResource(leadingIcon), contentDescription = null, modifier = Modifier.size(20.dp))
+            },
+            trailingIcon = if (isPassword && onToggleVisibility != null) {
+                {
+                    IconButton(onClick = onToggleVisibility) {
+                        Icon(
+                            painterResource(if (isVisible) Res.drawable.ic_eye_off else Res.drawable.ic_eye),
+                            contentDescription = if (isVisible) "Hide password" else "Show password",
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
+            } else null,
+            visualTransformation = if (isPassword && !isVisible) PasswordVisualTransformation() else VisualTransformation.None,
+            singleLine = true,
+            shape = LuxeShapes.md,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+// Small helper so the tab labels and "Sign Up"/"Login" swap text are tappable
+// without pulling in a full Button's padding/shape chrome.

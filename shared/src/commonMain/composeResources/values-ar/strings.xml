@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">LuxeValuation</string>
+
+    <!-- Bottom nav -->
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_appraisals">التقييمات</string>
+    <string name="nav_search">البحث</string>
+    <string name="nav_settings">الإعدادات</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_greeting">صباح الخير</string>
+    <string name="dashboard_total_appraisals">إجمالي التقييمات</string>
+    <string name="dashboard_completed">مكتملة</string>
+    <string name="dashboard_drafts">مسودات</string>
+    <string name="dashboard_customers">العملاء</string>
+    <string name="dashboard_continue_draft">متابعة المسودة</string>
+    <string name="dashboard_recent_appraisals">أحدث التقييمات</string>
+
+    <!-- Settings -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_subtitle">إدارة تفضيلات حسابك وتفاصيل نشاطك التجاري.</string>
+    <string name="settings_business_info">معلومات النشاط التجاري</string>
+    <string name="settings_business_profile">الملف التجاري</string>
+    <string name="settings_brand_logo">شعار العلامة التجارية</string>
+    <string name="settings_digital_signature">التوقيع الرقمي</string>
+    <string name="settings_preferences">التفضيلات</string>
+    <string name="settings_currency">العملة</string>
+    <string name="settings_measurement_units">وحدات القياس</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_dark_mode">الوضع الداكن</string>
+    <string name="settings_about">عن LuxeValuation</string>
+    <string name="settings_log_out">تسجيل الخروج</string>
+    <string name="settings_log_out_confirm_title">تسجيل الخروج</string>
+    <string name="settings_log_out_confirm_body">هل أنت متأكد أنك تريد تسجيل الخروج؟</string>
+
+    <!-- Appraisal statuses -->
+    <string name="status_draft">مسودة</string>
+    <string name="status_completed">مكتملة</string>
+    <string name="status_archived">مؤرشفة</string>
+
+    <!-- Auth -->
+    <string name="auth_welcome_back">مرحبًا بعودتك</string>
+    <string name="auth_sign_in_subtitle">سجّل الدخول لمتابعة تقييماتك.</string>
+    <string name="auth_email">البريد الإلكتروني</string>
+    <string name="auth_password">كلمة المرور</string>
+    <string name="auth_sign_in">تسجيل الدخول</string>
+    <string name="auth_sign_up">إنشاء حساب</string>
+    <string name="auth_no_account">ليس لديك حساب؟</string>
+</resources>

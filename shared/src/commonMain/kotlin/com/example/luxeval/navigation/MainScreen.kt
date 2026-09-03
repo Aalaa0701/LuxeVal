@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -15,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.luxeval.data.repository.AuthRepository
 import com.example.luxeval.presentation.appraisalsList.AppraisalsListScreen
 import com.example.luxeval.presentation.appraisalsList.AppraisalsListViewModel
 import com.example.luxeval.presentation.dashboard.DashboardScreen
@@ -25,6 +27,8 @@ import com.example.luxeval.presentation.settings.SettingsScreen
 import com.example.luxeval.presentation.settings.SettingsViewModel
 import com.example.luxeval.presentation.util.BottomNavDestination
 import com.example.luxeval.presentation.util.LuxeBottomNavBar
+import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 /**
@@ -88,10 +92,12 @@ fun MainScreen(outerNavController: NavHostController) {
             }
             composable<Settings> {
                 val viewModel: SettingsViewModel = koinViewModel()
+                val authRepository: AuthRepository = koinInject()
+                val scope = rememberCoroutineScope()
                 SettingsScreen(
                     viewModel = viewModel,
                     onNavigateToBusinessProfile = { outerNavController.navigate(BusinessProfile) },
-                    onLogOut = {}
+                    onLogOut = { scope.launch { authRepository.signOut() } }
                 )
             }
             composable<Search> {
