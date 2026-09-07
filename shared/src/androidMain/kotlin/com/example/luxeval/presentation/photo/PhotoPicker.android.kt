@@ -59,5 +59,8 @@ actual class PhotoStorage(private val context: Context) {
         runCatching { File(path).delete() }
         Unit
     }
+    // PhotoPicker.android.kt
+    actual suspend fun readImage(path: String): ByteArray =
+        withContext(Dispatchers.IO) { File(path).readBytes() }
 
 }

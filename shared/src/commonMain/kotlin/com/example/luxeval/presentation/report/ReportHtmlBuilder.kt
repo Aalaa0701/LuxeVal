@@ -95,10 +95,11 @@ object ReportHtmlBuilder {
 //            </html>
 //        """.trimIndent()
     }
-
+    private fun imgSrc(pathOrUrl: String): String =
+        if (pathOrUrl.startsWith("http")) pathOrUrl else "file://$pathOrUrl"
     private fun letterheadHtml(b: ReportBusinessInfo): String = """
         <div class="letterhead">
-            ${b.logoPath?.let { """<img class="logo" src="file://$it" />""" } ?: ""}
+            ${b.logoPath?.let { """<img class="logo" src="${imgSrc(it)}" />""" } ?: ""}
             <p class="business-name">${b.businessName.ifBlank { "Business Name Not Set" }.esc()}</p>
             ${if (b.licenseNumber.isNotBlank()) """<p class="muted">License #${b.licenseNumber.esc()}</p>""" else ""}
             ${if (b.businessAddress.isNotBlank()) """<p class="muted">${b.businessAddress.esc()}</p>""" else ""}
@@ -119,7 +120,7 @@ object ReportHtmlBuilder {
 
     private fun itemCardHtml(row: ReportItemRow, currencyCode: String): String {
         val photosHtml = if (row.item.photoUris.isNotEmpty()) {
-            """<div class="item-photos">${row.item.photoUris.joinToString("") { """<img src="file://$it" />""" }}</div>"""
+            """<div class="item-photos">${row.item.photoUris.joinToString("") { """<img src="${imgSrc(it)}" />""" }}</div>"""
         } else ""
 
         val specsHtml = row.specs.joinToString("") {
@@ -156,7 +157,7 @@ object ReportHtmlBuilder {
     private fun signatureHtml(b: ReportBusinessInfo): String = """
         <div class="signature-block">
             <hr/>
-            ${b.signaturePath?.let { """<img class="signature-img" src="file://$it" /><br/>""" } ?: ""}
+            ${b.signaturePath?.let { """<img class="signature-img" src="${imgSrc(it)}" /><br/>""" } ?: ""}
             <p style="margin:4px 0; font-weight:600;">${b.businessName.ifBlank { "Appraiser" }.esc()}</p>
             <p class="muted">Certified Appraiser</p>
         </div>

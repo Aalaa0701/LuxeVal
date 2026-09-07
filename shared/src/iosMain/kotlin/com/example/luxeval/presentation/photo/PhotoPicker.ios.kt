@@ -17,6 +17,7 @@ import androidx.compose.ui.uikit.LocalUIViewController
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.koin.compose.koinInject
+import platform.Foundation.dataWithContentsOfFile
 import platform.PhotosUI.PHPickerConfiguration
 import platform.PhotosUI.PHPickerFilter
 import platform.PhotosUI.PHPickerResult
@@ -111,6 +112,7 @@ actual class PhotoStorage {
         NSFileManager.defaultManager.createDirectoryAtPath(
             photosDir, true, null, null
         )
+        @OptIn(kotlin.uuid.ExperimentalUuidApi::class)
         val path = "$photosDir/${Uuid.random()}.$extension"
         val data = bytes.usePinned {
             NSData.create(bytes = it.addressOf(0), length = bytes.size.toULong())
@@ -123,6 +125,13 @@ actual class PhotoStorage {
         runCatching {
             NSFileManager.defaultManager.removeItemAtPath(path, null)
         }
+    }
+    // PhotoPicker.ios.kt
+    @OptIn(ExperimentalForeignApi::class)
+    actual suspend fun readImage(path: String): ByteArray {
+        val data = NSData.dataWithContentsOfFile(path)
+            ?: error("No file at $path")
+        return data.toByteArrayKt()
     }
 
 }

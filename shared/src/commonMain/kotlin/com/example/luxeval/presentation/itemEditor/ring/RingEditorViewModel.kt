@@ -122,10 +122,11 @@ class RingEditorViewModel(
                         )
                     }
                 )
-                itemRepository.saveItem(ring)
-                syncRepository.pushItemAsync(ring)
+                val savedRing = itemRepository.saveItem(ring)      // now returns the item with supabase:// keys
+                syncRepository.pushItemAsync(savedRing)            // push the CORRECT photoUris, not the local ones
                 _uiState.value = _uiState.value.copy(isSaving = false)
                 onSaved()
+
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(isSaving = false, saveError = e.message)
             }

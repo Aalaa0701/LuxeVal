@@ -18,6 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.luxeval.presentation.theme.LuxeSpacing
+import com.example.luxeval.presentation.util.PhotoImage
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.ic_add
 import luxeval.shared.generated.resources.ic_delete
@@ -49,8 +50,8 @@ fun PhotoGridEditor(
                     .clip(RoundedCornerShape(8.dp))
                     .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             ) {
-                AsyncImage(
-                    model = uri,               // an absolute file path — Coil3 handles file:// and bare paths on both platforms
+                PhotoImage(
+                    photoUri = uri,               // an absolute file path — Coil3 handles file:// and bare paths on both platforms
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()

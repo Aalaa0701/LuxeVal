@@ -8,6 +8,7 @@ import com.example.luxeval.data.mappers.toItemEntity
 import com.example.luxeval.domain.AppraisalItem
 import com.example.luxeval.domain.ItemCategory
 import com.example.luxeval.domain.ItemSummary
+import com.example.luxeval.domain.withPhotoUris
 import com.example.luxeval.presentation.photo.PhotoStorage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -22,26 +23,46 @@ import kotlinx.coroutines.flow.map
  */
 class ItemRepository(
     private val dao: ItemDao,
-    private val photoStorage: PhotoStorage
+    private val photoStorage: PhotoStorage,
+    private val photoRepository: PhotoRepository
 ) {
-
-    suspend fun saveItem(item: AppraisalItem) {
-        dao.insertItem(item.toItemEntity())
-        when (item) {
-            is AppraisalItem.Ring -> dao.insertRingDetails(item.toDetailsEntity())
-            is AppraisalItem.Necklace -> dao.insertNecklaceDetails(item.toDetailsEntity())
-            is AppraisalItem.Pendant -> dao.insertPendantDetails(item.toDetailsEntity())
-            is AppraisalItem.Bracelet -> dao.insertBraceletDetails(item.toDetailsEntity())
-            is AppraisalItem.Earrings -> dao.insertEarringsDetails(item.toDetailsEntity())
-            is AppraisalItem.Brooch -> dao.insertBroochDetails(item.toDetailsEntity())
-            is AppraisalItem.Watch -> dao.insertWatchDetails(item.toDetailsEntity())
-            is AppraisalItem.LooseGemstone -> dao.insertLooseGemstoneDetails(item.toDetailsEntity())
-            is AppraisalItem.PearlJewelry -> dao.insertPearlDetails(item.toDetailsEntity())
-            is AppraisalItem.Other -> throw NotImplementedError(
-                "No detail table wired up yet for ${item.category}"
-            )
+    suspend fun saveItem(item: AppraisalItem): AppraisalItem {
+//        val resolvedPhotoUris = item.photoUris.map { uri ->
+//            if (uri.startsWith("supabase://")) {
+//                uri // already uploaded (e.g. editing an existing item, didn't touch photos)
+//            } else {
+//                runCatching { photoRepository.uploadPhoto(item.id, uri) }
+//                    .getOrElse { uri } // upload failed (offline?) — keep local path, retry on next save
+//            }
+//        }
+        val resolvedPhotoUris = item.photoUris.map { uri ->
+            if (uri.startsWith("supabase://")) {
+                uri
+            } else {
+                runCatching { photoRepository.uploadPhoto(item.id, uri) }
+                    .onSuccess { println("PHOTO UPLOAD: success -> $it") }
+                    .onFailure { println("PHOTO UPLOAD: FAILED for $uri -> ${it.message}"); it.printStackTrace() }
+                    .getOrElse { uri }
+            }
         }
+        val resolvedItem = item.withPhotoUris(resolvedPhotoUris)
+
+        dao.insertItem(resolvedItem.toItemEntity())
+        when (resolvedItem) {
+            is AppraisalItem.Ring -> dao.insertRingDetails(resolvedItem.toDetailsEntity())
+            is AppraisalItem.Necklace -> dao.insertNecklaceDetails(resolvedItem.toDetailsEntity())
+            is AppraisalItem.Pendant -> dao.insertPendantDetails(resolvedItem.toDetailsEntity())
+            is AppraisalItem.Bracelet -> dao.insertBraceletDetails(resolvedItem.toDetailsEntity())
+            is AppraisalItem.Earrings -> dao.insertEarringsDetails(resolvedItem.toDetailsEntity())
+            is AppraisalItem.Brooch -> dao.insertBroochDetails(resolvedItem.toDetailsEntity())
+            is AppraisalItem.Watch -> dao.insertWatchDetails(resolvedItem.toDetailsEntity())
+            is AppraisalItem.LooseGemstone -> dao.insertLooseGemstoneDetails(resolvedItem.toDetailsEntity())
+            is AppraisalItem.PearlJewelry -> dao.insertPearlDetails(resolvedItem.toDetailsEntity())
+            is AppraisalItem.Other -> throw NotImplementedError("No detail table wired up yet for ${resolvedItem.category}")
+        }
+        return resolvedItem
     }
+
 
 
     /** One-shot read — simplest option, good enough for the appraisal-creation flow. */

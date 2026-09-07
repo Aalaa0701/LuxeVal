@@ -115,8 +115,8 @@ class PendantEditorViewModel(
                         )
                     }
                 )
-                itemRepository.saveItem(pendant)
-                syncRepository.pushItemAsync(pendant)
+                val savedPendant = itemRepository.saveItem(pendant)
+                syncRepository.pushItemAsync(savedPendant)
                 _uiState.value = _uiState.value.copy(isSaving = false)
                 onSaved()
             } catch (e: Exception) {

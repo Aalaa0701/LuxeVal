@@ -112,8 +112,8 @@ class BroochEditorViewModel(
                         )
                     }
                 )
-                itemRepository.saveItem(brooch)
-                syncRepository.pushItemAsync(brooch)
+                val savedBrooch = itemRepository.saveItem(brooch)
+                syncRepository.pushItemAsync(savedBrooch)
                 _uiState.value = _uiState.value.copy(isSaving = false)
                 onSaved()
             } catch (e: Exception) {

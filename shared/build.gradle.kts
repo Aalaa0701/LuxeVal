@@ -52,6 +52,7 @@ kotlin {
             // shared/build.gradle.kts — commonMain.dependencies
             implementation(libs.supabase.auth)
             implementation(libs.supabase.postgrest)
+            implementation(libs.supabase.storage)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
             implementation(libs.kotlinx.datetime)

@@ -113,8 +113,8 @@ class EarringsEditorViewModel(
                         )
                     }
                 )
-                itemRepository.saveItem(earrings)
-                syncRepository.pushItemAsync(earrings)
+                val savedEarring = itemRepository.saveItem(earrings)
+                syncRepository.pushItemAsync(savedEarring)
                 _uiState.value = _uiState.value.copy(isSaving = false)
                 onSaved()
             } catch (e: Exception) {

@@ -23,6 +23,7 @@ import org.jetbrains.compose.resources.painterResource
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.compose_multiplatform
 import org.koin.compose.koinInject
+import com.example.luxeval.presentation.util.initImageLoader
 
 @Composable
 @Preview
@@ -32,5 +33,6 @@ fun App(onReady: () -> Unit = {}) {
 
     LuxeValTheme(darkTheme = isDarkTheme) {
         RootNavHost()
+//        initImageLoader(context = )
     }
 }

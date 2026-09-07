@@ -110,8 +110,8 @@ class PearlEditorViewModel(
                         )
                     }
                 )
-                itemRepository.saveItem(pearl)
-                syncRepository.pushItemAsync(pearl)
+                val savedPearl = itemRepository.saveItem(pearl)
+                syncRepository.pushItemAsync(savedPearl)
                 _uiState.value = _uiState.value.copy(isSaving = false)
                 onSaved()
             } catch (e: Exception) {

@@ -370,4 +370,18 @@ sealed class AppraisalItem {
             is PearlJewelry -> ItemCategory.PEARL_JEWELRY
             is Other -> ItemCategory.OTHER
         }
+
+}
+// domain/AppraisalItem.kt — add near the bottom
+fun AppraisalItem.withPhotoUris(uris: List<String>): AppraisalItem = when (this) {
+    is AppraisalItem.Ring -> copy(photoUris = uris)
+    is AppraisalItem.Necklace -> copy(photoUris = uris)
+    is AppraisalItem.Pendant -> copy(photoUris = uris)
+    is AppraisalItem.Bracelet -> copy(photoUris = uris)
+    is AppraisalItem.Earrings -> copy(photoUris = uris)
+    is AppraisalItem.Brooch -> copy(photoUris = uris)
+    is AppraisalItem.Watch -> copy(photoUris = uris)
+    is AppraisalItem.LooseGemstone -> copy(photoUris = uris)
+    is AppraisalItem.PearlJewelry -> copy(photoUris = uris)
+    is AppraisalItem.Other -> copy(photoUris = uris)
 }

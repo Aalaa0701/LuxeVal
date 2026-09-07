@@ -7,6 +7,8 @@ import com.example.luxeval.data.AppraiserProfileStore
 import com.example.luxeval.data.repository.AppraisalRepository
 import com.example.luxeval.data.repository.ClientRepository
 import com.example.luxeval.data.repository.ItemRepository
+import com.example.luxeval.data.repository.PhotoRepository
+import com.example.luxeval.domain.withPhotoUris
 import com.example.luxeval.presentation.share.FileSharer
 import io.ktor.util.logging.Logger
 import kotlinx.coroutines.TimeoutCancellationException
@@ -27,7 +29,8 @@ class ReportPreviewViewModel(
     private val profileStore: AppraiserProfileStore,
     private val settingsStore: AppSettingsStore,
     private val pdfExporter: PdfExporter,
-    private val fileSharer: FileSharer
+    private val fileSharer: FileSharer,
+    private val photoRepository: PhotoRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ReportPreviewUiState())
@@ -65,8 +68,10 @@ class ReportPreviewViewModel(
         println("exportPdf: starting")
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isExporting = true, exportError = null)
+
             println("exportPdf: isExporting set true, uiState now = ${_uiState.value.isExporting}")
             try {
+                val stateWithResolvedUrls = resolveAllPhotoUrls(uiState.value)
                 val html = ReportHtmlBuilder.build(uiState.value)
                 println("exportPdf: html built, length=${html.length}")
                 val fileName = "${uiState.value.appraisal?.documentId ?: "report"}.pdf"
@@ -87,6 +92,16 @@ class ReportPreviewViewModel(
                 onError(e.message ?: "Export failed")
             }
         }
+    }
+    private suspend fun resolveAllPhotoUrls(state: ReportPreviewUiState): ReportPreviewUiState {
+        val resolvedItems = state.items.map { row ->
+            row.copy(item = row.item.withPhotoUris(row.item.photoUris.map { photoRepository.resolveUrl(it) }))
+        }
+        val resolvedBusiness = state.business.copy(
+            logoPath = state.business.logoPath?.let { photoRepository.resolveUrl(it) },
+            signaturePath = state.business.signaturePath?.let { photoRepository.resolveUrl(it) }
+        )
+        return state.copy(items = resolvedItems, business = resolvedBusiness)
     }
     fun shareFile(path: String) {
         fileSharer.shareFile(path)

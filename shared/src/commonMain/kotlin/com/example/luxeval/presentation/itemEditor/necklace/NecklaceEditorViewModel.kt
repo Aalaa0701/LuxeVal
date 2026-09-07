@@ -121,8 +121,8 @@ class NecklaceEditorViewModel(
                         )
                     }
                 )
-                itemRepository.saveItem(necklace)
-                syncRepository.pushItemAsync(necklace)
+                val savedNecklace = itemRepository.saveItem(necklace)
+                syncRepository.pushItemAsync(savedNecklace)
                 _uiState.value = _uiState.value.copy(isSaving = false)
                 onSaved()
             } catch (e: Exception) {

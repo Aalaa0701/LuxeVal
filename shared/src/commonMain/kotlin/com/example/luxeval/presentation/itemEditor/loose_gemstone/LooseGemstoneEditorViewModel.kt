@@ -107,8 +107,8 @@ class LooseGemstoneEditorViewModel(
                         measurementsMm = g.measurementsMm.ifBlank { null }
                     )
                 )
-                itemRepository.saveItem(item)
-                syncRepository.pushItemAsync(item)
+                val savedItem = itemRepository.saveItem(item)
+                syncRepository.pushItemAsync(savedItem)
                 _uiState.value = _uiState.value.copy(isSaving = false)
                 onSaved()
             } catch (e: Exception) {

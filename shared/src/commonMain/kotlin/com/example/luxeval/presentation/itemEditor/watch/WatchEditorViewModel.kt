@@ -117,8 +117,8 @@ class WatchEditorViewModel(
                     runningCondition = state.runningCondition,
                     yearOfManufacture = state.yearOfManufacture.toIntOrNull()
                 )
-                itemRepository.saveItem(watch)
-                syncRepository.pushItemAsync(watch)
+                val savedWatch = itemRepository.saveItem(watch)
+                syncRepository.pushItemAsync(savedWatch)
                 _uiState.value = _uiState.value.copy(isSaving = false)
                 onSaved()
             } catch (e: Exception) {

@@ -41,14 +41,11 @@ fun AppraisalCardView(card: AppraisalCard, onClick: () -> Unit, modifier: Modifi
                     .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             ) {
                 card.representativeItem?.primaryPhotoUri?.let { photoUri ->
-                    AsyncImage(
-                        model = localPhotoModel(photoUri),
+                    PhotoImage(
+                        photoUri = photoUri,
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize(),
-                        onState = { state ->
-                            println("COIL DEBUG: uri=$photoUri state=$state")
-                        }
                     )
                 }
             }

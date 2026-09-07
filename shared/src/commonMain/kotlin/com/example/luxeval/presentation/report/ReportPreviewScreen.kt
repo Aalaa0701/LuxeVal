@@ -23,6 +23,7 @@ import coil3.compose.AsyncImage
 import coil3.util.Logger
 import com.example.luxeval.presentation.theme.LuxeShapes
 import com.example.luxeval.presentation.theme.LuxeSpacing
+import com.example.luxeval.presentation.util.PhotoImage
 import com.example.luxeval.presentation.util.formatCurrency
 import com.example.luxeval.presentation.util.formatDate
 import kotlinx.datetime.Instant
@@ -104,8 +105,8 @@ fun ReportPreviewScreen(
 private fun LetterheadSection(business: ReportBusinessInfo) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
         business.logoPath?.let { path ->
-            AsyncImage(
-                model = path,
+            PhotoImage(
+                photoUri = path,
                 contentDescription = "Business logo",
                 modifier = Modifier.size(64.dp).clip(RoundedCornerShape(8.dp))
             )
