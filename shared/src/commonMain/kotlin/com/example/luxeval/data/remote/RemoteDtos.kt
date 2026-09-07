@@ -7,6 +7,7 @@ import kotlinx.serialization.json.JsonElement
 @Serializable
 data class RemoteClient(
     val id: String,
+    @SerialName("user_id") val userId: String,
     val name: String,
     val phone: String? = null,
     val email: String? = null,
@@ -16,6 +17,7 @@ data class RemoteClient(
 @Serializable
 data class RemoteAppraisal(
     val id: String,
+    @SerialName("user_id") val userId: String,
     @SerialName("document_id") val documentId: String,
     @SerialName("client_id") val clientId: String? = null,
     val title: String? = null,
@@ -43,6 +45,7 @@ data class RemoteBusinessProfile(
 @Serializable
 data class RemoteItem(
     val id: String,
+    @SerialName("user_id") val userId: String,
     @SerialName("appraisal_id") val appraisalId: String,
     @SerialName("item_name") val itemName: String,
     val category: String,

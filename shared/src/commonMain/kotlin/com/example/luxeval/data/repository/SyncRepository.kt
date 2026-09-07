@@ -8,6 +8,7 @@ import com.example.luxeval.data.remote.detailsToJson
 import com.example.luxeval.data.remote.toDomain
 import com.example.luxeval.domain.*
 import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.postgrest.query.Columns
 import kotlinx.coroutines.CoroutineScope
@@ -30,10 +31,11 @@ class SyncRepository(
     private val itemRepository: ItemRepository
 ) {
     private val syncScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
-
+    private fun currentUserIdOrNull(): String? = supabase.auth.currentUserOrNull()?.id
     // ───────────────────────────── Push (create/update) ─────────────────────────
 
     fun pushClientAsync(client: Client) = syncScope.launch {
+        val userId = currentUserIdOrNull() ?: return@launch
         runCatching {
             supabase.postgrest.from("clients").upsert(
                 RemoteClient(
@@ -41,13 +43,15 @@ class SyncRepository(
                     name = client.name,
                     phone = client.phone,
                     email = client.email,
-                    address = client.address
+                    address = client.address,
+                    userId = userId
                 )
             )
         }
     }
 
     fun pushAppraisalAsync(appraisal: Appraisal) = syncScope.launch {
+        val userId = currentUserIdOrNull() ?: return@launch
         runCatching {
             supabase.postgrest.from("appraisals").upsert(
                 RemoteAppraisal(
@@ -60,13 +64,15 @@ class SyncRepository(
                     internalNotes = appraisal.internalNotes,
                     appraisalDate = appraisal.appraisalDate,
                     createdAt = appraisal.createdAt,
-                    updatedAt = appraisal.updatedAt
+                    updatedAt = appraisal.updatedAt,
+                    userId = userId
                 )
             )
         }
     }
 
     fun pushItemAsync(item: AppraisalItem) = syncScope.launch {
+        val userId = currentUserIdOrNull() ?: return@launch
         runCatching {
             supabase.postgrest.from("items").upsert(
                 RemoteItem(
@@ -86,7 +92,8 @@ class SyncRepository(
                     notes = item.notes,
                     createdAt = item.createdAt,
                     updatedAt = item.updatedAt,
-                    details = item.detailsToJson()
+                    details = item.detailsToJson(),
+                    userId = userId
                 )
             )
         }

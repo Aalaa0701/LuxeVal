@@ -6,6 +6,7 @@ import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
 import androidx.room.TypeConverters
 import com.example.luxeval.data.ListStringConverters
+import com.example.luxeval.data.database.daos.AppDao
 import com.example.luxeval.data.database.daos.AppraisalDao
 import com.example.luxeval.data.database.daos.ClientDao
 import com.example.luxeval.data.database.daos.ItemDao
@@ -46,6 +47,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun itemDao(): ItemDao
     abstract fun clientDao(): ClientDao
     abstract fun appraisalDao(): AppraisalDao
+    abstract fun appDao(): AppDao
 }
 
 expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase> {

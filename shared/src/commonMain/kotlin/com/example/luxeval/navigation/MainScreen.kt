@@ -17,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.luxeval.data.repository.AuthRepository
+import com.example.luxeval.data.repository.SessionRepository
 import com.example.luxeval.presentation.appraisalsList.AppraisalsListScreen
 import com.example.luxeval.presentation.appraisalsList.AppraisalsListViewModel
 import com.example.luxeval.presentation.dashboard.DashboardScreen
@@ -92,12 +93,12 @@ fun MainScreen(outerNavController: NavHostController) {
             }
             composable<Settings> {
                 val viewModel: SettingsViewModel = koinViewModel()
-                val authRepository: AuthRepository = koinInject()
+                val sessionRepository: SessionRepository = koinInject()
                 val scope = rememberCoroutineScope()
                 SettingsScreen(
                     viewModel = viewModel,
                     onNavigateToBusinessProfile = { outerNavController.navigate(BusinessProfile) },
-                    onLogOut = { scope.launch { authRepository.signOut() } }
+                    onLogOut = { scope.launch { sessionRepository.signOutAndClearLocalData() } }
                 )
             }
             composable<Search> {
