@@ -26,6 +26,19 @@ data class RemoteAppraisal(
     @SerialName("created_at") val createdAt: Long,
     @SerialName("updated_at") val updatedAt: Long
 )
+@Serializable
+data class RemoteBusinessProfile(
+    @SerialName("user_id") val userId: String,
+    @SerialName("business_name") val businessName: String? = null,
+    @SerialName("license_number") val licenseNumber: String? = null,
+    @SerialName("business_address") val businessAddress: String? = null,
+    @SerialName("business_phone") val businessPhone: String? = null,
+    @SerialName("logo_uri") val logoUri: String? = null,
+    @SerialName("signature_uri") val signatureUri: String? = null,
+    @SerialName("currency_code") val currencyCode: String? = null,
+    @SerialName("measurement_unit") val measurementUnit: String? = null,
+    @SerialName("updated_at") val updatedAt: Long
+)
 
 @Serializable
 data class RemoteItem(

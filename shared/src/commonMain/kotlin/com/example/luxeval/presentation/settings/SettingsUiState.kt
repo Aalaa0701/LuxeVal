@@ -2,6 +2,7 @@ package com.example.luxeval.presentation.settings
 
 
 import com.example.luxeval.data.MeasurementUnit
+import com.example.luxeval.data.ThemeMode
 
 data class SettingsUiState(
     val businessName: String = "",
@@ -13,5 +14,8 @@ data class SettingsUiState(
     val currencyCode: String = "USD",
     val measurementUnit: MeasurementUnit = MeasurementUnit.METRIC,
     val languageCode: String = "en",
-    val isDarkModeEnabled: Boolean = false
+    val themeMode: ThemeMode = ThemeMode.SYSTEM,
+    val isUploadingLogo: Boolean = false,
+    val isUploadingSignature: Boolean = false,
+    val uploadError: String? = null
 )

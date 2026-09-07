@@ -5,6 +5,7 @@ import com.example.luxeval.data.repository.AppraisalRepository
 import com.example.luxeval.data.AppraiserProfileStore
 import com.example.luxeval.data.AppSettingsStore
 import com.example.luxeval.data.repository.AuthRepository
+import com.example.luxeval.data.repository.BusinessProfileRepository
 import com.example.luxeval.data.repository.ClientRepository
 import com.example.luxeval.data.repository.ItemRepository
 import com.example.luxeval.data.repository.PhotoRepository
@@ -23,7 +24,7 @@ val repositoryModule = module {
     single { AppraiserProfileStore(get()) }
     single { AppSettingsStore(get()) }
     single { ThemeController(get()) }
-    // RepositoryModule.kt
+    single { BusinessProfileRepository(get(), get(), get(), get()) }
     single { PhotoRepository(get(), get()) }
     single { SyncRepository(get(), get(), get(), get()) }
 }

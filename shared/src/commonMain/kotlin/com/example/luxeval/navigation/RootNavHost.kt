@@ -3,6 +3,7 @@ package com.example.luxeval.navigation
 import androidx.compose.runtime.*
 import com.example.luxeval.data.repository.AuthRepository
 import com.example.luxeval.data.repository.AuthState
+import com.example.luxeval.data.repository.BusinessProfileRepository
 import com.example.luxeval.data.repository.SyncRepository
 import com.example.luxeval.presentation.splash.SplashScreen
 import kotlinx.coroutines.delay
@@ -27,7 +28,11 @@ fun RootNavHost() {
                 SplashScreen()
             } else {
                 val syncRepository: SyncRepository = koinInject()
-                LaunchedEffect(state.userId) { syncRepository.pullAll() }
+                val businessProfileRepository: BusinessProfileRepository = koinInject()
+                LaunchedEffect(state.userId) {
+                    syncRepository.pullAll()
+                    businessProfileRepository.pullRemote()
+                }
                 AppNavHost()
             }
         }

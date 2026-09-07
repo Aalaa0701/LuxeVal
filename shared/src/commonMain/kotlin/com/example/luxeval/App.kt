@@ -3,6 +3,7 @@ package com.example.luxeval
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.luxeval.data.ThemeMode
 import com.example.luxeval.navigation.AppNavHost
 import com.example.luxeval.navigation.RootNavHost
 import com.example.luxeval.presentation.theme.LuxeValTheme
@@ -31,8 +33,20 @@ fun App(onReady: () -> Unit = {}) {
     val themeController: ThemeController = koinInject()
     val isDarkTheme by themeController.isDarkTheme.collectAsState()
 
-    LuxeValTheme(darkTheme = isDarkTheme) {
+//    LuxeValTheme(darkTheme = isDarkTheme) {
+//        RootNavHost()
+////        initImageLoader(context = )
+//    }
+    val themeMode by themeController.themeMode.collectAsState()
+    val systemDark = isSystemInDarkTheme()
+
+    val darkTheme = when (themeMode) {
+        ThemeMode.SYSTEM -> systemDark
+        ThemeMode.LIGHT -> false
+        ThemeMode.DARK -> true
+    }
+
+    LuxeValTheme(darkTheme = darkTheme) {
         RootNavHost()
-//        initImageLoader(context = )
     }
 }

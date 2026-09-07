@@ -3,7 +3,7 @@ package com.example.luxeval.data
 import com.russhwolf.settings.Settings
 
 enum class MeasurementUnit { METRIC, IMPERIAL }
-
+enum class ThemeMode { SYSTEM, LIGHT, DARK }
 class AppSettingsStore(private val settings: Settings) {
     fun getCurrencyCode(): String = settings.getString("currency_code", "USD")
     fun setCurrencyCode(value: String) = settings.putString("currency_code", value)
@@ -12,6 +12,9 @@ class AppSettingsStore(private val settings: Settings) {
         MeasurementUnit.valueOf(settings.getString("measurement_unit", MeasurementUnit.METRIC.name))
     fun setMeasurementUnit(value: MeasurementUnit) = settings.putString("measurement_unit", value.name)
 
+    fun getThemeMode(): ThemeMode =
+        ThemeMode.valueOf(settings.getString("theme_mode", ThemeMode.SYSTEM.name))
+    fun setThemeMode(value: ThemeMode) = settings.putString("theme_mode", value.name)
     fun getLanguageCode(): String = settings.getString("language_code", "en")
     fun setLanguageCode(value: String) = settings.putString("language_code", value)
     fun getRememberedEmail(): String? = settings.getStringOrNull("remembered_email")

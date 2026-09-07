@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.luxeval.data.MeasurementUnit
+import com.example.luxeval.data.ThemeMode
 import com.example.luxeval.presentation.photo.rememberPhotoPickerLauncher
 import com.example.luxeval.presentation.theme.LuxeShapes
 import com.example.luxeval.presentation.theme.LuxeSpacing
@@ -28,8 +29,6 @@ import luxeval.shared.generated.resources.ic_signature
 import luxeval.shared.generated.resources.ic_theme
 import org.jetbrains.compose.resources.painterResource
 
-// (label, code) pairs — no dedicated globe/language icon exists in your drawable
-// set yet, so the Language row reuses ic_info below. Swap in a real icon later.
 private val supportedLanguages = listOf(
     "en" to "English",
     "ar" to "العربية (Arabic)",
@@ -40,6 +39,13 @@ private val supportedLanguages = listOf(
 private fun String.toLanguageLabel(): String =
     supportedLanguages.firstOrNull { it.first == this }?.second ?: this
 
+private fun ThemeMode.label(): String = when (this) {
+    ThemeMode.SYSTEM -> "System Default"
+    ThemeMode.LIGHT -> "Light"
+    ThemeMode.DARK -> "Dark"
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel,
@@ -50,8 +56,17 @@ fun SettingsScreen(
     var showCurrencyPicker by remember { mutableStateOf(false) }
     var showUnitPicker by remember { mutableStateOf(false) }
     var showLanguagePicker by remember { mutableStateOf(false) }
+    var showThemePicker by remember { mutableStateOf(false) }
     var showLogOutConfirm by remember { mutableStateOf(false) }
     var showAboutDialog by remember { mutableStateOf(false) }
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    LaunchedEffect(uiState.uploadError) {
+        uiState.uploadError?.let { message ->
+            snackbarHostState.showSnackbar("Upload failed: $message")
+            viewModel.dismissUploadError()
+        }
+    }
 
     val logoPickerLauncher = rememberPhotoPickerLauncher { paths ->
         paths.firstOrNull()?.let { viewModel.onLogoPathChanged(it) }
@@ -60,7 +75,10 @@ fun SettingsScreen(
         paths.firstOrNull()?.let { viewModel.onSignaturePathChanged(it) }
     }
 
-    Scaffold(topBar = { LuxeTopBar() }) { padding ->
+    Scaffold(
+        topBar = { LuxeTopBar() },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
+    ) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
             contentPadding = PaddingValues(LuxeSpacing.md),
@@ -88,13 +106,23 @@ fun SettingsScreen(
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_image),
                         title = "Brand Logo",
-                        subtitle = if (uiState.logoPath != null) "Logo set" else "Update report branding",
+                        subtitle = when {
+                            uiState.isUploadingLogo -> "Uploading..."
+                            uiState.logoPath != null -> "Logo set"
+                            else -> "Update report branding"
+                        },
+                        isLoading = uiState.isUploadingLogo,
                         onClick = { logoPickerLauncher.launch() }
                     )
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_signature),
                         title = "Digital Signature",
-                        subtitle = if (uiState.signaturePath != null) "Signature set" else "Manage appraisal signatures",
+                        subtitle = when {
+                            uiState.isUploadingSignature -> "Uploading..."
+                            uiState.signaturePath != null -> "Signature set"
+                            else -> "Manage appraisal signatures"
+                        },
+                        isLoading = uiState.isUploadingSignature,
                         onClick = { signaturePickerLauncher.launch() }
                     )
                 }
@@ -120,12 +148,11 @@ fun SettingsScreen(
                         subtitle = uiState.languageCode.toLanguageLabel(),
                         onClick = { showLanguagePicker = true }
                     )
-                    SettingsToggleRow(
+                    SettingsRow(
                         icon = painterResource(Res.drawable.ic_theme),
-                        title = "Dark Mode",
-                        subtitle = "System default",
-                        checked = uiState.isDarkModeEnabled,
-                        onCheckedChange = viewModel::onDarkModeChanged
+                        title = "Theme",
+                        subtitle = uiState.themeMode.label(),
+                        onClick = { showThemePicker = true }
                     )
                 }
             }
@@ -169,6 +196,13 @@ fun SettingsScreen(
             current = uiState.languageCode,
             onSelected = { viewModel.onLanguageChanged(it); showLanguagePicker = false },
             onDismiss = { showLanguagePicker = false }
+        )
+    }
+    if (showThemePicker) {
+        ThemePickerSheet(
+            current = uiState.themeMode,
+            onSelected = { viewModel.onThemeModeChanged(it); showThemePicker = false },
+            onDismiss = { showThemePicker = false }
         )
     }
     if (showLogOutConfirm) {
@@ -273,6 +307,35 @@ private fun LanguagePickerSheet(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ThemePickerSheet(
+    current: ThemeMode,
+    onSelected: (ThemeMode) -> Unit,
+    onDismiss: () -> Unit
+) {
+    val options = listOf(
+        Triple(ThemeMode.SYSTEM, "System Default", "Matches your device's appearance setting"),
+        Triple(ThemeMode.LIGHT, "Light", "Always use light mode"),
+        Triple(ThemeMode.DARK, "Dark", "Always use dark mode")
+    )
+    ModalBottomSheet(onDismissRequest = onDismiss) {
+        Column(Modifier.padding(LuxeSpacing.md)) {
+            Text("Theme", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.height(LuxeSpacing.sm))
+            options.forEach { (mode, label, description) ->
+                ListItem(
+                    headlineContent = { Text(label) },
+                    supportingContent = { Text(description) },
+                    trailingContent = { RadioButton(selected = mode == current, onClick = { onSelected(mode) }) },
+                    modifier = Modifier.clickable { onSelected(mode) }
+                )
+            }
+            Spacer(Modifier.height(LuxeSpacing.md))
+        }
+    }
+}
+
 @Composable
 private fun SettingsSection(title: String?, content: @Composable ColumnScope.() -> Unit) {
     Column {
@@ -290,40 +353,32 @@ private fun SettingsSection(title: String?, content: @Composable ColumnScope.() 
     }
 }
 
+/** `isLoading` swaps the trailing chevron for a small spinner and disables
+ *  the row's click — same visual language as ValuationSection's
+ *  isFetchingPrice indicator elsewhere in the app. */
 @Composable
 private fun SettingsRow(
     icon: Painter,
     title: String,
     subtitle: String?,
     titleColor: Color = MaterialTheme.colorScheme.onSurface,
+    isLoading: Boolean = false,
     onClick: () -> Unit
 ) {
     ListItem(
-        modifier = Modifier.clickable(onClick = onClick),
+        modifier = Modifier.clickable(enabled = !isLoading, onClick = onClick),
         leadingContent = {
             Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
         },
         headlineContent = { Text(title, color = titleColor, fontWeight = FontWeight.Medium) },
         supportingContent = subtitle?.let { { Text(it) } },
         trailingContent = {
-            Icon(painterResource(Res.drawable.ic_arrow_forward), contentDescription = null)
+            if (isLoading) {
+                CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
+            } else {
+                Icon(painterResource(Res.drawable.ic_arrow_forward), contentDescription = null)
+            }
         }
-    )
-}
-
-@Composable
-private fun SettingsToggleRow(
-    icon: Painter,
-    title: String,
-    subtitle: String,
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit
-) {
-    ListItem(
-        leadingContent = { Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
-        headlineContent = { Text(title, fontWeight = FontWeight.Medium) },
-        supportingContent = { Text(subtitle) },
-        trailingContent = { Switch(checked = checked, onCheckedChange = onCheckedChange) }
     )
 }
 
