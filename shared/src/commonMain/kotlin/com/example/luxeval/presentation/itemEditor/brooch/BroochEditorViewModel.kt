@@ -4,6 +4,7 @@ package com.example.luxeval.presentation.itemEditor.brooch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.luxeval.data.repository.ItemRepository
+import com.example.luxeval.data.repository.PhotoRepository
 import com.example.luxeval.data.repository.PricingRepository
 import com.example.luxeval.data.repository.SyncRepository
 import com.example.luxeval.domain.*
@@ -22,7 +23,8 @@ class BroochEditorViewModel(
     private val itemRepository: ItemRepository,
     private val photoStorage: PhotoStorage,
     private val pricingRepository: PricingRepository,
-    private val syncRepository: SyncRepository
+    private val syncRepository: SyncRepository,
+    private val photoRepository: PhotoRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(BroochEditorUiState())
@@ -37,6 +39,13 @@ class BroochEditorViewModel(
             } else {
                 _uiState.value.copy(isLoading = false, isNewItem = true)
             }
+        }
+    }
+    fun removePhoto(uri: String) {
+        _uiState.value = _uiState.value.copy(photoUris = _uiState.value.photoUris - uri)
+        viewModelScope.launch {
+            if (uri.startsWith("supabase://")) photoRepository.deletePhoto(uri)
+            else photoStorage.deleteImage(uri)
         }
     }
     fun onEstimatedValueChanged(v: String) {
@@ -63,10 +72,10 @@ class BroochEditorViewModel(
     fun update(transform: (BroochEditorUiState) -> BroochEditorUiState) {
         _uiState.value = transform(_uiState.value)
     }
-    fun removePhoto(uri: String) {
-        _uiState.value = _uiState.value.copy(photoUris = _uiState.value.photoUris - uri)
-        viewModelScope.launch { photoStorage.deleteImage(uri) }
-    }
+//    fun removePhoto(uri: String) {
+//        _uiState.value = _uiState.value.copy(photoUris = _uiState.value.photoUris - uri)
+//        viewModelScope.launch { photoStorage.deleteImage(uri) }
+//    }
     fun save(onSaved: () -> Unit) {
         val state = _uiState.value
         if (!state.canSave) return

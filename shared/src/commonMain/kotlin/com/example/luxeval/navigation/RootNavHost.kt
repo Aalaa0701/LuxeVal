@@ -32,6 +32,7 @@ fun RootNavHost() {
                 LaunchedEffect(state.userId) {
                     syncRepository.pullAll()
                     businessProfileRepository.pullRemote()
+                    syncRepository.retryOutbox()
                 }
                 AppNavHost()
             }

@@ -10,6 +10,8 @@ import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -48,10 +50,15 @@ actual fun rememberPhotoPickerLauncher(onPhotosPicked: (List<String>) -> Unit): 
 actual class PhotoStorage(private val context: Context) {
     actual suspend fun saveImage(bytes: ByteArray, extension: String): String =
         withContext(Dispatchers.IO) {
+            val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+            val scaled = scaleDown(bitmap, maxDimension = 1600)
             val dir = File(context.filesDir, "photos").apply { mkdirs() }
             @OptIn(kotlin.uuid.ExperimentalUuidApi::class)
-            val file = File(dir, "${Uuid.random()}.$extension")
-            file.writeBytes(bytes)
+            val file = File(dir, "${Uuid.random()}.jpg")   // always jpg — see #2 orphan fix
+            file.outputStream().use { out ->
+                scaled.compress(Bitmap.CompressFormat.JPEG, 80, out)
+            }
+            bitmap.recycle(); if (scaled !== bitmap) scaled.recycle()
             file.absolutePath
         }
 
@@ -62,5 +69,9 @@ actual class PhotoStorage(private val context: Context) {
     // PhotoPicker.android.kt
     actual suspend fun readImage(path: String): ByteArray =
         withContext(Dispatchers.IO) { File(path).readBytes() }
-
+    private fun scaleDown(bitmap: Bitmap, maxDimension: Int): Bitmap {
+        val ratio = maxDimension.toFloat() / maxOf(bitmap.width, bitmap.height)
+        if (ratio >= 1f) return bitmap
+        return Bitmap.createScaledBitmap(bitmap, (bitmap.width * ratio).toInt(), (bitmap.height * ratio).toInt(), true)
+    }
 }

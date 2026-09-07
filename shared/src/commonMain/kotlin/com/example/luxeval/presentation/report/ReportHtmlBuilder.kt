@@ -50,6 +50,7 @@ object ReportHtmlBuilder {
         <div class="closing-section">
             ${totalHtml(uiState)}
             ${signatureHtml(b)}
+            ${disclaimerHtml()}
         </div>
     </body>
     </html>
@@ -215,6 +216,14 @@ object ReportHtmlBuilder {
         """.trimIndent()
     }
 
+    private fun disclaimerHtml(): String = """
+    <div class="disclaimer" style="margin-top:24px; font-size:10px; color:#74777D; border-top:1px solid #C4C6CD; padding-top:12px;">
+        This appraisal represents the professional opinion of the undersigned appraiser as of the date shown above,
+        based on visual inspection and the information provided. It is not a guarantee of sale price, insurance payout,
+        or future value, and market conditions may cause actual value to differ. This report is intended solely for the
+        stated purpose and named client and should not be relied upon by any other party.
+    </div>
+""".trimIndent()
     private fun totalHtml(total: Double, currencyCode: String): String = """
         <div class="total-box">
             <span class="total-label">Total Appraised Value</span>

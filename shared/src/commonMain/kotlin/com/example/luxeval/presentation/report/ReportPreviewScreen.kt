@@ -313,6 +313,15 @@ private fun SignatureSection(business: ReportBusinessInfo) {
         }
         Text(business.businessName.ifBlank { "Appraiser" }, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
         Text("Certified Appraiser", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(
+            text = "This appraisal represents the professional opinion of the undersigned appraiser as of the date shown above, based on visual inspection and the information provided. It is not a guarantee of sale price, insurance payout, or future value, and market conditions may cause actual value to differ. This report is intended solely for the stated purpose and named client and should not be relied upon by any other party.",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 24.dp)
+        )
+
     }
 }
 

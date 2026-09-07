@@ -93,6 +93,7 @@ class PhotoRepository(
         val (bucket, path) = parseUri(uri)
         runCatching { supabase.storage.from(bucket).delete(path) }
     }
+
     private fun parseUri(uri: String): Pair<String, String> {
         val rest = uri.removePrefix("supabase://")
 

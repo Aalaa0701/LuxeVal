@@ -25,6 +25,6 @@ fun androidModule(context: Context) = module {
     single { FileSharer(context) }
     single { PdfExporter(context) }
     // di/AndroidModule.kt — add
-    single { ConnectivityObserver(androidContext()) }
+    single { ConnectivityObserver(context) }
 
 }

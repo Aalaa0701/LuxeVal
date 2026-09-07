@@ -72,7 +72,7 @@ class ReportPreviewViewModel(
             println("exportPdf: isExporting set true, uiState now = ${_uiState.value.isExporting}")
             try {
                 val stateWithResolvedUrls = resolveAllPhotoUrls(uiState.value)
-                val html = ReportHtmlBuilder.build(uiState.value)
+                val html = ReportHtmlBuilder.build(stateWithResolvedUrls)   // use the resolved state
                 println("exportPdf: html built, length=${html.length}")
                 val fileName = "${uiState.value.appraisal?.documentId ?: "report"}.pdf"
                 val path = withTimeout(15_000) {
@@ -95,11 +95,14 @@ class ReportPreviewViewModel(
     }
     private suspend fun resolveAllPhotoUrls(state: ReportPreviewUiState): ReportPreviewUiState {
         val resolvedItems = state.items.map { row ->
-            row.copy(item = row.item.withPhotoUris(row.item.photoUris.map { photoRepository.resolveUrl(it) }))
+            val resolvedUris = row.item.photoUris.mapNotNull { uri ->
+                runCatching { photoRepository.resolveUrl(uri) }.getOrNull()
+            }
+            row.copy(item = row.item.withPhotoUris(resolvedUris))
         }
         val resolvedBusiness = state.business.copy(
-            logoPath = state.business.logoPath?.let { photoRepository.resolveUrl(it) },
-            signaturePath = state.business.signaturePath?.let { photoRepository.resolveUrl(it) }
+            logoPath = state.business.logoPath?.let { runCatching { photoRepository.resolveUrl(it) }.getOrNull() },
+            signaturePath = state.business.signaturePath?.let { runCatching { photoRepository.resolveUrl(it) }.getOrNull() }
         )
         return state.copy(items = resolvedItems, business = resolvedBusiness)
     }

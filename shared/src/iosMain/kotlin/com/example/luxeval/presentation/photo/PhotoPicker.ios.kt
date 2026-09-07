@@ -14,6 +14,7 @@ import kotlin.uuid.Uuid
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.uikit.LocalUIViewController
+import dev.whyoleg.cryptography.providers.base.toNSData
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.koin.compose.koinInject
@@ -103,6 +104,9 @@ actual fun rememberPhotoPickerLauncher(onPhotosPicked: (List<String>) -> Unit): 
 @OptIn(ExperimentalForeignApi::class)
 actual class PhotoStorage {
     actual suspend fun saveImage(bytes: ByteArray, extension: String): String {
+//        val image = UIImage(data = bytes.toNSData())
+//        val resized = image.resized(maxDimension = 1600.0)
+//        val jpegData = UIImageJPEGRepresentation(resized, 0.8) ?: bytes.toNSData()
         val docsDir = requireNotNull(
             NSFileManager.defaultManager
                 .URLsForDirectory(NSDocumentDirectory, NSUserDomainMask)

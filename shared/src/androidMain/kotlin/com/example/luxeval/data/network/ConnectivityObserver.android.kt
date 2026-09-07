@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 
 actual class ConnectivityObserver(private val context: Context) {
+    // ConnectivityObserver.android.kt
 
     actual fun observe(): Flow<ConnectionStatus> = callbackFlow {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -40,12 +41,15 @@ actual class ConnectivityObserver(private val context: Context) {
 
         awaitClose { connectivityManager.unregisterNetworkCallback(callback) }
     }.distinctUntilChanged()
-
     private fun currentStatus(cm: ConnectivityManager): ConnectionStatus {
-        val network = cm.activeNetwork ?: return ConnectionStatus.UNAVAILABLE
-        val capabilities = cm.getNetworkCapabilities(network) ?: return ConnectionStatus.UNAVAILABLE
-        val hasInternet = capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-                capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-        return if (hasInternet) ConnectionStatus.AVAILABLE else ConnectionStatus.UNAVAILABLE
+        return try {
+            val network = cm.activeNetwork ?: return ConnectionStatus.UNAVAILABLE
+            val capabilities = cm.getNetworkCapabilities(network) ?: return ConnectionStatus.UNAVAILABLE
+            val hasInternet = capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                    capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+            if (hasInternet) ConnectionStatus.AVAILABLE else ConnectionStatus.UNAVAILABLE
+        } catch (e: SecurityException) {
+            ConnectionStatus.UNAVAILABLE   // fail closed — outbox just won't auto-retry until app restart / pull-to-refresh
+        }
     }
 }
