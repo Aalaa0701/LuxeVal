@@ -10,6 +10,7 @@ import com.example.luxeval.data.database.daos.AppDao
 import com.example.luxeval.data.database.daos.AppraisalDao
 import com.example.luxeval.data.database.daos.ClientDao
 import com.example.luxeval.data.database.daos.ItemDao
+import com.example.luxeval.data.database.daos.SyncOutboxDao
 import com.example.luxeval.data.database.entities.AppraisalEntity
 import com.example.luxeval.data.database.entities.BraceletDetailsEntity
 import com.example.luxeval.data.database.entities.BroochDetailsEntity
@@ -21,6 +22,7 @@ import com.example.luxeval.data.database.entities.NecklaceDetailsEntity
 import com.example.luxeval.data.database.entities.PearlDetailsEntity
 import com.example.luxeval.data.database.entities.PendantDetailsEntity
 import com.example.luxeval.data.database.entities.RingDetailsEntity
+import com.example.luxeval.data.database.entities.SyncOutboxEntity
 import com.example.luxeval.data.database.entities.WatchDetailsEntity
 
 @Database(
@@ -37,8 +39,9 @@ import com.example.luxeval.data.database.entities.WatchDetailsEntity
         PearlDetailsEntity::class,
         WatchDetailsEntity::class,
         LooseGemstoneDetailsEntity::class,
+        SyncOutboxEntity::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 @TypeConverters(ListStringConverters::class)
@@ -47,6 +50,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun itemDao(): ItemDao
     abstract fun clientDao(): ClientDao
     abstract fun appraisalDao(): AppraisalDao
+    abstract fun syncOutboxDao(): SyncOutboxDao
     abstract fun appDao(): AppDao
 }
 

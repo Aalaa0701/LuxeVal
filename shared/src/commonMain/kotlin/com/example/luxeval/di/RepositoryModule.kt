@@ -4,6 +4,7 @@ package com.example.luxeval.di
 import com.example.luxeval.data.repository.AppraisalRepository
 import com.example.luxeval.data.AppraiserProfileStore
 import com.example.luxeval.data.AppSettingsStore
+import com.example.luxeval.data.database.AppDatabase
 import com.example.luxeval.data.repository.AuthRepository
 import com.example.luxeval.data.repository.BusinessProfileRepository
 import com.example.luxeval.data.repository.ClientRepository
@@ -28,8 +29,9 @@ val repositoryModule = module {
     single { ThemeController(get()) }
     single { BusinessProfileRepository(get(), get(), get(), get()) }
     single { PhotoRepository(get(), get()) }
-    single { SyncRepository(get(), get(), get(), get()) }
+    single { SyncRepository(get(), get(), get(), get(), get(), get()) }
     single { DeleteAppraisalUseCase(get(), get(), get()) }
-    single { SessionRepository(get(), get(), get()) }
+    single { SessionRepository(get(), get(), get(), ) }
+    single { get<AppDatabase>().syncOutboxDao() }
 
 }

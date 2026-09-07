@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,102 +29,110 @@ fun AppraisalsListScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var showIncompleteProfileDialog by remember { mutableStateOf(false) }
+    val isRefreshing by viewModel.isRefreshing.collectAsState()
 
     Scaffold(topBar = { LuxeTopBar() }) { padding ->
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(padding),
-            contentPadding = PaddingValues(LuxeSpacing.md),
-            verticalArrangement = Arrangement.spacedBy(LuxeSpacing.md)
-        ) {
-            item {
-                Column {
-                    Text("Appraisals", style = MaterialTheme.typography.displayLarge, fontWeight = FontWeight.Bold)
-                    Spacer(Modifier.height(8.dp))
-                    Text(
-                        "Manage and review your valuation portfolio.",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+        PullToRefreshBox(
+            isRefreshing = isRefreshing,
+            onRefresh = { viewModel.onPullToRefresh() },
+            modifier = Modifier.fillMaxSize().padding(padding)
+        ){
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().padding(padding),
+                contentPadding = PaddingValues(LuxeSpacing.md),
+                verticalArrangement = Arrangement.spacedBy(LuxeSpacing.md)
+            ) {
+                item {
+                    Column {
+                        Text("Appraisals", style = MaterialTheme.typography.displayLarge, fontWeight = FontWeight.Bold)
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            "Manage and review your valuation portfolio.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
-            }
 
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.sm),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    FilledTonalButton(
-                        onClick = {
+                item {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.sm),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        FilledTonalButton(
+                            onClick = {
+                                viewModel.createDraftAndGetId(
+                                    onCreated = onOpenAppraisal,
+                                    onProfileIncomplete = { showIncompleteProfileDialog = true }
+                                )
+                            },
+                            colors = ButtonDefaults.filledTonalButtonColors(
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary
+                            ),
+                            shape = RoundedCornerShape(6.dp))
+                        {
+                            Icon(painterResource(Res.drawable.ic_add), contentDescription = null, modifier = Modifier.size(18.dp))
+                            Spacer(Modifier.width(4.dp))
+                            Text("New Appraisal")
+                        }
+                    }
+                }
+
+                item {
+                    Row(horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
+                        AppraisalFilter.entries.forEach { filter ->
+                            FilterChip(
+                                selected = uiState.filter == filter,
+                                onClick = { viewModel.onFilterChanged(filter) },
+                                label = { Text(filter.label()) },
+                                shape = RoundedCornerShape(12.dp),
+                                colors = FilterChipDefaults.filterChipColors(
+                                    containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                                    labelColor = MaterialTheme.colorScheme.onSurface,
+                                    selectedContainerColor = MaterialTheme.colorScheme.primary,
+                                    selectedLabelColor = MaterialTheme.colorScheme.onPrimary
+                                ),
+                            )
+                        }
+                    }
+                }
+
+                item {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text("Sort by", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        SortDropdown(current = uiState.sort, onSelected = viewModel::onSortChanged)
+                    }
+                }
+
+                if (uiState.isLoading) {
+                    item {
+                        Box(Modifier.fillMaxWidth().padding(LuxeSpacing.xl), contentAlignment = Alignment.Center) {
+                            CircularProgressIndicator()
+                        }
+                    }
+                } else if (uiState.cards.isEmpty()) {
+                    item {
+                        EmptyAppraisalsState(onCreate = {
                             viewModel.createDraftAndGetId(
                                 onCreated = onOpenAppraisal,
                                 onProfileIncomplete = { showIncompleteProfileDialog = true }
                             )
-                        },
-                        colors = ButtonDefaults.filledTonalButtonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                        ),
-                        shape = RoundedCornerShape(6.dp))
-                    {
-                        Icon(painterResource(Res.drawable.ic_add), contentDescription = null, modifier = Modifier.size(18.dp))
-                        Spacer(Modifier.width(4.dp))
-                        Text("New Appraisal")
+                        })
                     }
-                }
-            }
-
-            item {
-                Row(horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
-                    AppraisalFilter.entries.forEach { filter ->
-                        FilterChip(
-                            selected = uiState.filter == filter,
-                            onClick = { viewModel.onFilterChanged(filter) },
-                            label = { Text(filter.label()) },
-                            shape = RoundedCornerShape(12.dp),
-                            colors = FilterChipDefaults.filterChipColors(
-                                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                                labelColor = MaterialTheme.colorScheme.onSurface,
-                                selectedContainerColor = MaterialTheme.colorScheme.primary,
-                                selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                            ),
-                        )
+                } else {
+                    items(uiState.cards, key = { it.appraisal.id }) { card ->
+                        AppraisalCardView(card = card, onClick = { onOpenAppraisal(card.appraisal.id) })
                     }
-                }
-            }
-
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text("Sort by", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    SortDropdown(current = uiState.sort, onSelected = viewModel::onSortChanged)
-                }
-            }
-
-            if (uiState.isLoading) {
-                item {
-                    Box(Modifier.fillMaxWidth().padding(LuxeSpacing.xl), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
-                    }
-                }
-            } else if (uiState.cards.isEmpty()) {
-                item {
-                    EmptyAppraisalsState(onCreate = {
-                        viewModel.createDraftAndGetId(
-                            onCreated = onOpenAppraisal,
-                            onProfileIncomplete = { showIncompleteProfileDialog = true }
-                        )
-                    })
-                }
-            } else {
-                items(uiState.cards, key = { it.appraisal.id }) { card ->
-                    AppraisalCardView(card = card, onClick = { onOpenAppraisal(card.appraisal.id) })
                 }
             }
         }
+
     }
     if (showIncompleteProfileDialog) {
         AlertDialog(

@@ -27,6 +27,10 @@ class AppraisalsListViewModel(
 
     private val _uiState = MutableStateFlow(AppraisalsListUiState())
     val uiState: StateFlow<AppraisalsListUiState> = _uiState.asStateFlow()
+    private var allLoadedCards: List<AppraisalCard> = emptyList()
+
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
 
     init {
         combine(
@@ -54,9 +58,20 @@ class AppraisalsListViewModel(
             }
             .launchIn(viewModelScope)
     }
-
+    fun onPullToRefresh() {
+        if (_isRefreshing.value) return // don't stack concurrent refreshes
+        viewModelScope.launch {
+            _isRefreshing.value = true
+            try {
+                syncRepository.retryOutbox()   // push anything pending first
+                syncRepository.pullAll()       // then pull latest from remote
+            } finally {
+                _isRefreshing.value = false
+            }
+        }
+    }
     // Cached so filter/sort/search changes don't need to re-observe the DB.
-    private var allLoadedCards: List<AppraisalCard> = emptyList()
+
 
     fun onQueryChanged(value: String) {
         _uiState.value = _uiState.value.copy(query = value, cards = applyFilters(allLoadedCards, query = value))

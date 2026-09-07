@@ -116,27 +116,94 @@ fun ReportPreviewScreen(
     }
 }
 @Composable
-private fun TotalValueSection(total: Double, currencyCode: String, hasUnpriced: Boolean, unpricedCount: Int) {
-    Card(shape = LuxeShapes.md, colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(LuxeSpacing.md),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+private fun TotalValueSection(
+    total: Double,
+    currencyCode: String,
+    hasUnpriced: Boolean,
+    unpricedCount: Int
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = LuxeShapes.md,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    horizontal = LuxeSpacing.md,
+                    vertical = LuxeSpacing.lg
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            // Title
             Text(
-                if (hasUnpriced) "Total Appraised Value (Partial — $unpricedCount pending)" else "Total Appraised Value",
-                style = MaterialTheme.typography.titleMedium,
+                text = "TOTAL APPRAISED VALUE",
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
+
+            // Main value
+            Spacer(modifier = Modifier.height(LuxeSpacing.sm))
+
             Text(
-                formatCurrency(total, currencyCode),
-                style = MaterialTheme.typography.headlineSmall,
+                text = formatCurrency(total, currencyCode),
+                style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                maxLines = 1
             )
+
+            // Pending items information
+            if (hasUnpriced) {
+                Spacer(modifier = Modifier.height(LuxeSpacing.sm))
+
+                Text(
+                    text = "$unpricedCount item(s) pending",
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = "Partial total — excludes items without a value",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(
+                        alpha = 0.7f
+                    )
+                )
+            }
         }
     }
 }
+//@Composable
+//private fun TotalValueSection(total: Double, currencyCode: String, hasUnpriced: Boolean, unpricedCount: Int) {
+//    Card(shape = LuxeShapes.md, colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)) {
+//        Row(
+//            modifier = Modifier.fillMaxWidth().padding(LuxeSpacing.md),
+//            horizontalArrangement = Arrangement.SpaceBetween,
+//            verticalAlignment = Alignment.CenterVertically
+//        ) {
+//            Text(
+//                if (hasUnpriced) "Total Appraised Value (Partial — $unpricedCount pending)" else "Total Appraised Value",
+//                style = MaterialTheme.typography.titleMedium,
+//                color = MaterialTheme.colorScheme.onPrimaryContainer
+//            )
+//            Text(
+//                formatCurrency(total, currencyCode),
+//                style = MaterialTheme.typography.headlineSmall,
+//                fontWeight = FontWeight.Bold,
+//                color = MaterialTheme.colorScheme.onPrimaryContainer
+//            )
+//        }
+//    }
+//}
 @Composable
 private fun LetterheadSection(business: ReportBusinessInfo) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
@@ -227,25 +294,6 @@ private fun ItemReportCard(row: ReportItemRow, currencyCode: String) {
                     Text(formatCurrency(it, currencyCode), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.secondary)
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun TotalValueSection(total: Double, currencyCode: String) {
-    Card(shape = LuxeShapes.md, colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(LuxeSpacing.md),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text("Total Appraised Value", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onPrimaryContainer)
-            Text(
-                formatCurrency(total, currencyCode),
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
         }
     }
 }

@@ -1,11 +1,16 @@
+// data/repository/SyncRepository.kt
 package com.example.luxeval.data.repository
 
-
+import com.example.luxeval.data.database.daos.SyncOutboxDao
+import com.example.luxeval.data.database.entities.SyncOutboxEntity
+import com.example.luxeval.data.network.ConnectionStatus
+import com.example.luxeval.data.network.ConnectivityObserver
 import com.example.luxeval.data.remote.RemoteAppraisal
 import com.example.luxeval.data.remote.RemoteClient
 import com.example.luxeval.data.remote.RemoteItem
 import com.example.luxeval.data.remote.detailsToJson
 import com.example.luxeval.data.remote.toDomain
+import com.example.luxeval.data.remote.toRemoteRow
 import com.example.luxeval.domain.*
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
@@ -14,88 +19,57 @@ import io.github.jan.supabase.postgrest.query.Columns
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlin.time.Clock
 
-/**
- * Best-effort remote sync. Room via the existing repositories stays the
- * source of truth the UI reads from. Every push here is fired *after* a
- * successful local write and never blocks it or surfaces its own errors to
- * the UI — a failed push (offline, etc.) doesn't lose data since it's already
- * safely in Room; it just won't be backed up until the next successful push
- * or the next full pullAll().
- */
 class SyncRepository(
     private val supabase: SupabaseClient,
     private val appraisalRepository: AppraisalRepository,
     private val clientRepository: ClientRepository,
-    private val itemRepository: ItemRepository
+    private val itemRepository: ItemRepository,
+    private val outboxDao: SyncOutboxDao,
+    connectivityObserver: ConnectivityObserver
 ) {
     private val syncScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private fun currentUserIdOrNull(): String? = supabase.auth.currentUserOrNull()?.id
+
+    init {
+        // Drain the outbox automatically the moment connectivity returns.
+        connectivityObserver.observe()
+            .filter { it == ConnectionStatus.AVAILABLE }
+            .onEach { retryOutbox() }
+            .launchIn(syncScope)
+    }
+
     // ───────────────────────────── Push (create/update) ─────────────────────────
 
     fun pushClientAsync(client: Client) = syncScope.launch {
         val userId = currentUserIdOrNull() ?: return@launch
         runCatching {
-            supabase.postgrest.from("clients").upsert(
-                RemoteClient(
-                    id = client.id,
-                    name = client.name,
-                    phone = client.phone,
-                    email = client.email,
-                    address = client.address,
-                    userId = userId
-                )
-            )
+            supabase.postgrest.from("clients").upsert(client.toRemoteRow(userId))
+        }.onFailure { e ->
+            enqueueFailure(entityType = "client", entityId = client.id, operation = "upsert", error = e.message)
         }
     }
 
     fun pushAppraisalAsync(appraisal: Appraisal) = syncScope.launch {
         val userId = currentUserIdOrNull() ?: return@launch
         runCatching {
-            supabase.postgrest.from("appraisals").upsert(
-                RemoteAppraisal(
-                    id = appraisal.id,
-                    documentId = appraisal.documentId,
-                    clientId = appraisal.clientId,
-                    title = appraisal.title,
-                    purpose = appraisal.purpose.name,
-                    status = appraisal.status.name,
-                    internalNotes = appraisal.internalNotes,
-                    appraisalDate = appraisal.appraisalDate,
-                    createdAt = appraisal.createdAt,
-                    updatedAt = appraisal.updatedAt,
-                    userId = userId
-                )
-            )
+            supabase.postgrest.from("appraisals").upsert(appraisal.toRemoteRow(userId))
+        }.onFailure { e ->
+            enqueueFailure(entityType = "appraisal", entityId = appraisal.id, operation = "upsert", error = e.message)
         }
     }
 
     fun pushItemAsync(item: AppraisalItem) = syncScope.launch {
         val userId = currentUserIdOrNull() ?: return@launch
         runCatching {
-            supabase.postgrest.from("items").upsert(
-                RemoteItem(
-                    id = item.id,
-                    appraisalId = item.appraisalId,
-                    itemName = item.itemName,
-                    category = item.category.name,
-                    photoUris = item.photoUris.joinToString("‖"),
-                    condition = item.condition.name,
-                    conditionNotes = item.conditionNotes,
-                    grossWeightGrams = item.grossWeightGrams,
-                    hallmarks = item.hallmarks,
-                    estimatedValue = item.estimatedValue,
-                    currency = item.currency,
-                    valuationBasis = item.valuationBasis.name,
-                    valueSource = item.valueSource.name,
-                    notes = item.notes,
-                    createdAt = item.createdAt,
-                    updatedAt = item.updatedAt,
-                    details = item.detailsToJson(),
-                    userId = userId
-                )
-            )
+            supabase.postgrest.from("items").upsert(item.toRemoteRow(userId))
+        }.onFailure { e ->
+            enqueueFailure(entityType = "item", entityId = item.id, operation = "upsert", error = e.message)
         }
     }
 
@@ -104,29 +78,104 @@ class SyncRepository(
     fun deleteClientRemoteAsync(clientId: String) = syncScope.launch {
         runCatching {
             supabase.postgrest.from("clients").delete { filter { eq("id", clientId) } }
+        }.onFailure { e ->
+            enqueueFailure(entityType = "client", entityId = clientId, operation = "delete", error = e.message)
         }
     }
 
     fun deleteAppraisalRemoteAsync(appraisalId: String) = syncScope.launch {
         runCatching {
             supabase.postgrest.from("appraisals").delete { filter { eq("id", appraisalId) } }
+        }.onFailure { e ->
+            enqueueFailure(entityType = "appraisal", entityId = appraisalId, operation = "delete", error = e.message)
         }
     }
 
     fun deleteItemRemoteAsync(itemId: String) = syncScope.launch {
         runCatching {
             supabase.postgrest.from("items").delete { filter { eq("id", itemId) } }
+        }.onFailure { e ->
+            enqueueFailure(entityType = "item", entityId = itemId, operation = "delete", error = e.message)
+        }
+    }
+
+    private suspend fun enqueueFailure(entityType: String, entityId: String, operation: String, error: String?) {
+        outboxDao.enqueue(
+            SyncOutboxEntity(
+                id = "$entityType-$operation-$entityId",   // deterministic — re-enqueuing the same failure just replaces the row
+                entityType = entityType,
+                entityId = entityId,
+                operation = operation,
+                lastError = error,
+                createdAt = Clock.System.now().toEpochMilliseconds()
+            )
+        )
+    }
+
+    // ───────────────────────────── Outbox retry ──────────────────────────────────
+
+    /** Walks every pending outbox entry oldest-first and retries it against
+     *  Supabase. Successes are removed; failures stay queued with an
+     *  incremented attempt count so future retries (next app start, next
+     *  connectivity change, next pull-to-refresh) pick them up again. A
+     *  missing local row (e.g. the item was deleted locally after the failed
+     *  push) is treated as success — there's nothing left to push. */
+    suspend fun retryOutbox() {
+        val userId = currentUserIdOrNull() ?: return
+        val pending = outboxDao.getAll()
+        if (pending.isEmpty()) return
+
+        for (entry in pending) {
+            val result = runCatching {
+                when (entry.entityType) {
+                    "client" -> when (entry.operation) {
+                        "upsert" -> {
+                            val client = clientRepository.getClient(entry.entityId)
+                            if (client != null) {
+                                supabase.postgrest.from("clients").upsert(client.toRemoteRow(userId))
+                            }
+                        }
+                        "delete" -> supabase.postgrest.from("clients").delete { filter { eq("id", entry.entityId) } }
+                        else -> Unit
+                    }
+
+                    "appraisal" -> when (entry.operation) {
+                        "upsert" -> {
+                            val appraisal = appraisalRepository.getById(entry.entityId)
+                            if (appraisal != null) {
+                                supabase.postgrest.from("appraisals").upsert(appraisal.toRemoteRow(userId))
+                            }
+                        }
+                        "delete" -> supabase.postgrest.from("appraisals").delete { filter { eq("id", entry.entityId) } }
+                        else -> Unit
+                    }
+
+                    "item" -> when (entry.operation) {
+                        "upsert" -> {
+                            val item = itemRepository.getItemById(entry.entityId)
+                            if (item != null) {
+                                supabase.postgrest.from("items").upsert(item.toRemoteRow(userId))
+                            }
+                        }
+                        "delete" -> supabase.postgrest.from("items").delete { filter { eq("id", entry.entityId) } }
+                        else -> Unit
+                    }
+
+                    else -> Unit
+                }
+            }
+
+            if (result.isSuccess) {
+                outboxDao.remove(entry.id)
+            } else {
+                outboxDao.recordFailure(entry.id, result.exceptionOrNull()?.message ?: "retry failed")
+            }
         }
     }
 
     // ───────────────────────────── Pull (login / manual refresh) ────────────────
+    // unchanged from your existing pullAll() — kept exactly as-is below
 
-    /** Pulls every row belonging to the current user (RLS handles the filter)
-     *  and merges into Room. Room's @Insert(onConflict = REPLACE) on primary
-     *  key makes this idempotent: re-running it is always safe.
-     *  Order matters: clients before appraisals (FK), appraisals before items
-     *  isn't strictly required by a DB constraint here but keeps the data
-     *  internally consistent as it lands locally. */
     suspend fun pullAll(): Result<Unit> = runCatching {
         val remoteClients = supabase.postgrest.from("clients")
             .select(Columns.ALL)
@@ -162,8 +211,6 @@ class SyncRepository(
             .decodeList<RemoteItem>()
         remoteItems.forEach { ri ->
             ri.toDomain()?.let { itemRepository.saveItem(it) }
-            // null means OTHER category or an unrecognized row — silently
-            // skipped rather than crashing the whole pull over one row.
         }
     }
 }

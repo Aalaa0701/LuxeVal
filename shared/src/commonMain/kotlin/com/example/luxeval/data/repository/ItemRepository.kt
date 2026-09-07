@@ -116,6 +116,10 @@ class ItemRepository(
             }
         }
 
+    suspend fun getItemById(itemId: String): AppraisalItem? {
+        val entity = dao.getItemById(itemId) ?: return null
+        return reconstruct(entity)
+    }
 
     private suspend fun reconstruct(entity: ItemEntity): AppraisalItem? =
         when (ItemCategory.valueOf(entity.category)) {
