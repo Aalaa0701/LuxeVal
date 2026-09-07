@@ -12,6 +12,7 @@ import com.example.luxeval.data.repository.PhotoRepository
 import com.example.luxeval.data.repository.PricingRepository
 import com.example.luxeval.data.repository.SessionRepository
 import com.example.luxeval.data.repository.SyncRepository
+import com.example.luxeval.domain.usecase.DeleteAppraisalUseCase
 import com.example.luxeval.presentation.theme.ThemeController
 import org.koin.dsl.module
 
@@ -28,7 +29,7 @@ val repositoryModule = module {
     single { BusinessProfileRepository(get(), get(), get(), get()) }
     single { PhotoRepository(get(), get()) }
     single { SyncRepository(get(), get(), get(), get()) }
-    // RepositoryModule.kt — add
+    single { DeleteAppraisalUseCase(get(), get(), get()) }
     single { SessionRepository(get(), get(), get()) }
 
 }

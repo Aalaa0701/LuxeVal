@@ -23,6 +23,7 @@ import coil3.compose.AsyncImage
 import coil3.util.Logger
 import com.example.luxeval.presentation.theme.LuxeShapes
 import com.example.luxeval.presentation.theme.LuxeSpacing
+import com.example.luxeval.presentation.theme.StatusColors
 import com.example.luxeval.presentation.util.PhotoImage
 import com.example.luxeval.presentation.util.formatCurrency
 import com.example.luxeval.presentation.util.formatDate
@@ -95,12 +96,47 @@ fun ReportPreviewScreen(
             items(uiState.items, key = { it.item.id }) { row ->
                 ItemReportCard(row = row, currencyCode = uiState.currencyCode)
             }
-            item { TotalValueSection(uiState.totalValue, uiState.currencyCode) }
+            if (uiState.hasUnpricedItems) {
+                item {
+                    Card(shape = LuxeShapes.md, colors = CardDefaults.cardColors(containerColor = StatusColors.DraftBg)) {
+                        Text(
+                            "${uiState.unpricedItemCount} item(s) don't have a value yet. The total below reflects only priced items.",
+                            modifier = Modifier.padding(LuxeSpacing.md),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = StatusColors.DraftFg
+                        )
+                    }
+                }
+            }
+            item { TotalValueSection(uiState.totalValue, uiState.currencyCode, uiState.hasUnpricedItems, uiState.unpricedItemCount) }
+
+//            item { TotalValueSection(uiState.totalValue, uiState.currencyCode) }
             item { SignatureSection(uiState.business) }
         }
     }
 }
-
+@Composable
+private fun TotalValueSection(total: Double, currencyCode: String, hasUnpriced: Boolean, unpricedCount: Int) {
+    Card(shape = LuxeShapes.md, colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(LuxeSpacing.md),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                if (hasUnpriced) "Total Appraised Value (Partial — $unpricedCount pending)" else "Total Appraised Value",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+            Text(
+                formatCurrency(total, currencyCode),
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        }
+    }
+}
 @Composable
 private fun LetterheadSection(business: ReportBusinessInfo) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {

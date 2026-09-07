@@ -11,6 +11,7 @@ import com.example.luxeval.data.repository.SyncRepository
 import com.example.luxeval.domain.AppraisalPurpose
 import com.example.luxeval.domain.AppraisalStatus
 import com.example.luxeval.domain.Client
+import com.example.luxeval.domain.usecase.DeleteAppraisalUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,7 +28,8 @@ class AppraisalDetailViewModel(
     private val clientRepository: ClientRepository,
     private val itemRepository: ItemRepository,
     private val profileStore: AppraiserProfileStore,
-    private val syncRepository: SyncRepository
+    private val syncRepository: SyncRepository,
+    private val deleteAppraisalUseCase: DeleteAppraisalUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AppraisalDetailUiState())
@@ -91,8 +93,47 @@ class AppraisalDetailViewModel(
             )
             appraisalRepository.save(updated)
             syncRepository.pushAppraisalAsync(updated)
-            // no need to touch _uiState manually — observeById() already re-emits
-            // the updated appraisal through the existing combine/onEach pipeline
+        }
+    }
+
+    fun archiveAppraisal() {
+        val appraisal = _uiState.value.appraisal ?: return
+        viewModelScope.launch {
+            val updated = appraisal.copy(
+                status = AppraisalStatus.ARCHIVED,
+                updatedAt = Clock.System.now().toEpochMilliseconds()
+            )
+            appraisalRepository.save(updated)
+            syncRepository.pushAppraisalAsync(updated)
+        }
+    }
+
+    /** Restoring always lands on DRAFT rather than trying to remember the
+     *  prior status — an archived appraisal should get a fresh review
+     *  before being treated as COMPLETED again. */
+    fun restoreFromArchive() {
+        val appraisal = _uiState.value.appraisal ?: return
+        viewModelScope.launch {
+            val updated = appraisal.copy(
+                status = AppraisalStatus.DRAFT,
+                updatedAt = Clock.System.now().toEpochMilliseconds()
+            )
+            appraisalRepository.save(updated)
+            syncRepository.pushAppraisalAsync(updated)
+        }
+    }
+
+    fun deleteAppraisal(onDeleted: () -> Unit) {
+        viewModelScope.launch {
+            deleteAppraisalUseCase(appraisalId)
+            onDeleted()
+        }
+    }
+
+    fun deleteItem(itemId: String) {
+        viewModelScope.launch {
+            itemRepository.deleteItem(itemId)
+            syncRepository.deleteItemRemoteAsync(itemId)
         }
     }
     fun onPurposeChanged(value: AppraisalPurpose) {
@@ -156,10 +197,4 @@ class AppraisalDetailViewModel(
         }
     }
 
-    fun deleteItem(itemId: String) {
-        viewModelScope.launch {
-            itemRepository.deleteItem(itemId)
-            syncRepository.deleteItemRemoteAsync(itemId)
-        }
-    }
 }

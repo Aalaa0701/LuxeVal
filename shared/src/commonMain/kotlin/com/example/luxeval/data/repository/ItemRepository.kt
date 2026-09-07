@@ -76,10 +76,17 @@ class ItemRepository(
     suspend fun deleteItem(itemId: String) {
         val entity = dao.getItemById(itemId)
         dao.deleteItem(itemId)
-        entity?.photoUris?.forEach { photoStorage.deleteImage(it) }
+        entity?.photoUris?.forEach { uri ->
+            if (uri.startsWith("supabase://")) {
+                photoRepository.deletePhoto(uri)   // remote — was missing before
+            } else {
+                photoStorage.deleteImage(uri)      // local — unchanged
+            }
+        }
     }
 
     /**
+     * Reactive read for the dashboard/appraisal-detail screen. Note this re-does the
      * Reactive read for the dashboard/appraisal-detail screen. Note this re-does the
      * detail-table lookups every time the base `items` table changes, which is fine
      * at appraisal-sized item counts (dozens, not thousands) — if that ever becomes

@@ -27,7 +27,8 @@ val viewModelModule = module {
             clientRepository = get(),
             itemRepository = get(),
             profileStore = get(),
-            syncRepository = get()
+            syncRepository = get(),
+            deleteAppraisalUseCase = get()
         )
     }
     viewModel {

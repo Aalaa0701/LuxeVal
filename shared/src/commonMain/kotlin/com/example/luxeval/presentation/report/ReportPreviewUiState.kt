@@ -29,5 +29,7 @@ data class ReportPreviewUiState(
     val exportError: String? = null
 ) {
     val totalValue: Double get() = items.sumOf { it.item.estimatedValue ?: 0.0 }
+    val unpricedItemCount: Int get() = items.count { it.item.estimatedValue == null }
+    val hasUnpricedItems: Boolean get() = unpricedItemCount > 0
     val reportDate: Long get() = appraisal?.appraisalDate ?: 0L
 }

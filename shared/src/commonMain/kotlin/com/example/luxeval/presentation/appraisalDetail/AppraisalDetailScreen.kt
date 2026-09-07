@@ -19,9 +19,11 @@ import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.ic_add
 import luxeval.shared.generated.resources.ic_back
 import luxeval.shared.generated.resources.ic_delete
+import luxeval.shared.generated.resources.ic_more_vert
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.material3.OutlinedButton
 import com.example.luxeval.domain.AppraisalStatus
+import com.example.luxeval.presentation.theme.StatusColors
 import com.example.luxeval.presentation.util.formatGroupedAmount
 import luxeval.shared.generated.resources.ic_appraisal_detail
 import luxeval.shared.generated.resources.ic_client_info
@@ -33,11 +35,15 @@ fun AppraisalDetailScreen(
     viewModel: AppraisalDetailViewModel,
     onBack: () -> Unit,
     onAddItem: (category: ItemCategory) -> Unit,
-    onEditItem: (com.example.luxeval.domain.AppraisalItem) -> Unit,   // new
+    onEditItem: (com.example.luxeval.domain.AppraisalItem) -> Unit,
     onPreviewReport: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var showCategoryPicker by remember { mutableStateOf(false) }
+    var showOverflowMenu by remember { mutableStateOf(false) }
+    var showDeleteAppraisalConfirm by remember { mutableStateOf(false) }
+    var showUnpricedConfirm by remember { mutableStateOf(false) }
+    var pendingItemDeleteId by remember { mutableStateOf<String?>(null) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -47,6 +53,30 @@ fun AppraisalDetailScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(painterResource(Res.drawable.ic_back), contentDescription = "Back")
+                    }
+                },
+                actions = {
+                    Box {
+                        IconButton(onClick = { showOverflowMenu = true }) {
+                            Icon(painterResource(Res.drawable.ic_more_vert), contentDescription = "More")
+                        }
+                        DropdownMenu(expanded = showOverflowMenu, onDismissRequest = { showOverflowMenu = false }) {
+                            if (uiState.appraisal?.status == AppraisalStatus.ARCHIVED) {
+                                DropdownMenuItem(
+                                    text = { Text("Restore to Draft") },
+                                    onClick = { showOverflowMenu = false; viewModel.restoreFromArchive() }
+                                )
+                            } else {
+                                DropdownMenuItem(
+                                    text = { Text("Archive") },
+                                    onClick = { showOverflowMenu = false; viewModel.archiveAppraisal() }
+                                )
+                            }
+                            DropdownMenuItem(
+                                text = { Text("Delete Appraisal", color = MaterialTheme.colorScheme.error) },
+                                onClick = { showOverflowMenu = false; showDeleteAppraisalConfirm = true }
+                            )
+                        }
                     }
                 }
             )
@@ -77,45 +107,19 @@ fun AppraisalDetailScreen(
             }
 
             item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                     Card(
-                        modifier = Modifier.size(36.dp),
-                        shape = LuxeShapes.sm,
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.secondary,
-                            contentColor = MaterialTheme.colorScheme.onSecondary
-                        ),
-                        elevation = CardDefaults.cardElevation(
-                            defaultElevation = 0.dp
-                        )
+                        modifier = Modifier.size(36.dp), shape = LuxeShapes.sm,
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondary, contentColor = MaterialTheme.colorScheme.onSecondary),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
                     ) {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                painter = painterResource(Res.drawable.ic_other_jewelry),
-                                contentDescription = null,
-                                modifier = Modifier.size(18.dp),
-                                tint = MaterialTheme.colorScheme.onSecondary
-                            )
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            Icon(painter = painterResource(Res.drawable.ic_other_jewelry), contentDescription = null, modifier = Modifier.size(18.dp), tint = MaterialTheme.colorScheme.onSecondary)
                         }
                     }
-
                     Spacer(modifier = Modifier.width(12.dp))
-
-                    Text(
-                        text = "Jewelry Items",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-
+                    Text("Jewelry Items", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
                     Spacer(modifier = Modifier.weight(1f))
-
                     AssistChip(onClick = {}, label = { Text("${uiState.items.size} Items") })
                 }
             }
@@ -123,12 +127,11 @@ fun AppraisalDetailScreen(
             if (uiState.items.isEmpty()) {
                 item { EmptyItemsState(onAddItem = { showCategoryPicker = true }) }
             } else {
-                // where items are rendered, pass the click through:
                 items(uiState.items, key = { it.id }) { appraisalItem ->
                     ItemRow(
                         item = appraisalItem,
                         onClick = { onEditItem(appraisalItem) },
-                        onDelete = { viewModel.deleteItem(appraisalItem.id) }
+                        onDelete = { pendingItemDeleteId = appraisalItem.id }
                     )
                 }
                 item {
@@ -138,13 +141,18 @@ fun AppraisalDetailScreen(
                         colors = ButtonDefaults.outlinedButtonColors(
                             containerColor = MaterialTheme.colorScheme.primary,
                             contentColor = MaterialTheme.colorScheme.onPrimary,
-                            ),
+                        ),
                     ) {
                         Icon(painterResource(Res.drawable.ic_add), contentDescription = null, modifier = Modifier.size(18.dp))
                         Spacer(Modifier.width(6.dp))
                         Text("Add Another Item")
                     }
                 }
+            }
+
+            // NEW — unpriced items warning, shown right above the finalize actions
+            if (uiState.hasUnpricedItems) {
+                item { UnpricedItemsBanner(itemNames = uiState.unpricedItems.map { it.itemName }) }
             }
 
             item {
@@ -162,7 +170,10 @@ fun AppraisalDetailScreen(
                         OutlinedButton(onClick = onBack, modifier = Modifier.weight(1f)) { Text("Cancel") }
                         if (uiState.appraisal?.status == AppraisalStatus.DRAFT) {
                             Button(
-                                onClick = viewModel::markCompleted,
+                                onClick = {
+                                    if (uiState.hasUnpricedItems) showUnpricedConfirm = true
+                                    else viewModel.markCompleted()
+                                },
                                 enabled = uiState.canFinalize,
                                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                                 modifier = Modifier.weight(1f)
@@ -177,12 +188,82 @@ fun AppraisalDetailScreen(
 
     if (showCategoryPicker) {
         CategoryPickerSheet(
-            onCategorySelected = { category ->
-                showCategoryPicker = false
-                onAddItem(category)
-            },
+            onCategorySelected = { category -> showCategoryPicker = false; onAddItem(category) },
             onDismiss = { showCategoryPicker = false }
         )
+    }
+
+    if (showDeleteAppraisalConfirm) {
+        AlertDialog(
+            onDismissRequest = { showDeleteAppraisalConfirm = false },
+            title = { Text("Delete Appraisal") },
+            text = { Text("This permanently deletes this appraisal and all ${uiState.items.size} item(s) in it, including their photos. This can't be undone.") },
+            confirmButton = {
+                TextButton(onClick = {
+                    showDeleteAppraisalConfirm = false
+                    viewModel.deleteAppraisal(onDeleted = onBack)
+                }) { Text("Delete", color = MaterialTheme.colorScheme.error) }
+            },
+            dismissButton = { TextButton(onClick = { showDeleteAppraisalConfirm = false }) { Text("Cancel") } }
+        )
+    }
+
+    if (showUnpricedConfirm) {
+        AlertDialog(
+            onDismissRequest = { showUnpricedConfirm = false },
+            title = { Text("Unpriced Items") },
+            text = {
+                Text(
+                    "${uiState.unpricedItems.size} item(s) don't have a value yet: " +
+                            uiState.unpricedItems.joinToString(", ") { it.itemName } +
+                            ". The total on the report will not include them. Mark this appraisal completed anyway?"
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = { showUnpricedConfirm = false; viewModel.markCompleted() }) { Text("Mark Completed Anyway") }
+            },
+            dismissButton = { TextButton(onClick = { showUnpricedConfirm = false }) { Text("Go Back") } }
+        )
+    }
+
+    pendingItemDeleteId?.let { itemId ->
+        val itemName = uiState.items.firstOrNull { it.id == itemId }?.itemName ?: "this item"
+        AlertDialog(
+            onDismissRequest = { pendingItemDeleteId = null },
+            title = { Text("Delete Item") },
+            text = { Text("Permanently delete \"$itemName\" and its photos? This can't be undone.") },
+            confirmButton = {
+                TextButton(onClick = {
+                    viewModel.deleteItem(itemId)
+                    pendingItemDeleteId = null
+                }) { Text("Delete", color = MaterialTheme.colorScheme.error) }
+            },
+            dismissButton = { TextButton(onClick = { pendingItemDeleteId = null }) { Text("Cancel") } }
+        )
+    }
+}
+
+// NEW composable — sits above Preview/Mark Completed buttons
+@Composable
+private fun UnpricedItemsBanner(itemNames: List<String>) {
+    Card(
+        shape = LuxeShapes.md,
+        colors = CardDefaults.cardColors(containerColor = StatusColors.DraftBg)
+    ) {
+        Column(Modifier.padding(LuxeSpacing.md)) {
+            Text(
+                "Unpriced Items",
+                style = MaterialTheme.typography.labelMedium,
+                fontWeight = FontWeight.Bold,
+                color = StatusColors.DraftFg
+            )
+            Spacer(Modifier.height(4.dp))
+            Text(
+                "${itemNames.size} item(s) have no value yet — the report total won't include them: ${itemNames.joinToString(", ")}",
+                style = MaterialTheme.typography.bodySmall,
+                color = StatusColors.DraftFg
+            )
+        }
     }
 }
 

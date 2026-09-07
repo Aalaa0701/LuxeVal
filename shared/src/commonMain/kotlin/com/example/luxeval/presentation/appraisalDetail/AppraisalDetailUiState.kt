@@ -25,4 +25,11 @@ data class AppraisalDetailUiState(
     /** Mirrors your mockup: items must exist and client must be filled before finalize/report actions light up. */
     val canFinalize: Boolean
         get() = items.isNotEmpty() && clientForm.name.isNotBlank() && businessProfileComplete
+
+    /** Items with no estimatedValue yet — the total on the report silently
+     *  treats these as $0 unless the UI surfaces this explicitly. */
+    val unpricedItems: List<AppraisalItem>
+        get() = items.filter { it.estimatedValue == null }
+
+    val hasUnpricedItems: Boolean get() = unpricedItems.isNotEmpty()
 }
