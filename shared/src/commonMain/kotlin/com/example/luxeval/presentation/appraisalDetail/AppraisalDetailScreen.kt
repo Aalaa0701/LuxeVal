@@ -26,9 +26,49 @@ import com.example.luxeval.domain.AppraisalStatus
 import com.example.luxeval.presentation.theme.StatusColors
 import com.example.luxeval.presentation.util.ErrorDialog
 import com.example.luxeval.presentation.util.formatGroupedAmount
+import luxeval.shared.generated.resources.action_add_another_item
+import luxeval.shared.generated.resources.action_add_jewelry_item
+import luxeval.shared.generated.resources.action_archive
+import luxeval.shared.generated.resources.action_cancel
+import luxeval.shared.generated.resources.action_delete
+import luxeval.shared.generated.resources.action_delete_appraisal
+import luxeval.shared.generated.resources.action_go_back
+import luxeval.shared.generated.resources.action_mark_completed
+import luxeval.shared.generated.resources.action_mark_completed_anyway
+import luxeval.shared.generated.resources.action_preview_report
+import luxeval.shared.generated.resources.action_restore_draft
+import luxeval.shared.generated.resources.action_save
+import luxeval.shared.generated.resources.appraisal_detail_fallback_title
+import luxeval.shared.generated.resources.back
+import luxeval.shared.generated.resources.delete_appraisal_confirm_body
+import luxeval.shared.generated.resources.delete_item_confirm_body
+import luxeval.shared.generated.resources.delete_item_title
 import luxeval.shared.generated.resources.ic_appraisal_detail
 import luxeval.shared.generated.resources.ic_client_info
 import luxeval.shared.generated.resources.ic_other_jewelry
+import luxeval.shared.generated.resources.items_count
+import luxeval.shared.generated.resources.items_empty_body
+import luxeval.shared.generated.resources.items_empty_title
+import luxeval.shared.generated.resources.label_email
+import luxeval.shared.generated.resources.label_full_legal_name
+import luxeval.shared.generated.resources.label_phone_number
+import luxeval.shared.generated.resources.label_primary_purpose
+import luxeval.shared.generated.resources.mark_completed_unpriced_confirm
+import luxeval.shared.generated.resources.more
+import luxeval.shared.generated.resources.purpose_estate
+import luxeval.shared.generated.resources.purpose_fair_market
+import luxeval.shared.generated.resources.purpose_insurance
+import luxeval.shared.generated.resources.purpose_other
+import luxeval.shared.generated.resources.purpose_wholesale
+import luxeval.shared.generated.resources.section_appraisal_context
+import luxeval.shared.generated.resources.section_client_info
+import luxeval.shared.generated.resources.section_jewelry_items
+import luxeval.shared.generated.resources.unpriced_items_title
+import luxeval.shared.generated.resources.this_item
+import luxeval.shared.generated.resources.report_unpriced_items_notice
+import luxeval.shared.generated.resources.internal_notes
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,31 +90,31 @@ fun AppraisalDetailScreen(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text(uiState.appraisal?.documentId ?: "Appraisal") },
+                title = { Text(uiState.appraisal?.documentId ?: stringResource(Res.string.appraisal_detail_fallback_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(painterResource(Res.drawable.ic_back), contentDescription = "Back")
+                        Icon(painterResource(Res.drawable.ic_back), contentDescription = stringResource(Res.string.back))
                     }
                 },
                 actions = {
                     Box {
                         IconButton(onClick = { showOverflowMenu = true }) {
-                            Icon(painterResource(Res.drawable.ic_more_vert), contentDescription = "More")
+                            Icon(painterResource(Res.drawable.ic_more_vert), contentDescription = stringResource(Res.string.more))
                         }
                         DropdownMenu(expanded = showOverflowMenu, onDismissRequest = { showOverflowMenu = false }) {
                             if (uiState.appraisal?.status == AppraisalStatus.ARCHIVED) {
                                 DropdownMenuItem(
-                                    text = { Text("Restore to Draft") },
+                                    text = { Text(stringResource(Res.string.action_restore_draft)) },
                                     onClick = { showOverflowMenu = false; viewModel.restoreFromArchive() }
                                 )
                             } else {
                                 DropdownMenuItem(
-                                    text = { Text("Archive") },
+                                    text = { Text(stringResource(Res.string.action_archive)) },
                                     onClick = { showOverflowMenu = false; viewModel.archiveAppraisal() }
                                 )
                             }
                             DropdownMenuItem(
-                                text = { Text("Delete Appraisal", color = MaterialTheme.colorScheme.error) },
+                                text = { Text(stringResource(Res.string.action_delete_appraisal), color = MaterialTheme.colorScheme.error) },
                                 onClick = { showOverflowMenu = false; showDeleteAppraisalConfirm = true }
                             )
                         }
@@ -120,9 +160,19 @@ fun AppraisalDetailScreen(
                         }
                     }
                     Spacer(modifier = Modifier.width(12.dp))
-                    Text("Jewelry Items", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                    Text(stringResource(Res.string.section_jewelry_items), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
                     Spacer(modifier = Modifier.weight(1f))
-                    AssistChip(onClick = {}, label = { Text("${uiState.items.size} Items") })
+                    AssistChip(
+                        onClick = {},
+                        label = {
+                            Text(
+                                stringResource(
+                                Res.string.items_count,
+                                uiState.items.size
+                                )
+                            )
+                        }
+                    )
                 }
             }
 
@@ -147,7 +197,7 @@ fun AppraisalDetailScreen(
                     ) {
                         Icon(painterResource(Res.drawable.ic_add), contentDescription = null, modifier = Modifier.size(18.dp))
                         Spacer(Modifier.width(6.dp))
-                        Text("Add Another Item")
+                        Text(stringResource(Res.string.action_add_another_item))
                     }
                 }
             }
@@ -163,13 +213,13 @@ fun AppraisalDetailScreen(
                         onClick = onPreviewReport,
                         enabled = uiState.canFinalize,
                         modifier = Modifier.fillMaxWidth()
-                    ) { Text("Preview Report") }
+                    ) { Text(stringResource(Res.string.action_preview_report)) }
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)
                     ) {
-                        OutlinedButton(onClick = onBack, modifier = Modifier.weight(1f)) { Text("Cancel") }
+                        OutlinedButton(onClick = onBack, modifier = Modifier.weight(1f)) { Text(stringResource(Res.string.action_cancel)) }
                         if (uiState.appraisal?.status == AppraisalStatus.DRAFT) {
                             Button(
                                 onClick = {
@@ -179,7 +229,7 @@ fun AppraisalDetailScreen(
                                 enabled = uiState.canFinalize,
                                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                                 modifier = Modifier.weight(1f)
-                            ) { Text("Mark Completed") }
+                            ) { Text(stringResource(Res.string.action_mark_completed), color = MaterialTheme.colorScheme.onSecondary) }
                         }
                     }
                 }
@@ -198,49 +248,61 @@ fun AppraisalDetailScreen(
     if (showDeleteAppraisalConfirm) {
         AlertDialog(
             onDismissRequest = { showDeleteAppraisalConfirm = false },
-            title = { Text("Delete Appraisal") },
-            text = { Text("This permanently deletes this appraisal and all ${uiState.items.size} item(s) in it, including their photos. This can't be undone.") },
+            title = { Text(stringResource(Res.string.action_delete_appraisal)) },
+            text = { Text(
+                stringResource(
+                    Res.string.delete_appraisal_confirm_body,
+                    uiState.items.size
+                )
+            ) },
             confirmButton = {
                 TextButton(onClick = {
                     showDeleteAppraisalConfirm = false
                     viewModel.deleteAppraisal(onDeleted = onBack)
-                }) { Text("Delete", color = MaterialTheme.colorScheme.error) }
+                }) { Text(stringResource(Res.string.action_delete), color = MaterialTheme.colorScheme.error) }
             },
-            dismissButton = { TextButton(onClick = { showDeleteAppraisalConfirm = false }) { Text("Cancel") } }
+            dismissButton = { TextButton(onClick = { showDeleteAppraisalConfirm = false }) { Text(stringResource(Res.string.action_cancel)) } }
         )
     }
 
     if (showUnpricedConfirm) {
         AlertDialog(
             onDismissRequest = { showUnpricedConfirm = false },
-            title = { Text("Unpriced Items") },
+            title = { Text(stringResource(Res.string.unpriced_items_title)) },
             text = {
                 Text(
-                    "${uiState.unpricedItems.size} item(s) don't have a value yet: " +
-                            uiState.unpricedItems.joinToString(", ") { it.itemName } +
-                            ". The total on the report will not include them. Mark this appraisal completed anyway?"
+                    stringResource(
+                        Res.string.mark_completed_unpriced_confirm,
+                        uiState.unpricedItems.size,
+                        uiState.unpricedItems.joinToString(", ") { it.itemName }
+                    )
                 )
             },
             confirmButton = {
-                TextButton(onClick = { showUnpricedConfirm = false; viewModel.markCompleted() }) { Text("Mark Completed Anyway") }
+                TextButton(onClick = { showUnpricedConfirm = false; viewModel.markCompleted() }) { Text(stringResource(Res.string.action_mark_completed_anyway)) }
             },
-            dismissButton = { TextButton(onClick = { showUnpricedConfirm = false }) { Text("Go Back") } }
+            dismissButton = { TextButton(onClick = { showUnpricedConfirm = false }) { Text(stringResource(Res.string.action_go_back)) } }
         )
     }
 
     pendingItemDeleteId?.let { itemId ->
-        val itemName = uiState.items.firstOrNull { it.id == itemId }?.itemName ?: "this item"
+        val itemName = uiState.items.firstOrNull { it.id == itemId }?.itemName ?: stringResource(Res.string.this_item)
         AlertDialog(
             onDismissRequest = { pendingItemDeleteId = null },
-            title = { Text("Delete Item") },
-            text = { Text("Permanently delete \"$itemName\" and its photos? This can't be undone.") },
+            title = { Text(stringResource(Res.string.delete_item_title)) },
+            text = { Text(
+                stringResource(
+                    Res.string.delete_item_confirm_body,
+                    itemName
+                )
+            ) },
             confirmButton = {
                 TextButton(onClick = {
                     viewModel.deleteItem(itemId)
                     pendingItemDeleteId = null
-                }) { Text("Delete", color = MaterialTheme.colorScheme.error) }
+                }) { Text(stringResource(Res.string.action_delete), color = MaterialTheme.colorScheme.error) }
             },
-            dismissButton = { TextButton(onClick = { pendingItemDeleteId = null }) { Text("Cancel") } }
+            dismissButton = { TextButton(onClick = { pendingItemDeleteId = null }) { Text(stringResource(Res.string.action_cancel)) } }
         )
     }
 }
@@ -254,14 +316,18 @@ private fun UnpricedItemsBanner(itemNames: List<String>) {
     ) {
         Column(Modifier.padding(LuxeSpacing.md)) {
             Text(
-                "Unpriced Items",
+                stringResource(Res.string.unpriced_items_title),
                 style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.Bold,
                 color = StatusColors.DraftFg
             )
             Spacer(Modifier.height(4.dp))
             Text(
-                "${itemNames.size} item(s) have no value yet — the report total won't include them: ${itemNames.joinToString(", ")}",
+                stringResource(
+                    Res.string.report_unpriced_items_notice,
+                    itemNames.size,
+                    itemNames.joinToString(", ")
+                ),
                 style = MaterialTheme.typography.bodySmall,
                 color = StatusColors.DraftFg
             )
@@ -320,7 +386,7 @@ private fun AppraisalContextSection(
                 Spacer(modifier = Modifier.width(12.dp))
 
                 Text(
-                    text = "Appraisal Context",
+                    text = stringResource(Res.string.section_appraisal_context),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
@@ -334,7 +400,7 @@ private fun AppraisalContextSection(
             OutlinedTextField(
                 value = uiState.internalNotes,
                 onValueChange = onNotesChanged,
-                label = { Text("Internal Notes (Optional)") },
+                label = { Text(stringResource(Res.string.internal_notes)) },
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 2
             )
@@ -348,17 +414,17 @@ private fun PurposeDropdown(current: AppraisalPurpose, onSelected: (AppraisalPur
     var expanded by remember { mutableStateOf(false) }
     ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = it }) {
         OutlinedTextField(
-            value = current.label(),
+            value = stringResource(current.label()),
             onValueChange = {},
             readOnly = true,
-            label = { Text("Primary Purpose") },
+            label = { Text(stringResource(Res.string.label_primary_purpose)) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             modifier = Modifier.fillMaxWidth().menuAnchor(MenuAnchorType.PrimaryNotEditable)
         )
         ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }, containerColor = MaterialTheme.colorScheme.surfaceContainerLowest) {
             AppraisalPurpose.entries.forEach { purpose ->
                 DropdownMenuItem(
-                    text = { Text(purpose.label()) },
+                    text = { Text(stringResource(purpose.label())) },
                     onClick = { onSelected(purpose); expanded = false }
                 )
             }
@@ -420,7 +486,7 @@ private fun ClientInfoSection(
                 Spacer(modifier = Modifier.width(12.dp))
 
                 Text(
-                    text = "Client Information",
+                    text = stringResource(Res.string.section_client_info),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
@@ -439,7 +505,7 @@ private fun ClientInfoSection(
             OutlinedTextField(
                 value = uiState.clientForm.name,
                 onValueChange = onNameChanged,
-                label = { Text("Full Legal Name") },
+                label = { Text(stringResource(Res.string.label_full_legal_name)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
@@ -447,7 +513,7 @@ private fun ClientInfoSection(
             OutlinedTextField(
                 value = uiState.clientForm.email,
                 onValueChange = onEmailChanged,
-                label = { Text("Email Address") },
+                label = { Text(stringResource(Res.string.label_email)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
@@ -455,7 +521,7 @@ private fun ClientInfoSection(
             OutlinedTextField(
                 value = uiState.clientForm.phone,
                 onValueChange = onPhoneChanged,
-                label = { Text("Phone Number") },
+                label = { Text(stringResource(Res.string.label_phone_number)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
@@ -468,7 +534,7 @@ private fun ClientInfoSection(
                 onClick = onSave,
                 enabled = uiState.hasUnsavedChanges && !uiState.isSaving,
                 modifier = Modifier.align(Alignment.End)
-            ) { Text("Save") }
+            ) { Text(stringResource(Res.string.action_save)) }
         }
     }
 }
@@ -526,10 +592,10 @@ private fun EmptyItemsState(onAddItem: () -> Unit) {
         modifier = Modifier.fillMaxWidth().padding(vertical = LuxeSpacing.xl),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("No items added yet", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+        Text(stringResource(Res.string.items_empty_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(LuxeSpacing.xs))
         Text(
-            "Begin by adding the first piece of jewelry to this valuation report.",
+            stringResource(Res.string.items_empty_body),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -537,15 +603,15 @@ private fun EmptyItemsState(onAddItem: () -> Unit) {
         Button(onClick = onAddItem) {
             Icon(painterResource(Res.drawable.ic_add), contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(Modifier.width(6.dp))
-            Text("Add Jewelry Item")
+            Text(stringResource(Res.string.action_add_jewelry_item))
         }
     }
 }
 
-private fun AppraisalPurpose.label(): String = when (this) {
-    AppraisalPurpose.INSURANCE_REPLACEMENT -> "Insurance Replacement"
-    AppraisalPurpose.FAIR_MARKET_VALUE -> "Fair Market Value"
-    AppraisalPurpose.ESTATE_VALUATION -> "Estate Valuation"
-    AppraisalPurpose.WHOLESALE_LIQUIDATION -> "Wholesale Liquidation"
-    AppraisalPurpose.OTHER -> "Other"
+private fun AppraisalPurpose.label(): StringResource = when (this) {
+    AppraisalPurpose.INSURANCE_REPLACEMENT -> Res.string.purpose_insurance
+    AppraisalPurpose.FAIR_MARKET_VALUE -> Res.string.purpose_fair_market
+    AppraisalPurpose.ESTATE_VALUATION -> Res.string.purpose_estate
+    AppraisalPurpose.WHOLESALE_LIQUIDATION -> Res.string.purpose_wholesale
+    AppraisalPurpose.OTHER -> Res.string.purpose_other
 }

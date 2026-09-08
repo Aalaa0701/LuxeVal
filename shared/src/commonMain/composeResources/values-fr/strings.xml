@@ -8,35 +8,34 @@
     <string name="nav_settings">Paramètres</string>
 
     <!-- Dashboard -->
-    <string name="dashboard_greeting">Bonjour</string>
-    <string name="dashboard_total_appraisals">Total des évaluations</string>
-    <string name="dashboard_completed">Terminées</string>
-    <string name="dashboard_drafts">Brouillons</string>
-    <string name="dashboard_customers">Clients</string>
-    <string name="dashboard_continue_draft">Continuer le brouillon</string>
-    <string name="dashboard_recent_appraisals">Évaluations récentes</string>
+<!--    <string name="dashboard_greeting">Bonjour</string>-->
+<!--    <string name="dashboard_total_appraisals">Total des évaluations</string>-->
+<!--    <string name="dashboard_completed">Terminées</string>-->
+<!--    <string name="dashboard_drafts">Brouillons</string>-->
+<!--    <string name="dashboard_customers">Clients</string>-->
+<!--    <string name="dashboard_continue_draft">Continuer le brouillon</string>-->
+<!--    <string name="dashboard_recent_appraisals">Évaluations récentes</string>-->
 
-    <!-- Settings -->
-    <string name="settings_title">Paramètres</string>
-    <string name="settings_subtitle">Gérez les préférences de votre compte et les informations de votre entreprise.</string>
-    <string name="settings_business_info">Informations de l’entreprise</string>
-    <string name="settings_business_profile">Profil de l’entreprise</string>
-    <string name="settings_brand_logo">Logo de la marque</string>
-    <string name="settings_digital_signature">Signature numérique</string>
-    <string name="settings_preferences">Préférences</string>
-    <string name="settings_currency">Devise</string>
-    <string name="settings_measurement_units">Unités de mesure</string>
-    <string name="settings_language">Langue</string>
-    <string name="settings_dark_mode">Mode sombre</string>
-    <string name="settings_about">À propos de LuxeValuation</string>
-    <string name="settings_log_out">Se déconnecter</string>
-    <string name="settings_log_out_confirm_title">Se déconnecter</string>
-    <string name="settings_log_out_confirm_body">Êtes-vous sûr de vouloir vous déconnecter ?</string>
-    <string name="settings_delete_account">Supprimer le compte</string>
-    <!-- Appraisal statuses -->
-    <string name="status_draft">Brouillon</string>
-    <string name="status_completed">Terminée</string>
-    <string name="status_archived">Archivée</string>
+<!--    &lt;!&ndash; Settings &ndash;&gt;-->
+<!--    <string name="settings_title">Paramètres</string>-->
+<!--    <string name="settings_subtitle">Gérez les préférences de votre compte et les informations de votre entreprise.</string>-->
+<!--    <string name="settings_business_info">Informations de l’entreprise</string>-->
+<!--    <string name="settings_business_profile">Profil de l’entreprise</string>-->
+<!--    <string name="settings_brand_logo">Logo de la marque</string>-->
+<!--    <string name="settings_digital_signature">Signature numérique</string>-->
+<!--    <string name="settings_preferences">Préférences</string>-->
+<!--    <string name="settings_currency">Devise</string>-->
+<!--    <string name="settings_measurement_units">Unités de mesure</string>-->
+<!--    <string name="settings_language">Langue</string>-->
+<!--    <string name="settings_dark_mode">Mode sombre</string>-->
+<!--    <string name="settings_about">À propos de LuxeValuation</string>-->
+<!--    <string name="settings_log_out">Se déconnecter</string>-->
+<!--    <string name="settings_log_out_confirm_title">Se déconnecter</string>-->
+<!--    <string name="settings_log_out_confirm_body">Êtes-vous sûr de vouloir vous déconnecter ?</string>-->
+<!--    &lt;!&ndash; Appraisal statuses &ndash;&gt;-->
+<!--    <string name="status_draft">Brouillon</string>-->
+<!--    <string name="status_completed">Terminée</string>-->
+<!--    <string name="status_archived">Archivée</string>-->
 
     <!-- Auth -->
     <string name="auth_welcome_back">Bon retour</string>
@@ -158,25 +157,37 @@
     <string name="business_phone_label">Téléphone professionnel</string>
     <string name="business_address_label">Adresse professionnelle</string>
     <string name="business_profile_footer">Ces informations apparaissent sur l’en-tête de chaque rapport d’évaluation.</string>
-
+    <string name="delete_appraisal_confirm_body">
+    Cette action supprimera définitivement cette évaluation et les %1$d article(s) qu'elle contient, y compris leurs photos. Cette action est irréversible.
+</string>
     <string name="appraisal_detail_fallback_title">Évaluation</string>
     <string name="action_restore_draft">Restaurer en brouillon</string>
     <string name="action_archive">Archiver</string>
     <string name="action_delete_appraisal">Supprimer l’évaluation</string>
     <string name="section_jewelry_items">Bijoux</string>
-    <string name="items_count">{n} articles</string>
+    <string name="items_count">%1$d articles</string>
     <string name="action_add_another_item">Ajouter un autre article</string>
     <string name="unpriced_items_title">Articles non évalués</string>
     <string name="unpriced_items_body">{n} article(s) n’ont pas encore de valeur — ils ne seront pas inclus dans le total du rapport : {names}</string>
     <string name="action_preview_report">Aperçu du rapport</string>
     <string name="action_mark_completed">Marquer comme terminé</string>
-    <string name="delete_appraisal_confirm_body">Cette action supprimera définitivement cette évaluation et ses {n} article(s)...</string>
     <string name="action_delete">Supprimer</string>
-    <string name="mark_completed_unpriced_confirm">{n} article(s) n’ont pas encore de valeur : {names}. ... Voulez-vous quand même terminer cette évaluation ?</string>
+    <string name="mark_completed_unpriced_confirm">
+    %1$d article(s) n'ont pas encore de valeur : %2$s. Le total du rapport ne les inclura pas. Voulez-vous quand même marquer cette évaluation comme terminée ?
+</string>
     <string name="action_mark_completed_anyway">Terminer quand même</string>
+    <string name="delete_item_confirm_body">
+    Supprimer définitivement « %1$s » et ses photos ? Cette action est irréversible.
+</string>
+    <string name="report_unpriced_items_notice">
+    %1$d article(s) n'ont pas encore de valeur — le total du rapport ne les inclura pas : %2$s
+</string>
+    <string name="back">Retour</string>
+    <string name="more">Plus</string>
+    <string name="this_item">cet article</string>
+    <string name="internal_notes">Notes internes (facultatif)</string>
     <string name="action_go_back">Retour</string>
     <string name="delete_item_title">Supprimer l’article</string>
-    <string name="delete_item_confirm_body">Supprimer définitivement "{name}" et ses photos ? Cette action est irréversible.</string>
     <string name="section_appraisal_context">Contexte de l’évaluation</string>
     <string name="label_primary_purpose">Objet principal</string>
     <string name="section_client_info">Informations client</string>
@@ -318,4 +329,6 @@
     <string name="action_add_photo">Ajouter une photo</string>
     <string name="cd_remove_photo">Supprimer</string>
     <string name="settings_privacy_policy">Politique de confidentialité</string>
+    <string name="settings_delete_account">Supprimer le compte</string>
+    
 </resources>

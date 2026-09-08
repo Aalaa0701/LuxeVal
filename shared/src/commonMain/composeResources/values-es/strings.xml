@@ -7,38 +7,37 @@
     <string name="nav_search">Buscar</string>
     <string name="nav_settings">Configuración</string>
 
-    <!-- Dashboard -->
-    <string name="dashboard_greeting">Buenos días</string>
-    <string name="dashboard_total_appraisals">Total de tasaciones</string>
-    <string name="dashboard_completed">Completadas</string>
-    <string name="dashboard_drafts">Borradores</string>
-    <string name="dashboard_customers">Clientes</string>
-    <string name="dashboard_continue_draft">Continuar borrador</string>
-    <string name="dashboard_recent_appraisals">Tasaciones recientes</string>
+<!--    &lt;!&ndash; Dashboard &ndash;&gt;-->
+<!--    <string name="dashboard_greeting">Buenos días</string>-->
+<!--    <string name="dashboard_total_appraisals">Total de tasaciones</string>-->
+<!--    <string name="dashboard_completed">Completadas</string>-->
+<!--    <string name="dashboard_drafts">Borradores</string>-->
+<!--    <string name="dashboard_customers">Clientes</string>-->
+<!--    <string name="dashboard_continue_draft">Continuar borrador</string>-->
+<!--    <string name="dashboard_recent_appraisals">Tasaciones recientes</string>-->
 
-    <!-- Settings -->
-    <string name="settings_title">Configuración</string>
-    <string name="settings_subtitle">Gestiona las preferencias de tu cuenta y los datos de tu negocio.</string>
-    <string name="settings_business_info">Información del negocio</string>
-    <string name="settings_business_profile">Perfil del negocio</string>
-    <string name="settings_brand_logo">Logotipo de la marca</string>
-    <string name="settings_digital_signature">Firma digital</string>
-    <string name="settings_preferences">Preferencias</string>
-    <string name="settings_currency">Moneda</string>
-    <string name="settings_measurement_units">Unidades de medida</string>
-    <string name="settings_language">Idioma</string>
-    <string name="settings_dark_mode">Modo oscuro</string>
-    <string name="settings_about">Acerca de LuxeValuation</string>
-    <string name="settings_log_out">Cerrar sesión</string>
-    <string name="settings_log_out_confirm_title">Cerrar sesión</string>
-    <string name="settings_log_out_confirm_body">¿Estás seguro de que quieres cerrar sesión?</string>
-    <string name="settings_delete_account">Eliminar cuenta</string>
-    <!-- Appraisal statuses -->
-    <string name="status_draft">Borrador</string>
-    <string name="status_completed">Completada</string>
-    <string name="status_archived">Archivada</string>
+<!--    &lt;!&ndash; Settings &ndash;&gt;-->
+<!--    <string name="settings_title">Configuración</string>-->
+<!--    <string name="settings_subtitle">Gestiona las preferencias de tu cuenta y los datos de tu negocio.</string>-->
+<!--    <string name="settings_business_info">Información del negocio</string>-->
+<!--    <string name="settings_business_profile">Perfil del negocio</string>-->
+<!--    <string name="settings_brand_logo">Logotipo de la marca</string>-->
+<!--    <string name="settings_digital_signature">Firma digital</string>-->
+<!--    <string name="settings_preferences">Preferencias</string>-->
+<!--    <string name="settings_currency">Moneda</string>-->
+<!--    <string name="settings_measurement_units">Unidades de medida</string>-->
+<!--    <string name="settings_language">Idioma</string>-->
+<!--    <string name="settings_dark_mode">Modo oscuro</string>-->
+<!--    <string name="settings_about">Acerca de LuxeValuation</string>-->
+<!--    <string name="settings_log_out">Cerrar sesión</string>-->
+<!--    <string name="settings_log_out_confirm_title">Cerrar sesión</string>-->
+<!--    <string name="settings_log_out_confirm_body">¿Estás seguro de que quieres cerrar sesión?</string>-->
+<!--    &lt;!&ndash; Appraisal statuses &ndash;&gt;-->
+<!--    <string name="status_draft">Borrador</string>-->
+<!--    <string name="status_completed">Completada</string>-->
+<!--    <string name="status_archived">Archivada</string>-->
 
-    <!-- Auth -->
+<!--    &lt;!&ndash; Auth &ndash;&gt;-->
     <string name="auth_welcome_back">Bienvenido de nuevo</string>
     <string name="auth_sign_in_subtitle">Inicia sesión para continuar con tus tasaciones.</string>
     <string name="auth_email">Correo electrónico</string>
@@ -151,7 +150,10 @@
     <string name="settings_about_body">LuxeValuation ayuda a tasadores certificados a crear informes profesionales de valoración de joyas.</string>
     <string name="unit_metric">Milímetros (mm), quilates (ct)</string>
     <string name="unit_imperial">Pulgadas, puntos</string>
-
+    <string name="delete_appraisal_confirm_body">
+    Esto eliminará permanentemente esta tasación y los %1$d artículo(s) que contiene, incluidas sus fotos. Esta acción no se puede deshacer.
+</string>
+    <string name="items_count">%1$d piezas</string>
     <string name="business_profile_title">Perfil profesional</string>
     <string name="business_name_label">Nombre de la empresa</string>
     <string name="license_number_label">Número de licencia</string>
@@ -164,19 +166,28 @@
     <string name="action_archive">Archivar</string>
     <string name="action_delete_appraisal">Eliminar tasación</string>
     <string name="section_jewelry_items">Piezas de joyería</string>
-    <string name="items_count">{n} piezas</string>
     <string name="action_add_another_item">Añadir otra pieza</string>
     <string name="unpriced_items_title">Piezas sin valor</string>
     <string name="unpriced_items_body">{n} pieza(s) aún no tienen valor — no se incluirán en el total del informe: {names}</string>
     <string name="action_preview_report">Vista previa del informe</string>
     <string name="action_mark_completed">Marcar como completada</string>
-    <string name="delete_appraisal_confirm_body">Esta acción eliminará permanentemente esta tasación y sus {n} pieza(s)...</string>
     <string name="action_delete">Eliminar</string>
-    <string name="mark_completed_unpriced_confirm">{n} pieza(s) aún no tienen valor: {names}. ... ¿Marcar esta tasación como completada de todos modos?</string>
+    <string name="mark_completed_unpriced_confirm">
+    %1$d artículo(s) aún no tienen un valor: %2$s. El total del informe no los incluirá. ¿Quieres marcar esta tasación como completada de todos modos?
+</string>
+    <string name="delete_item_confirm_body">
+    ¿Eliminar permanentemente "%1$s" y sus fotos? Esta acción no se puede deshacer.
+</string>
+    <string name="report_unpriced_items_notice">
+    %1$d artículo(s) aún no tienen valor — el total del informe no los incluirá: %2$s
+</string>
+    <string name="back">Atrás</string>
+    <string name="more">Más</string>
+    <string name="this_item">este artículo</string>
+    <string name="internal_notes">Notas internas (opcional)</string>
     <string name="action_mark_completed_anyway">Marcar de todos modos</string>
     <string name="action_go_back">Volver</string>
     <string name="delete_item_title">Eliminar pieza</string>
-    <string name="delete_item_confirm_body">¿Eliminar permanentemente "{name}" y sus fotos? Esta acción no se puede deshacer.</string>
     <string name="section_appraisal_context">Contexto de la tasación</string>
     <string name="label_primary_purpose">Propósito principal</string>
     <string name="section_client_info">Información del cliente</string>
@@ -317,5 +328,6 @@
 
     <string name="action_add_photo">Añadir foto</string>
     <string name="cd_remove_photo">Eliminar</string>
+    <string name="settings_delete_account">Eliminar cuenta</string>
     <string name="settings_privacy_policy">Política de privacidad</string>
 </resources>

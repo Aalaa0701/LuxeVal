@@ -14,6 +14,7 @@ import com.example.luxeval.data.repository.PricingRepository
 import com.example.luxeval.data.repository.SessionRepository
 import com.example.luxeval.data.repository.SyncRepository
 import com.example.luxeval.domain.usecase.DeleteAppraisalUseCase
+import com.example.luxeval.i18n.LanguageBootstrapper
 import com.example.luxeval.presentation.theme.ThemeController
 import org.koin.dsl.module
 
@@ -33,5 +34,6 @@ val repositoryModule = module {
     single { DeleteAppraisalUseCase(get(), get(), get()) }
     single { SessionRepository(get(), get(), get(), get()) }
     single { get<AppDatabase>().syncOutboxDao() }
+    single { LanguageBootstrapper(get()) }
 
 }

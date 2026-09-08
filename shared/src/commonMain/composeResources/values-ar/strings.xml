@@ -7,38 +7,37 @@
     <string name="nav_search">البحث</string>
     <string name="nav_settings">الإعدادات</string>
 
-    <!-- Dashboard -->
-    <string name="dashboard_greeting">صباح الخير</string>
-    <string name="dashboard_total_appraisals">إجمالي التقييمات</string>
-    <string name="dashboard_completed">مكتملة</string>
-    <string name="dashboard_drafts">مسودات</string>
-    <string name="dashboard_customers">العملاء</string>
-    <string name="dashboard_continue_draft">متابعة المسودة</string>
-    <string name="dashboard_recent_appraisals">أحدث التقييمات</string>
+<!--    &lt;!&ndash; Dashboard &ndash;&gt;-->
+<!--    <string name="dashboard_greeting">صباح الخير</string>-->
+<!--    <string name="dashboard_total_appraisals">إجمالي التقييمات</string>-->
+<!--    <string name="dashboard_completed">مكتملة</string>-->
+<!--    <string name="dashboard_drafts">مسودات</string>-->
+<!--    <string name="dashboard_customers">العملاء</string>-->
+<!--    <string name="dashboard_continue_draft">متابعة المسودة</string>-->
+<!--    <string name="dashboard_recent_appraisals">أحدث التقييمات</string>-->
 
-    <!-- Settings -->
-    <string name="settings_title">الإعدادات</string>
-    <string name="settings_subtitle">إدارة تفضيلات حسابك وتفاصيل نشاطك التجاري.</string>
-    <string name="settings_business_info">معلومات النشاط التجاري</string>
-    <string name="settings_business_profile">الملف التجاري</string>
-    <string name="settings_brand_logo">شعار العلامة التجارية</string>
-    <string name="settings_digital_signature">التوقيع الرقمي</string>
-    <string name="settings_preferences">التفضيلات</string>
-    <string name="settings_currency">العملة</string>
-    <string name="settings_measurement_units">وحدات القياس</string>
-    <string name="settings_language">اللغة</string>
-    <string name="settings_dark_mode">الوضع الداكن</string>
-    <string name="settings_about">عن LuxeValuation</string>
-    <string name="settings_log_out">تسجيل الخروج</string>
-    <string name="settings_log_out_confirm_title">تسجيل الخروج</string>
-    <string name="settings_log_out_confirm_body">هل أنت متأكد أنك تريد تسجيل الخروج؟</string>
-    <string name="settings_delete_account">حذف الحساب</string>
-    <!-- Appraisal statuses -->
-    <string name="status_draft">مسودة</string>
-    <string name="status_completed">مكتملة</string>
-    <string name="status_archived">مؤرشفة</string>
+<!--    &lt;!&ndash; Settings &ndash;&gt;-->
+<!--    <string name="settings_title">الإعدادات</string>-->
+<!--    <string name="settings_subtitle">إدارة تفضيلات حسابك وتفاصيل نشاطك التجاري.</string>-->
+<!--    <string name="settings_business_info">معلومات النشاط التجاري</string>-->
+<!--    <string name="settings_business_profile">الملف التجاري</string>-->
+<!--    <string name="settings_brand_logo">شعار العلامة التجارية</string>-->
+<!--    <string name="settings_digital_signature">التوقيع الرقمي</string>-->
+<!--    <string name="settings_preferences">التفضيلات</string>-->
+<!--    <string name="settings_currency">العملة</string>-->
+<!--    <string name="settings_measurement_units">وحدات القياس</string>-->
+<!--    <string name="settings_language">اللغة</string>-->
+<!--    <string name="settings_dark_mode">الوضع الداكن</string>-->
+<!--    <string name="settings_about">عن LuxeValuation</string>-->
+<!--    <string name="settings_log_out">تسجيل الخروج</string>-->
+<!--    <string name="settings_log_out_confirm_title">تسجيل الخروج</string>-->
+<!--    <string name="settings_log_out_confirm_body">هل أنت متأكد أنك تريد تسجيل الخروج؟</string>-->
+<!--    &lt;!&ndash; Appraisal statuses &ndash;&gt;-->
+<!--    <string name="status_draft">مسودة</string>-->
+<!--    <string name="status_completed">مكتملة</string>-->
+<!--    <string name="status_archived">مؤرشفة</string>-->
 
-    <!-- Auth -->
+<!--    &lt;!&ndash; Auth &ndash;&gt;-->
     <string name="auth_welcome_back">مرحبًا بعودتك</string>
     <string name="auth_sign_in_subtitle">سجّل الدخول لمتابعة تقييماتك.</string>
     <string name="auth_email">البريد الإلكتروني</string>
@@ -46,7 +45,10 @@
     <string name="auth_sign_in">تسجيل الدخول</string>
     <string name="auth_sign_up">إنشاء حساب</string>
     <string name="auth_no_account">ليس لديك حساب؟</string>
-
+    <string name="items_count">%1$d عنصر</string>
+    <string name="delete_appraisal_confirm_body">
+    سيؤدي هذا إلى حذف هذا التقييم وجميع العناصر (%1$d) الموجودة فيه نهائيًا، بما في ذلك صورها. لا يمكن التراجع عن هذا الإجراء.
+</string>
 
     <!-- AUTH -->
     <string name="auth_tagline">تقييم احترافي للمجوهرات بين يديك</string>
@@ -173,19 +175,28 @@
     <string name="action_archive">أرشفة</string>
     <string name="action_delete_appraisal">حذف التقييم</string>
     <string name="section_jewelry_items">قطع المجوهرات</string>
-    <string name="items_count">{n} قطع</string>
     <string name="action_add_another_item">إضافة قطعة أخرى</string>
     <string name="unpriced_items_title">قطع بدون سعر</string>
     <string name="unpriced_items_body">{n} قطعة لم يتم تحديد قيمتها بعد — لن يشملها إجمالي التقرير: {names}</string>
     <string name="action_preview_report">معاينة التقرير</string>
     <string name="action_mark_completed">تحديد كمكتمل</string>
-    <string name="delete_appraisal_confirm_body">سيؤدي هذا إلى حذف هذا التقييم وجميع القطع وعددها {n} نهائياً...</string>
     <string name="action_delete">حذف</string>
-    <string name="mark_completed_unpriced_confirm">{n} قطعة لم يتم تحديد قيمتها بعد: {names}. ... هل تريد تحديد هذا التقييم كمكتمل على أي حال؟</string>
+    <string name="mark_completed_unpriced_confirm">
+    هناك %1$d عنصر/عناصر بدون قيمة حتى الآن: %2$s. لن يشمل إجمالي التقرير هذه العناصر. هل تريد وضع علامة "مكتمل" على التقييم على أي حال؟
+</string>
+    <string name="delete_item_confirm_body">
+    هل تريد حذف "%1$s" وصوره نهائيًا؟ لا يمكن التراجع عن هذا الإجراء.
+</string>
+    <string name="report_unpriced_items_notice">
+    %1$d عنصر/عناصر ليس لها قيمة حتى الآن — لن يشمل إجمالي التقرير هذه العناصر: %2$s
+</string>
+    <string name="back">رجوع</string>
+    <string name="more">المزيد</string>
+    <string name="this_item">هذا العنصر</string>
+    <string name="internal_notes">ملاحظات داخلية (اختياري)</string>
     <string name="action_mark_completed_anyway">تحديد كمكتمل على أي حال</string>
     <string name="action_go_back">العودة</string>
     <string name="delete_item_title">حذف القطعة</string>
-    <string name="delete_item_confirm_body">هل تريد حذف "{name}" وصورها نهائياً؟ لا يمكن التراجع عن هذا الإجراء.</string>
     <string name="section_appraisal_context">بيانات التقييم</string>
     <string name="label_primary_purpose">الغرض الرئيسي</string>
     <string name="section_client_info">معلومات العميل</string>
@@ -335,5 +346,7 @@
     <!-- PHOTO GRID -->
     <string name="action_add_photo">إضافة صورة</string>
     <string name="cd_remove_photo">إزالة</string>
+    <string name="settings_delete_account">حذف الحساب</string>
+
 
 </resources>

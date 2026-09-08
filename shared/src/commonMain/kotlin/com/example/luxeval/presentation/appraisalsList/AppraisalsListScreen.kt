@@ -35,7 +35,7 @@ fun AppraisalsListScreen(
         PullToRefreshBox(
             isRefreshing = isRefreshing,
             onRefresh = { viewModel.onPullToRefresh() },
-            modifier = Modifier.fillMaxSize().padding(padding)
+//            modifier = Modifier.fillMaxSize().padding(padding)
         ){
             LazyColumn(
                 modifier = Modifier.fillMaxSize().padding(padding),

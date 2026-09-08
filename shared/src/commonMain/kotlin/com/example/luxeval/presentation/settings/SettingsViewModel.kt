@@ -9,6 +9,7 @@ import com.example.luxeval.data.ThemeMode
 import com.example.luxeval.data.repository.AuthRepository
 import com.example.luxeval.data.repository.BusinessProfileRepository
 import com.example.luxeval.data.repository.SessionRepository
+import com.example.luxeval.i18n.LanguageApplier
 import com.example.luxeval.presentation.theme.ThemeController
 import com.example.luxeval.presentation.util.ErrorContext
 import com.example.luxeval.presentation.util.toUserError
@@ -30,6 +31,8 @@ class SettingsViewModel(
     private val businessProfileRepository: BusinessProfileRepository,
     private val sessionRepository: SessionRepository, // add to constructor + Koin module
     private val authRepository: AuthRepository,
+    private val languageApplier: LanguageApplier // <-- inject LanguageApplier (Android actual) here
+
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(loadCurrentState())
@@ -161,9 +164,11 @@ class SettingsViewModel(
         schedulePush()
     }
 
+    // SettingsViewModel.kt
     fun onLanguageChanged(code: String) {
         settingsStore.setLanguageCode(code)
         _uiState.value = _uiState.value.copy(languageCode = code)
+        languageApplier.apply(code)   // <-- inject LanguageApplier (Android actual) here — this line is currently missing entirely
     }
 
     fun onThemeModeChanged(mode: ThemeMode) {

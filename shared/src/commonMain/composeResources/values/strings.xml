@@ -7,40 +7,43 @@
     <string name="nav_search">Search</string>
     <string name="nav_settings">Settings</string>
 
-    <!-- Dashboard -->
-    <string name="dashboard_greeting">Good Morning</string>
-    <string name="dashboard_total_appraisals">Total Appraisals</string>
-    <string name="dashboard_completed">Completed</string>
-    <string name="dashboard_drafts">Drafts</string>
-    <string name="dashboard_customers">Customers</string>
-    <string name="dashboard_continue_draft">Continue Draft</string>
-    <string name="dashboard_recent_appraisals">Recent Appraisals</string>
+<!--    &lt;!&ndash; Dashboard &ndash;&gt;-->
+<!--    <string name="dashboard_total_appraisals">Total Appraisals</string>-->
+<!--    <string name="dashboard_completed">Completed</string>-->
+<!--    <string name="dashboard_drafts">Drafts</string>-->
+<!--    <string name="dashboard_customers">Customers</string>-->
+<!--    <string name="dashboard_continue_draft">Continue Draft</string>-->
+<!--    <string name="dashboard_recent_appraisals">Recent Appraisals</string>-->
 
-    <!-- Settings -->
-    <string name="settings_title">Settings</string>
-    <string name="settings_subtitle">Manage your account preferences and business details.</string>
-    <string name="settings_business_info">Business Information</string>
-    <string name="settings_business_profile">Business Profile</string>
-    <string name="settings_brand_logo">Brand Logo</string>
-    <string name="settings_digital_signature">Digital Signature</string>
-    <string name="settings_preferences">Preferences</string>
-    <string name="settings_currency">Currency</string>
-    <string name="settings_measurement_units">Measurement Units</string>
-    <string name="settings_language">Language</string>
-    <string name="settings_dark_mode">Dark Mode</string>
-    <string name="settings_about">About LuxeValuation</string>
-    <string name="settings_log_out">Log Out</string>
-    <string name="settings_log_out_confirm_title">Log Out</string>
-    <string name="settings_log_out_confirm_body">Are you sure you want to log out?</string>
-    <string name="settings_delete_account">Delete account</string>
+<!--    &lt;!&ndash; Settings &ndash;&gt;-->
+<!--    <string name="settings_title">Settings</string>-->
+<!--    <string name="settings_subtitle">Manage your account preferences and business details.</string>-->
+<!--    <string name="settings_business_info">Business Information</string>-->
+<!--    <string name="settings_business_profile">Business Profile</string>-->
+<!--    <string name="settings_brand_logo">Brand Logo</string>-->
+<!--    <string name="settings_digital_signature">Digital Signature</string>-->
+<!--    <string name="settings_preferences">Preferences</string>-->
+<!--    <string name="settings_currency">Currency</string>-->
+<!--    <string name="settings_measurement_units">Measurement Units</string>-->
+<!--    <string name="settings_language">Language</string>-->
+<!--    <string name="settings_dark_mode">Dark Mode</string>-->
+<!--    <string name="settings_about">About LuxeValuation</string>-->
+<!--    <string name="settings_log_out">Log Out</string>-->
+<!--    <string name="settings_log_out_confirm_title">Log Out</string>-->
+<!--    <string name="settings_log_out_confirm_body">Are you sure you want to log out?</string>-->
 
-    <!-- Appraisal statuses -->
-    <string name="status_draft">Draft</string>
-    <string name="status_completed">Completed</string>
-    <string name="status_archived">Archived</string>
+<!--    &lt;!&ndash; Appraisal statuses &ndash;&gt;-->
+<!--    <string name="status_draft">Draft</string>-->
+<!--    <string name="status_completed">Completed</string>-->
+<!--    <string name="status_archived">Archived</string>-->
 
-    <!-- Auth -->
+<!--    &lt;!&ndash; Auth &ndash;&gt;-->
     <string name="auth_welcome_back">Welcome Back</string>
+    <string name="back">Back</string>
+    <string name="more">More</string>
+    <string name="this_item">this item</string>
+    <string name="internal_notes">Internal Notes (Optional)</string>
+
     <string name="auth_sign_in_subtitle">Sign in to continue your appraisals.</string>
     <string name="auth_email">Email</string>
     <string name="auth_password">Password</string>
@@ -159,6 +162,8 @@
     <string name="settings_about_body">LuxeValuation helps certified appraisers create professional jewelry valuation reports.</string>
     <string name="unit_metric">Millimeters (mm), Carats (ct)</string>
     <string name="unit_imperial">Inches, Points</string>
+    <string name="settings_delete_account">Delete account</string>
+
 
     <!-- ==================== BUSINESS PROFILE ==================== -->
     <string name="business_profile_title">Business Profile</string>
@@ -174,19 +179,25 @@
     <string name="action_archive">Archive</string>
     <string name="action_delete_appraisal">Delete Appraisal</string>
     <string name="section_jewelry_items">Jewelry Items</string>
-    <string name="items_count">{n} Items</string>
+    <string name="items_count">%1$d Items</string>
     <string name="action_add_another_item">Add Another Item</string>
     <string name="unpriced_items_title">Unpriced Items</string>
     <string name="unpriced_items_body">{n} item(s) have no value yet — the report total won't include them: {names}</string>
     <string name="action_preview_report">Preview Report</string>
     <string name="action_mark_completed">Mark Completed</string>
-    <string name="delete_appraisal_confirm_body">This permanently deletes this appraisal and all {n} item(s)...</string>
     <string name="action_delete">Delete</string>
-    <string name="mark_completed_unpriced_confirm">{n} item(s) don't have a value yet: {names}. ... Mark this appraisal completed anyway?</string>
+    <string name="mark_completed_unpriced_confirm">
+    %1$d item(s) don't have a value yet: %2$s. The total on the report will not include them. Mark this appraisal completed anyway?
+</string>
+    <string name="report_unpriced_items_notice">
+    %1$d item(s) have no value yet — the report total won't include them: %2$s
+</string>
+    <string name="delete_item_confirm_body">
+    Permanently delete "%1$s" and its photos? This can't be undone.
+</string>
     <string name="action_mark_completed_anyway">Mark Completed Anyway</string>
     <string name="action_go_back">Go Back</string>
     <string name="delete_item_title">Delete Item</string>
-    <string name="delete_item_confirm_body">Permanently delete "{name}" and its photos? This can't be undone.</string>
     <string name="section_appraisal_context">Appraisal Context</string>
     <string name="label_primary_purpose">Primary Purpose</string>
     <string name="section_client_info">Client Information</string>
@@ -194,9 +205,11 @@
     <string name="label_phone_number">Phone Number</string>
     <string name="action_save">Save</string>
     <string name="items_empty_title">No items added yet</string>
-    <string name="items_empty_body">Begin by adding the first piece of jewelry...</string>
+    <string name="items_empty_body">Begin by adding the first piece of jewelry to this valuation report.</string>
     <string name="action_add_jewelry_item">Add Jewelry Item</string>
-
+    <string name="delete_appraisal_confirm_body">
+    This permanently deletes this appraisal and all %1$d item(s) in it, including their photos. This can't be undone.
+    </string>
     <!-- Purposes -->
     <string name="purpose_insurance">Insurance Replacement</string>
     <string name="purpose_fair_market">Fair Market Value</string>
@@ -340,6 +353,7 @@
     <string name="label_client">Client</string>
     <string name="label_email">Email</string>
     <string name="label_phone">Phone</string>
+<!--    <string name="internal_notes">Internal Notes (Optional)</string>-->
 
     <!-- ==================== ONBOARDING ==================== -->
     <string name="action_skip">Skip</string>

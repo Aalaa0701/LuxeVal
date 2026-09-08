@@ -15,6 +15,8 @@ import com.example.luxeval.domain.ItemCategory
 import com.example.luxeval.presentation.theme.LuxeShapes
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.action_add_jewelry_item
+import luxeval.shared.generated.resources.category_picker_subtitle
 import luxeval.shared.generated.resources.ic_brooch
 import luxeval.shared.generated.resources.ic_earrings
 import luxeval.shared.generated.resources.ic_gamstone
@@ -27,6 +29,7 @@ import luxeval.shared.generated.resources.ic_watch
 import luxeval.shared.generated.resources.ic_bracelet
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,9 +39,9 @@ fun CategoryPickerSheet(
 ) {
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(modifier = Modifier.padding(LuxeSpacing.md)) {
-            Text("Add Jewelry Item", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Text(stringResource(Res.string.action_add_jewelry_item), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
             Text(
-                "Choose a category to continue.",
+                stringResource(Res.string.category_picker_subtitle),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

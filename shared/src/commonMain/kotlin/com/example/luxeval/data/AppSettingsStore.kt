@@ -22,6 +22,8 @@ class AppSettingsStore(private val settings: Settings) {
         if (value.isNullOrBlank()) settings.remove("remembered_email")
         else settings.putString("remembered_email", value)
     }
+    fun hasLanguageBeenInitialized(): Boolean = settings.getBoolean("language_initialized", false)
+    fun markLanguageInitialized() = settings.putBoolean("language_initialized", true)
     fun isDarkModeEnabled(): Boolean = settings.getBoolean("dark_mode", false)
     fun setDarkModeEnabled(value: Boolean) = settings.putBoolean("dark_mode", value)
     fun hasCompletedOnboarding(): Boolean = settings.getBoolean("has_onboarded", false)
