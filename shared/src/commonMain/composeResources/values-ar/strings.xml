@@ -19,11 +19,11 @@
 <!--    &lt;!&ndash; Settings &ndash;&gt;-->
 <!--    <string name="settings_title">الإعدادات</string>-->
 <!--    <string name="settings_subtitle">إدارة تفضيلات حسابك وتفاصيل نشاطك التجاري.</string>-->
-<!--    <string name="settings_business_info">معلومات النشاط التجاري</string>-->
+    <string name="settings_business_info">معلومات النشاط التجاري</string>
 <!--    <string name="settings_business_profile">الملف التجاري</string>-->
 <!--    <string name="settings_brand_logo">شعار العلامة التجارية</string>-->
 <!--    <string name="settings_digital_signature">التوقيع الرقمي</string>-->
-<!--    <string name="settings_preferences">التفضيلات</string>-->
+    <string name="settings_preferences">التفضيلات</string>
 <!--    <string name="settings_currency">العملة</string>-->
 <!--    <string name="settings_measurement_units">وحدات القياس</string>-->
 <!--    <string name="settings_language">اللغة</string>-->
@@ -38,6 +38,14 @@
 <!--    <string name="status_archived">مؤرشفة</string>-->
 
 <!--    &lt;!&ndash; Auth &ndash;&gt;-->
+    <string name="delete_forever">حذف نهائي</string>
+    <string name="delete_account_confirm_body">
+    سيؤدي هذا إلى حذف حسابك وجميع التقييمات والعملاء والعناصر والصور نهائيًا. لا يمكن التراجع عن هذا الإجراء.\n\nاكتب DELETE للتأكيد.
+</string>
+    <string name="search_no_results_body">لم نتمكن من العثور على أي نتائج تطابق "%1$s". حاول تعديل عبارات البحث.</string>
+    <string name="appraisals_results">التقييمات · %1$d نتيجة</string>
+    <string name="unit_metric_description">ملليمتر (مم)، قيراط (ق)</string>
+    <string name="unit_imperial_description">بوصة، نقطة</string>
     <string name="auth_welcome_back">مرحبًا بعودتك</string>
     <string name="auth_sign_in_subtitle">سجّل الدخول لمتابعة تقييماتك.</string>
     <string name="auth_email">البريد الإلكتروني</string>
@@ -125,7 +133,8 @@
     <string name="search_placeholder">ابحث في التقييمات أو العملاء أو قطع المجوهرات...</string>
     <string name="search_prompt">ابدأ بالكتابة للبحث في التقييمات والعملاء.</string>
     <string name="search_no_results_title">لم يتم العثور على نتائج</string>
-    <string name="search_no_results_body">لم نتمكن من العثور على أي شيء يطابق "{query}"...</string>
+    <string name="customers_results_one">العملاء · نتيجة واحدة</string>
+    <string name="customers_results_other">العملاء · %1$d نتائج</string>
     <string name="action_clear_search">مسح البحث</string>
     <string name="search_appraisals_count">التقييمات · {n} نتائج</string>
     <string name="search_customers_count">العملاء · {n} نتيجة</string>
@@ -213,7 +222,8 @@
     <string name="purpose_estate">تقييم التركة</string>
     <string name="purpose_wholesale">التصفية بالجملة</string>
     <string name="purpose_other">أخرى</string>
-
+    <string name="auth_hide_password">إخفاء كلمة المرور</string>
+    <string name="auth_show_password">إظهار كلمة المرور</string>
     <!-- CATEGORY -->
     <string name="category_picker_subtitle">اختر فئة للمتابعة.</string>
     <string name="category_ring">خاتم</string>
@@ -226,6 +236,10 @@
     <string name="category_gemstone">حجر كريم</string>
     <string name="category_pearl">لؤلؤ</string>
     <string name="category_other">أخرى</string>
+    <string name="auth_agree">أوافق على </string>
+    <string name="auth_terms">شروط الخدمة</string>
+    <string name="auth_privacy">سياسة الخصوصية</string>
+    <string name="auth_and"> و</string>
 
     <!-- ITEM EDITOR -->
     <string name="field_item_name">اسم القطعة</string>

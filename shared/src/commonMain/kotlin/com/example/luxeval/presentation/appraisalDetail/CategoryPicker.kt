@@ -16,7 +16,17 @@ import com.example.luxeval.presentation.theme.LuxeShapes
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.action_add_jewelry_item
+import luxeval.shared.generated.resources.category_bracelet
+import luxeval.shared.generated.resources.category_brooch
+import luxeval.shared.generated.resources.category_earrings
+import luxeval.shared.generated.resources.category_gemstone
+import luxeval.shared.generated.resources.category_necklace
+import luxeval.shared.generated.resources.category_other
+import luxeval.shared.generated.resources.category_pearl
+import luxeval.shared.generated.resources.category_pendant
 import luxeval.shared.generated.resources.category_picker_subtitle
+import luxeval.shared.generated.resources.category_ring
+import luxeval.shared.generated.resources.category_watch
 import luxeval.shared.generated.resources.ic_brooch
 import luxeval.shared.generated.resources.ic_earrings
 import luxeval.shared.generated.resources.ic_gamstone
@@ -28,6 +38,7 @@ import luxeval.shared.generated.resources.ic_ring
 import luxeval.shared.generated.resources.ic_watch
 import luxeval.shared.generated.resources.ic_bracelet
 import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -72,24 +83,24 @@ private fun CategoryTile(category: ItemCategory, onClick: () -> Unit) {
             modifier = Modifier.fillMaxWidth().padding(vertical = LuxeSpacing.md),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(painterResource(category.icon()), contentDescription = category.label(), tint = MaterialTheme.colorScheme.secondary)
+            Icon(painterResource(category.icon()), contentDescription = stringResource(category.label()), tint = MaterialTheme.colorScheme.secondary)
             Spacer(Modifier.height(LuxeSpacing.xs))
-            Text(category.label(), style = MaterialTheme.typography.labelMedium, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+            Text(stringResource(category.label()), style = MaterialTheme.typography.labelMedium, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
         }
     }
 }
 
-fun ItemCategory.label(): String = when (this) {
-    ItemCategory.RING -> "Ring"
-    ItemCategory.NECKLACE -> "Necklace"
-    ItemCategory.PENDANT -> "Pendant"
-    ItemCategory.BRACELET -> "Bracelet"
-    ItemCategory.EARRINGS -> "Earrings"
-    ItemCategory.BROOCH -> "Brooch"
-    ItemCategory.WATCH -> "Watch"
-    ItemCategory.LOOSE_GEMSTONE -> "Gemstone"
-    ItemCategory.PEARL_JEWELRY -> "Pearl Jewelry"
-    ItemCategory.OTHER -> "Other"
+fun ItemCategory.label(): StringResource = when (this) {
+    ItemCategory.RING -> Res.string.category_ring
+    ItemCategory.NECKLACE -> Res.string.category_necklace
+    ItemCategory.PENDANT -> Res.string.category_pendant
+    ItemCategory.BRACELET -> Res.string.category_bracelet
+    ItemCategory.EARRINGS -> Res.string.category_earrings
+    ItemCategory.BROOCH -> Res.string.category_brooch
+    ItemCategory.WATCH -> Res.string.category_watch
+    ItemCategory.LOOSE_GEMSTONE -> Res.string.category_gemstone
+    ItemCategory.PEARL_JEWELRY -> Res.string.category_pearl
+    ItemCategory.OTHER -> Res.string.category_other
 }
 
 fun ItemCategory.icon(): DrawableResource = when (this) {

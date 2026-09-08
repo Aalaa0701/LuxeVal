@@ -20,6 +20,24 @@ import luxeval.shared.generated.resources.ic_add
 import luxeval.shared.generated.resources.ic_search
 import org.jetbrains.compose.resources.painterResource
 import com.example.luxeval.presentation.util.AppraisalCardView
+import luxeval.shared.generated.resources.action_cancel
+import luxeval.shared.generated.resources.action_go_to_profile
+import luxeval.shared.generated.resources.action_new_appraisal
+import luxeval.shared.generated.resources.appraisals_empty_body
+import luxeval.shared.generated.resources.appraisals_empty_title
+import luxeval.shared.generated.resources.appraisals_list_subtitle
+import luxeval.shared.generated.resources.appraisals_list_title
+import luxeval.shared.generated.resources.dialog_incomplete_profile_body
+import luxeval.shared.generated.resources.dialog_incomplete_profile_title
+import luxeval.shared.generated.resources.filter_all
+import luxeval.shared.generated.resources.filter_archived
+import luxeval.shared.generated.resources.filter_completed
+import luxeval.shared.generated.resources.filter_drafts
+import luxeval.shared.generated.resources.label_sort_by
+import luxeval.shared.generated.resources.sort_client_name
+import luxeval.shared.generated.resources.sort_date_added
+import luxeval.shared.generated.resources.sort_estimated_value
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AppraisalsListScreen(
@@ -44,10 +62,10 @@ fun AppraisalsListScreen(
             ) {
                 item {
                     Column {
-                        Text("Appraisals", style = MaterialTheme.typography.displayLarge, fontWeight = FontWeight.Bold)
+                        Text(stringResource(Res.string.appraisals_list_title), style = MaterialTheme.typography.displayLarge, fontWeight = FontWeight.Bold)
                         Spacer(Modifier.height(8.dp))
                         Text(
-                            "Manage and review your valuation portfolio.",
+                            stringResource(Res.string.appraisals_list_subtitle),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -75,18 +93,21 @@ fun AppraisalsListScreen(
                         {
                             Icon(painterResource(Res.drawable.ic_add), contentDescription = null, modifier = Modifier.size(18.dp))
                             Spacer(Modifier.width(4.dp))
-                            Text("New Appraisal")
+                            Text(stringResource(Res.string.action_new_appraisal))
                         }
                     }
                 }
 
                 item {
-                    Row(horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.xs),
+                        verticalArrangement = Arrangement.spacedBy(LuxeSpacing.xs)
+                    ) {
                         AppraisalFilter.entries.forEach { filter ->
                             FilterChip(
                                 selected = uiState.filter == filter,
                                 onClick = { viewModel.onFilterChanged(filter) },
-                                label = { Text(filter.label()) },
+                                label = { Text(stringResource(filter.label())) },
                                 shape = RoundedCornerShape(12.dp),
                                 colors = FilterChipDefaults.filterChipColors(
                                     containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -105,7 +126,7 @@ fun AppraisalsListScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Sort by", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(stringResource(Res.string.label_sort_by), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         SortDropdown(current = uiState.sort, onSelected = viewModel::onSortChanged)
                     }
                 }
@@ -137,15 +158,15 @@ fun AppraisalsListScreen(
     if (showIncompleteProfileDialog) {
         AlertDialog(
             onDismissRequest = { showIncompleteProfileDialog = false },
-            title = { Text("Complete Your Business Profile") },
-            text = { Text("Add your business name, license number, logo, and signature before creating an appraisal — these appear on every generated report.") },
+            title = { Text(stringResource(Res.string.dialog_incomplete_profile_title)) },
+            text = { Text(stringResource(Res.string.dialog_incomplete_profile_body)) },
             confirmButton = {
                 TextButton(onClick = {
                     showIncompleteProfileDialog = false
                     onNavigateToBusinessProfile() // pass this in from MainScreen, same as SettingsScreen already does
-                }) { Text("Go to Profile") }
+                }) { Text(stringResource(Res.string.action_go_to_profile)) }
             },
-            dismissButton = { TextButton(onClick = { showIncompleteProfileDialog = false }) { Text("Cancel") } }
+            dismissButton = { TextButton(onClick = { showIncompleteProfileDialog = false }) { Text(stringResource(Res.string.action_cancel)) } }
         )
     }
 }
@@ -154,10 +175,10 @@ fun AppraisalsListScreen(
 private fun SortDropdown(current: AppraisalSort, onSelected: (AppraisalSort) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     Box {
-        TextButton(onClick = { expanded = true }) { Text(current.label()) }
+        TextButton(onClick = { expanded = true }) { Text(stringResource(current.label())) }
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             AppraisalSort.entries.forEach { sort ->
-                DropdownMenuItem(text = { Text(sort.label()) }, onClick = { onSelected(sort); expanded = false })
+                DropdownMenuItem(text = { Text(stringResource(sort.label())) }, onClick = { onSelected(sort); expanded = false })
             }
         }
     }
@@ -169,27 +190,27 @@ private fun EmptyAppraisalsState(onCreate: () -> Unit) {
         modifier = Modifier.fillMaxWidth().padding(vertical = LuxeSpacing.xl),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("No appraisals yet", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+        Text(stringResource(Res.string.appraisals_empty_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(LuxeSpacing.xs))
         Text(
-            "Start your first valuation report.",
+            stringResource(Res.string.appraisals_empty_body),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(Modifier.height(LuxeSpacing.md))
-        Button(onClick = onCreate) { Text("+ New Appraisal") }
+        Button(onClick = onCreate) { Text(stringResource(Res.string.action_new_appraisal)) }
     }
 }
 
 private fun AppraisalFilter.label() = when (this) {
-    AppraisalFilter.ALL -> "All"
-    AppraisalFilter.DRAFTS -> "Drafts"
-    AppraisalFilter.COMPLETED -> "Completed"
-    AppraisalFilter.ARCHIVED -> "Archived"
+    AppraisalFilter.ALL -> Res.string.filter_all
+    AppraisalFilter.DRAFTS -> Res.string.filter_drafts
+    AppraisalFilter.COMPLETED -> Res.string.filter_completed
+    AppraisalFilter.ARCHIVED -> Res.string.filter_archived
 }
 
 private fun AppraisalSort.label() = when (this) {
-    AppraisalSort.DATE_ADDED -> "Date Added"
-    AppraisalSort.ESTIMATED_VALUE -> "Estimated Value"
-    AppraisalSort.CLIENT_NAME -> "Client Name"
+    AppraisalSort.DATE_ADDED -> Res.string.sort_date_added
+    AppraisalSort.ESTIMATED_VALUE -> Res.string.sort_estimated_value
+    AppraisalSort.CLIENT_NAME -> Res.string.sort_client_name
 }

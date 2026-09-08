@@ -18,11 +18,11 @@
 <!--    &lt;!&ndash; Settings &ndash;&gt;-->
 <!--    <string name="settings_title">Settings</string>-->
 <!--    <string name="settings_subtitle">Manage your account preferences and business details.</string>-->
-<!--    <string name="settings_business_info">Business Information</string>-->
+    <string name="settings_business_info">Business Information</string>
 <!--    <string name="settings_business_profile">Business Profile</string>-->
 <!--    <string name="settings_brand_logo">Brand Logo</string>-->
 <!--    <string name="settings_digital_signature">Digital Signature</string>-->
-<!--    <string name="settings_preferences">Preferences</string>-->
+    <string name="settings_preferences">Preferences</string>
 <!--    <string name="settings_currency">Currency</string>-->
 <!--    <string name="settings_measurement_units">Measurement Units</string>-->
 <!--    <string name="settings_language">Language</string>-->
@@ -64,10 +64,13 @@
     <string name="auth_tab_signup">Sign Up</string>
     <string name="auth_remember_me">Remember me</string>
     <string name="auth_forgot_password">Forgot Password?</string>
-    <string name="auth_agree_terms">I agree to the Terms of Service and Privacy Policy</string>
+    <string name="auth_agree">I agree to the </string>
+    <string name="auth_terms">Terms of Service</string>
+    <string name="auth_privacy">Privacy Policy</string>
+    <string name="auth_and"> and </string>
     <string name="auth_sign_in_button">Sign In</string>
     <string name="auth_create_account_button">Create Account</string>
-    <string name="auth_or_continue_with">or continue with</string>
+    <string name="auth_or_continue_with"> or continue with </string>
     <string name="auth_continue_google">Continue with Google</string>
     <string name="auth_no_account_prompt">Don't have an account? </string>
     <string name="auth_has_account_prompt">Already have an account? </string>
@@ -89,10 +92,12 @@
     <string name="dialog_email_sent_title">Email Sent</string>
     <string name="dialog_email_sent_body">We've sent another confirmation link — give it a minute to arrive.</string>
     <string name="dialog_generic_error_title">Something Went Wrong</string>
+    <string name="auth_hide_password">Hide password</string>
+    <string name="auth_show_password">Show password</string>
 
     <!-- ==================== RESET PASSWORD ==================== -->
     <string name="reset_password_title">Reset Password</string>
-    <string name="reset_password_body">Enter the email associated with your account...</string>
+    <string name="reset_password_body">Enter the email associated with your account and we'll send you a link to reset your password.</string>
     <string name="action_send_reset_link">Send Reset Link</string>
 
     <!-- ==================== DASHBOARD ==================== -->
@@ -104,13 +109,15 @@
     <string name="dashboard_continue_draft">Continue Draft</string>
     <string name="dashboard_recent_appraisals">Recent Appraisals</string>
     <string name="dialog_incomplete_profile_title">Complete Your Business Profile</string>
-    <string name="dialog_incomplete_profile_body">Add your business name, license number...</string>
+    <string name="dialog_incomplete_profile_body">Add your business name, license number, logo, and signature before creating an appraisal — these appear on every generated report.</string>
     <string name="action_go_to_profile">Go to Profile</string>
+    <string name="new_appraisal">New Appraisal</string>
+
 
     <!-- ==================== APPRAISALS LIST ==================== -->
     <string name="appraisals_list_title">Appraisals</string>
     <string name="appraisals_list_subtitle">Manage and review your valuation portfolio.</string>
-    <string name="action_new_appraisal">New Appraisal</string>
+    <string name="action_new_appraisal">+ New Appraisal</string>
     <string name="label_sort_by">Sort by</string>
     <string name="appraisals_empty_title">No appraisals yet</string>
     <string name="appraisals_empty_body">Start your first valuation report.</string>
@@ -127,11 +134,13 @@
     <string name="search_placeholder">Search appraisals, clients, or jewelry items...</string>
     <string name="search_prompt">Start typing to search across your appraisals and clients.</string>
     <string name="search_no_results_title">No results found</string>
-    <string name="search_no_results_body">We couldn't find anything matching "{query}"...</string>
     <string name="action_clear_search">Clear Search</string>
     <string name="search_appraisals_count">Appraisals · {n} Results</string>
     <string name="search_customers_count">Customers · {n} Result(s)</string>
-
+    <string name="appraisals_results">Appraisals · %1$d Results</string>
+    <string name="customers_results_one">Customers · %1$d Result</string>
+    <string name="customers_results_other">Customers · %1$d Results</string>
+    <string name="search_no_results_body">We couldn't find anything matching "%1$s". Try adjusting your search terms.</string>
     <!-- ==================== SETTINGS ==================== -->
     <string name="settings_subtitle">Manage your account preferences and business details.</string>
     <string name="settings_business_profile">Business Profile</string>
@@ -159,7 +168,9 @@
     <string name="theme_light_desc">Always use light appearance</string>
     <string name="theme_dark_desc">Always use dark appearance</string>
     <string name="settings_log_out_confirm_body">Are you sure you want to log out?</string>
-    <string name="settings_about_body">LuxeValuation helps certified appraisers create professional jewelry valuation reports.</string>
+    <string name="settings_about_body">LuxeValuation helps certified appraisers create professional " +
+                                "jewelry appraisal reports with business letterhead, item-level " +
+                                "valuation, and signed PDF export.</string>
     <string name="unit_metric">Millimeters (mm), Carats (ct)</string>
     <string name="unit_imperial">Inches, Points</string>
     <string name="settings_delete_account">Delete account</string>
@@ -172,6 +183,10 @@
     <string name="business_phone_label">Business Phone</string>
     <string name="business_address_label">Business Address</string>
     <string name="business_profile_footer">These details appear on the letterhead of every appraisal report.</string>
+    <string name="delete_forever">Delete Forever</string>
+    <string name="delete_account_confirm_body">
+    This permanently deletes your account, all appraisals, clients, items, and photos. This cannot be undone.\n\nType DELETE to confirm.
+</string>
 
     <!-- ==================== APPRAISAL DETAIL ==================== -->
     <string name="appraisal_detail_fallback_title">Appraisal</string>
@@ -364,7 +379,8 @@
     <string name="onboarding_3_title">Professional Reports</string>
     <string name="onboarding_3_body">Generate polished appraisal reports ready to share with your clients.</string>
     <string name="action_get_started">Get Started</string>
-
+    <string name="unit_metric_description">Millimeters (mm), Carats (ct)</string>
+    <string name="unit_imperial_description">Inches, Points</string>
     <!-- ==================== PHOTO GRID ==================== -->
     <string name="action_add_photo">Add Photo</string>
     <string name="cd_remove_photo">Remove</string>

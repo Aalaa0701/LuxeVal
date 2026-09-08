@@ -19,11 +19,11 @@
 <!--    &lt;!&ndash; Settings &ndash;&gt;-->
 <!--    <string name="settings_title">Configuración</string>-->
 <!--    <string name="settings_subtitle">Gestiona las preferencias de tu cuenta y los datos de tu negocio.</string>-->
-<!--    <string name="settings_business_info">Información del negocio</string>-->
+    <string name="settings_business_info">Información del negocio</string>
 <!--    <string name="settings_business_profile">Perfil del negocio</string>-->
 <!--    <string name="settings_brand_logo">Logotipo de la marca</string>-->
 <!--    <string name="settings_digital_signature">Firma digital</string>-->
-<!--    <string name="settings_preferences">Preferencias</string>-->
+    <string name="settings_preferences">Preferencias</string>
 <!--    <string name="settings_currency">Moneda</string>-->
 <!--    <string name="settings_measurement_units">Unidades de medida</string>-->
 <!--    <string name="settings_language">Idioma</string>-->
@@ -38,6 +38,14 @@
 <!--    <string name="status_archived">Archivada</string>-->
 
 <!--    &lt;!&ndash; Auth &ndash;&gt;-->
+    <string name="delete_forever">Eliminar definitivamente</string>
+    <string name="delete_account_confirm_body">
+    Esto eliminará permanentemente tu cuenta, todas tus tasaciones, clientes, artículos y fotos. Esta acción no se puede deshacer.\n\nEscribe DELETE para confirmar.
+</string>
+    <string name="search_no_results_body">No encontramos nada que coincida con "%1$s". Intenta ajustar los términos de búsqueda.</string>
+    <string name="appraisals_results">Tasaciones · %1$d resultados</string>
+    <string name="unit_metric_description">Milímetros (mm), quilates (ct)</string>
+    <string name="unit_imperial_description">Pulgadas, puntos</string>
     <string name="auth_welcome_back">Bienvenido de nuevo</string>
     <string name="auth_sign_in_subtitle">Inicia sesión para continuar con tus tasaciones.</string>
     <string name="auth_email">Correo electrónico</string>
@@ -116,11 +124,12 @@
     <string name="search_placeholder">Busca tasaciones, clientes o piezas de joyería...</string>
     <string name="search_prompt">Empieza a escribir para buscar entre tus tasaciones y clientes.</string>
     <string name="search_no_results_title">No se encontraron resultados</string>
-    <string name="search_no_results_body">No encontramos nada que coincida con "{query}"...</string>
     <string name="action_clear_search">Borrar búsqueda</string>
     <string name="search_appraisals_count">Tasaciones · {n} resultados</string>
     <string name="search_customers_count">Clientes · {n} resultado(s)</string>
 
+    <string name="customers_results_one">Clientes · %1$d resultado</string>
+    <string name="customers_results_other">Clientes · %1$d resultados</string>
     <string name="settings_subtitle">Gestiona las preferencias de tu cuenta y los datos de tu empresa.</string>
     <string name="settings_business_profile">Perfil profesional</string>
     <string name="settings_business_profile_subtitle">Nombre, dirección y contacto</string>
@@ -175,9 +184,15 @@
     <string name="mark_completed_unpriced_confirm">
     %1$d artículo(s) aún no tienen un valor: %2$s. El total del informe no los incluirá. ¿Quieres marcar esta tasación como completada de todos modos?
 </string>
+    <string name="auth_agree">Acepto los </string>
+    <string name="auth_terms">Términos del servicio</string>
+    <string name="auth_privacy">Política de privacidad</string>
+    <string name="auth_and"> y </string>
     <string name="delete_item_confirm_body">
     ¿Eliminar permanentemente "%1$s" y sus fotos? Esta acción no se puede deshacer.
 </string>
+    <string name="auth_hide_password">Ocultar contraseña</string>
+    <string name="auth_show_password">Mostrar contraseña</string>
     <string name="report_unpriced_items_notice">
     %1$d artículo(s) aún no tienen valor — el total del informe no los incluirá: %2$s
 </string>

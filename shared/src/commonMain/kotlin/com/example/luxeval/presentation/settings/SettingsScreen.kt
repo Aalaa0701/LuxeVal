@@ -21,6 +21,9 @@ import com.example.luxeval.presentation.theme.LuxeSpacing
 import com.example.luxeval.presentation.util.ErrorDialog
 import com.example.luxeval.presentation.util.LuxeTopBar
 import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.action_cancel
+import luxeval.shared.generated.resources.action_ok
+import luxeval.shared.generated.resources.business_profile_title
 import luxeval.shared.generated.resources.ic_arrow_forward
 import luxeval.shared.generated.resources.ic_business
 import luxeval.shared.generated.resources.ic_delete
@@ -31,7 +34,39 @@ import luxeval.shared.generated.resources.ic_measurements
 import luxeval.shared.generated.resources.ic_money
 import luxeval.shared.generated.resources.ic_signature
 import luxeval.shared.generated.resources.ic_theme
+import luxeval.shared.generated.resources.nav_settings
+import luxeval.shared.generated.resources.settings_about
+import luxeval.shared.generated.resources.settings_about_body
+import luxeval.shared.generated.resources.settings_brand_logo
+import luxeval.shared.generated.resources.settings_business_info
+import luxeval.shared.generated.resources.settings_business_profile_subtitle
+import luxeval.shared.generated.resources.settings_currency
 import luxeval.shared.generated.resources.settings_delete_account
+import luxeval.shared.generated.resources.settings_digital_signature
+import luxeval.shared.generated.resources.settings_language
+import luxeval.shared.generated.resources.settings_log_out
+import luxeval.shared.generated.resources.settings_log_out_confirm_body
+import luxeval.shared.generated.resources.settings_logo_subtitle
+import luxeval.shared.generated.resources.settings_measurement_units
+import luxeval.shared.generated.resources.settings_preferences
+import luxeval.shared.generated.resources.settings_privacy_policy
+import luxeval.shared.generated.resources.settings_select_currency
+import luxeval.shared.generated.resources.settings_select_language
+import luxeval.shared.generated.resources.settings_signature_subtitle
+import luxeval.shared.generated.resources.settings_subtitle
+import luxeval.shared.generated.resources.settings_theme
+import luxeval.shared.generated.resources.settings_version
+import luxeval.shared.generated.resources.status_logo_set
+import luxeval.shared.generated.resources.status_signature_set
+import luxeval.shared.generated.resources.status_uploading
+import luxeval.shared.generated.resources.theme_dark
+import luxeval.shared.generated.resources.theme_dark_desc
+import luxeval.shared.generated.resources.theme_light
+import luxeval.shared.generated.resources.theme_light_desc
+import luxeval.shared.generated.resources.theme_system
+import luxeval.shared.generated.resources.theme_system_desc
+import luxeval.shared.generated.resources.unit_imperial_description
+import luxeval.shared.generated.resources.unit_metric_description
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 
@@ -108,9 +143,9 @@ fun SettingsScreen(
         ) {
             item {
                 Column {
-                    Text("Settings", style = MaterialTheme.typography.displayLarge, fontWeight = FontWeight.Bold)
+                    Text(stringResource(Res.string.nav_settings), style = MaterialTheme.typography.displayLarge, fontWeight = FontWeight.Bold)
                     Text(
-                        "Manage your account preferences and business details.",
+                        stringResource(Res.string.settings_subtitle),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -118,31 +153,31 @@ fun SettingsScreen(
             }
 
             item {
-                SettingsSection(title = "Business Information") {
+                SettingsSection(title = stringResource(Res.string.settings_business_info)) {
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_business),
-                        title = "Business Profile",
-                        subtitle = uiState.businessName.ifBlank { "Name, Address, Contact" },
+                        title = stringResource(Res.string.business_profile_title),
+                        subtitle = uiState.businessName.ifBlank { stringResource(Res.string.settings_business_profile_subtitle) },
                         onClick = onNavigateToBusinessProfile
                     )
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_image),
-                        title = "Brand Logo",
+                        title = stringResource(Res.string.settings_brand_logo),
                         subtitle = when {
-                            uiState.isUploadingLogo -> "Uploading..."
-                            uiState.logoPath != null -> "Logo set"
-                            else -> "Update report branding"
+                            uiState.isUploadingLogo -> stringResource(Res.string.status_uploading)
+                            uiState.logoPath != null -> stringResource(Res.string.status_logo_set)
+                            else -> stringResource(Res.string.settings_logo_subtitle)
                         },
                         isLoading = uiState.isUploadingLogo,
                         onClick = { logoPickerLauncher.launch() }
                     )
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_signature),
-                        title = "Digital Signature",
+                        title = stringResource(Res.string.settings_digital_signature),
                         subtitle = when {
-                            uiState.isUploadingSignature -> "Uploading..."
-                            uiState.signaturePath != null -> "Signature set"
-                            else -> "Manage appraisal signatures"
+                            uiState.isUploadingSignature -> stringResource(Res.string.status_uploading)
+                            uiState.signaturePath != null -> stringResource(Res.string.status_signature_set)
+                            else -> stringResource(Res.string.settings_signature_subtitle)
                         },
                         isLoading = uiState.isUploadingSignature,
                         onClick = { signaturePickerLauncher.launch() }
@@ -151,28 +186,28 @@ fun SettingsScreen(
             }
 
             item {
-                SettingsSection(title = "Preferences") {
+                SettingsSection(title = stringResource(Res.string.settings_preferences)) {
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_money),
-                        title = "Currency",
+                        title = stringResource(Res.string.settings_currency),
                         subtitle = uiState.currencyCode,
                         onClick = { showCurrencyPicker = true }
                     )
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_measurements),
-                        title = "Measurement Units",
-                        subtitle = uiState.measurementUnit.label(),
+                        title = stringResource(Res.string.settings_measurement_units),
+                        subtitle = stringResource(uiState.measurementUnit.label()),
                         onClick = { showUnitPicker = true }
                     )
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_info),
-                        title = "Language",
+                        title = stringResource(Res.string.settings_language),
                         subtitle = uiState.languageCode.toLanguageLabel(),
                         onClick = { showLanguagePicker = true }
                     )
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_theme),
-                        title = "Theme",
+                        title = stringResource(Res.string.settings_theme),
                         subtitle = uiState.themeMode.label(),
                         onClick = { showThemePicker = true }
                     )
@@ -184,19 +219,19 @@ fun SettingsScreen(
                 SettingsSection(title = null) {
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_info),
-                        title = "About LuxeValuation",
-                        subtitle = "Version 1.0.0",
+                        title = stringResource(Res.string.settings_about),
+                        subtitle = stringResource(Res.string.settings_version),
                         onClick = { showAboutDialog = true }
                     )
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_info),
-                        title = "Privacy Policy",
+                        title = stringResource(Res.string.settings_privacy_policy),
                         subtitle = null,
                         onClick = { uriHandler.openUri(LuxValConfig.PRIVACY_POLICY_URL) }
                     )
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_logout),
-                        title = "Log Out",
+                        title = stringResource(Res.string.settings_log_out),
                         subtitle = null,
                         titleColor = MaterialTheme.colorScheme.error,
                         onClick = { showLogOutConfirm = true }
@@ -244,34 +279,32 @@ fun SettingsScreen(
     if (showLogOutConfirm) {
         AlertDialog(
             onDismissRequest = { showLogOutConfirm = false },
-            title = { Text("Log Out") },
-            text = { Text("Are you sure you want to log out?") },
+            title = { Text(stringResource(Res.string.settings_log_out)) },
+            text = { Text(stringResource(Res.string.settings_log_out_confirm_body)) },
             confirmButton = {
-                TextButton(onClick = { showLogOutConfirm = false; onLogOut() }) { Text("Log Out") }
+                TextButton(onClick = { showLogOutConfirm = false; onLogOut() }) { Text(stringResource(Res.string.settings_log_out)) }
             },
             dismissButton = {
-                TextButton(onClick = { showLogOutConfirm = false }) { Text("Cancel") }
+                TextButton(onClick = { showLogOutConfirm = false }) { Text(stringResource(Res.string.action_cancel)) }
             }
         )
     }
     if (showAboutDialog) {
         AlertDialog(
             onDismissRequest = { showAboutDialog = false },
-            title = { Text("About LuxeValuation") },
+            title = { Text(stringResource(Res.string.settings_about)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(LuxeSpacing.xs)) {
-                    Text("Version 1.0.0", style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(Res.string.settings_version), style = MaterialTheme.typography.bodyMedium)
                     Text(
-                        "LuxeValuation helps certified appraisers create professional " +
-                                "jewelry appraisal reports with business letterhead, item-level " +
-                                "valuation, and signed PDF export.",
+                        stringResource(Res.string.settings_about_body),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             },
             confirmButton = {
-                TextButton(onClick = { showAboutDialog = false }) { Text("OK") }
+                TextButton(onClick = { showAboutDialog = false }) { Text(stringResource(Res.string.action_ok)) }
             }
         )
     }
@@ -283,7 +316,7 @@ private fun CurrencyPickerSheet(current: String, onSelected: (String) -> Unit, o
     val currencies = listOf("USD", "EUR", "GBP", "CAD", "AUD")
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(Modifier.padding(LuxeSpacing.md)) {
-            Text("Select Currency", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Text(stringResource(Res.string.settings_select_currency), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(LuxeSpacing.sm))
             currencies.forEach { code ->
                 ListItem(
@@ -306,11 +339,11 @@ private fun MeasurementUnitPickerSheet(
 ) {
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(Modifier.padding(LuxeSpacing.md)) {
-            Text("Measurement Units", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Text(stringResource(Res.string.settings_measurement_units), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(LuxeSpacing.sm))
             MeasurementUnit.entries.forEach { unit ->
                 ListItem(
-                    headlineContent = { Text(unit.label()) },
+                    headlineContent = { Text(stringResource(unit.label())) },
                     trailingContent = { RadioButton(selected = unit == current, onClick = { onSelected(unit) }) },
                     modifier = Modifier.clickable { onSelected(unit) }
                 )
@@ -329,7 +362,7 @@ private fun LanguagePickerSheet(
 ) {
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(Modifier.padding(LuxeSpacing.md)) {
-            Text("Select Language", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Text(stringResource(Res.string.settings_select_language), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(LuxeSpacing.sm))
             supportedLanguages.forEach { (code, label) ->
                 ListItem(
@@ -351,13 +384,25 @@ private fun ThemePickerSheet(
     onDismiss: () -> Unit
 ) {
     val options = listOf(
-        Triple(ThemeMode.SYSTEM, "System Default", "Matches your device's appearance setting"),
-        Triple(ThemeMode.LIGHT, "Light", "Always use light mode"),
-        Triple(ThemeMode.DARK, "Dark", "Always use dark mode")
+        Triple(
+            ThemeMode.SYSTEM,
+            stringResource(Res.string.theme_system),
+            stringResource(Res.string.theme_system_desc)
+        ),
+        Triple(
+            ThemeMode.LIGHT,
+            stringResource(Res.string.theme_light),
+            stringResource(Res.string.theme_light_desc)
+        ),
+        Triple(
+            ThemeMode.DARK,
+            stringResource(Res.string.theme_dark),
+            stringResource(Res.string.theme_dark_desc)
+        )
     )
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(Modifier.padding(LuxeSpacing.md)) {
-            Text("Theme", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Text(stringResource(Res.string.settings_theme), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(LuxeSpacing.sm))
             options.forEach { (mode, label, description) ->
                 ListItem(
@@ -419,6 +464,6 @@ private fun SettingsRow(
 }
 
 private fun MeasurementUnit.label() = when (this) {
-    MeasurementUnit.METRIC -> "Millimeters (mm), Carats (ct)"
-    MeasurementUnit.IMPERIAL -> "Inches, Points"
+    MeasurementUnit.METRIC -> Res.string.unit_metric_description
+    MeasurementUnit.IMPERIAL -> Res.string.unit_imperial_description
 }

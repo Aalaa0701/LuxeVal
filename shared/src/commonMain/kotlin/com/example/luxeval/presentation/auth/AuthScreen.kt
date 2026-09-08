@@ -30,6 +30,7 @@ import com.example.luxeval.presentation.theme.LuxeShapes
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import luxeval.shared.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 // Gold gradient lifted straight from the logo's own palette, so the button
 // reads as the same brand gold in both light and dark mode rather than
@@ -76,9 +77,9 @@ fun AuthScreen(
                         )
                     }
                     Spacer(Modifier.height(LuxeSpacing.sm))
-                    Text("LuxVal", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+                    Text(stringResource(Res.string.app_name), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
                     Text(
-                        "Professional jewelry valuation at your fingertips",
+                        stringResource(Res.string.auth_tagline),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -89,7 +90,7 @@ fun AuthScreen(
 
                     if (formState.tab == AuthTab.SIGN_UP) {
                         LabeledField(
-                            label = "Full Name",
+                            label = stringResource(Res.string.auth_full_name),
                             value = formState.fullName,
                             onValueChange = viewModel::onFullNameChanged,
                             placeholder = "Sophia Hartwell",
@@ -99,19 +100,19 @@ fun AuthScreen(
                     }
 
                     LabeledField(
-                        label = "Email Address",
+                        label = stringResource(Res.string.auth_email_address),
                         value = formState.email,
                         onValueChange = viewModel::onEmailChanged,
-                        placeholder = "your@email.com",
+                        placeholder = stringResource(Res.string.auth_email_placeholder),
                         leadingIcon = Res.drawable.ic_mail
                     )
                     Spacer(Modifier.height(LuxeSpacing.sm))
 
                     LabeledField(
-                        label = "Password",
+                        label = stringResource(Res.string.auth_password),
                         value = formState.password,
                         onValueChange = viewModel::onPasswordChanged,
-                        placeholder = "••••••••",
+                        placeholder = stringResource(Res.string.auth_password_placeholder),
                         leadingIcon = Res.drawable.ic_lock,
                         isPassword = true,
                         isVisible = formState.isPasswordVisible,
@@ -120,17 +121,17 @@ fun AuthScreen(
                     if (formState.tab == AuthTab.SIGN_UP) {
                         Spacer(Modifier.height(LuxeSpacing.xs))
                         Text(
-                            "Minimum 8 characters",
+                            stringResource(Res.string.auth_password_hint),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.align(Alignment.Start)
                         )
                         Spacer(Modifier.height(LuxeSpacing.sm))
                         LabeledField(
-                            label = "Confirm Password",
+                            label = stringResource(Res.string.auth_confirm_password),
                             value = formState.confirmPassword,
                             onValueChange = viewModel::onConfirmPasswordChanged,
-                            placeholder = "••••••••",
+                            placeholder = stringResource(Res.string.auth_password_placeholder),
                             leadingIcon = Res.drawable.ic_lock,
                             isPassword = true,
                             isVisible = formState.isConfirmPasswordVisible,
@@ -148,10 +149,10 @@ fun AuthScreen(
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Checkbox(checked = formState.rememberMe, onCheckedChange = viewModel::onRememberMeChanged)
-                                Text("Remember me", style = MaterialTheme.typography.bodySmall)
+                                Text(stringResource(Res.string.auth_remember_me), style = MaterialTheme.typography.bodySmall)
                             }
                             TextButton(onClick = onNavigateToResetPassword) {
-                                Text("Forgot Password?", color = MaterialTheme.colorScheme.secondary)
+                                Text(stringResource(Res.string.auth_forgot_password), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.secondary)
                             }
                         }
                     } else {
@@ -159,7 +160,7 @@ fun AuthScreen(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Checkbox(checked = formState.agreedToTerms, onCheckedChange = viewModel::onAgreedToTermsChanged)
                             val annotatedText = buildAnnotatedString {
-                                append("I agree to the ")
+                                append(stringResource(Res.string.auth_agree))
                                 pushStringAnnotation(tag = "tos", annotation = LuxValConfig.TERMS_OF_SERVICE_URL)
                                 withStyle(
                                     SpanStyle(
@@ -167,13 +168,13 @@ fun AuthScreen(
                                         textDecoration = TextDecoration.Underline
                                     )
                                 ) {
-                                    append("Terms of Service")
+                                    append(stringResource(Res.string.auth_terms))
                                 }
                                 pop()
-                                append(" and ")
+                                append(stringResource(Res.string.auth_and))
                                 pushStringAnnotation(tag = "privacy", annotation = LuxValConfig.PRIVACY_POLICY_URL)
                                 withStyle(SpanStyle(color = MaterialTheme.colorScheme.secondary, textDecoration = TextDecoration.Underline)) {
-                                    append("Privacy Policy")
+                                    append(stringResource(Res.string.auth_privacy))
                                 }
                                 pop()
                             }
@@ -216,7 +217,7 @@ fun AuthScreen(
                                 CircularProgressIndicator(Modifier.size(20.dp), color = Color.White, strokeWidth = 2.dp)
                             } else {
                                 Text(
-                                    if (formState.tab == AuthTab.LOGIN) "Sign In" else "Create Account",
+                                    if (formState.tab == AuthTab.LOGIN) stringResource(Res.string.auth_sign_in_button) else stringResource(Res.string.auth_create_account_button),
                                     color = Color.White,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -228,7 +229,7 @@ fun AuthScreen(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         HorizontalDivider(Modifier.weight(1f))
                         Text(
-                            "  or continue with  ",
+                            stringResource(Res.string.auth_or_continue_with),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -243,17 +244,17 @@ fun AuthScreen(
                     ) {
                         Icon(painterResource(Res.drawable.ic_google), contentDescription = null, modifier = Modifier.size(20.dp))
                         Spacer(Modifier.width(LuxeSpacing.sm))
-                        Text("Continue with Google")
+                        Text(stringResource(Res.string.auth_continue_google))
                     }
 
                     Spacer(Modifier.height(LuxeSpacing.sm))
                     Row {
                         Text(
-                            if (formState.tab == AuthTab.LOGIN) "Don't have an account? " else "Already have an account? ",
+                            if (formState.tab == AuthTab.LOGIN) stringResource(Res.string.auth_no_account_prompt) else stringResource(Res.string.auth_has_account_prompt),
                             style = MaterialTheme.typography.bodySmall
                         )
                         Text(
-                            if (formState.tab == AuthTab.LOGIN) "Sign Up" else "Login",
+                            if (formState.tab == AuthTab.LOGIN) stringResource(Res.string.auth_tab_signup) else stringResource(Res.string.auth_tab_login),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.secondary,
                             fontWeight = FontWeight.Bold,
@@ -289,7 +290,7 @@ private fun AuthTabToggle(current: AuthTab, onSelected: (AuthTab) -> Unit) {
             .background(MaterialTheme.colorScheme.surfaceContainerHigh)
             .padding(4.dp)
     ) {
-        listOf(AuthTab.LOGIN to "Login", AuthTab.SIGN_UP to "Sign Up").forEach { (tab, label) ->
+        listOf(AuthTab.LOGIN to stringResource(Res.string.auth_tab_login), AuthTab.SIGN_UP to stringResource(Res.string.auth_tab_signup)).forEach { (tab, label) ->
             val selected = current == tab
             Box(
                 Modifier
@@ -340,7 +341,7 @@ private fun LabeledField(
                     IconButton(onClick = onToggleVisibility) {
                         Icon(
                             painterResource(if (isVisible) Res.drawable.ic_eye_off else Res.drawable.ic_eye),
-                            contentDescription = if (isVisible) "Hide password" else "Show password",
+                            contentDescription = if (isVisible) stringResource(Res.string.auth_hide_password) else stringResource(Res.string.auth_show_password),
                             modifier = Modifier.size(20.dp)
                         )
                     }

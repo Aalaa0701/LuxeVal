@@ -9,8 +9,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.back
+import luxeval.shared.generated.resources.business_address_label
+import luxeval.shared.generated.resources.business_name_label
+import luxeval.shared.generated.resources.business_phone_label
+import luxeval.shared.generated.resources.business_profile_footer
+import luxeval.shared.generated.resources.business_profile_title
 import luxeval.shared.generated.resources.ic_back
+import luxeval.shared.generated.resources.license_number_label
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -20,10 +28,10 @@ fun BusinessProfileScreen(viewModel: SettingsViewModel, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Business Profile") },
+                title = { Text(stringResource(Res.string.business_profile_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(painterResource(Res.drawable.ic_back), contentDescription = "Back")
+                        Icon(painterResource(Res.drawable.ic_back), contentDescription = stringResource(Res.string.back))
                     }
                 }
             )
@@ -38,7 +46,7 @@ fun BusinessProfileScreen(viewModel: SettingsViewModel, onBack: () -> Unit) {
                 OutlinedTextField(
                     value = uiState.businessName,
                     onValueChange = viewModel::onBusinessNameChanged,
-                    label = { Text("Business Name") },
+                    label = { Text(stringResource(Res.string.business_name_label)) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
                 )
@@ -47,7 +55,7 @@ fun BusinessProfileScreen(viewModel: SettingsViewModel, onBack: () -> Unit) {
                 OutlinedTextField(
                     value = uiState.licenseNumber,
                     onValueChange = viewModel::onLicenseNumberChanged,
-                    label = { Text("License Number") },
+                    label = { Text(stringResource(Res.string.license_number_label)) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
                 )
@@ -56,7 +64,7 @@ fun BusinessProfileScreen(viewModel: SettingsViewModel, onBack: () -> Unit) {
                 OutlinedTextField(
                     value = uiState.businessPhone,
                     onValueChange = viewModel::onBusinessPhoneChanged,
-                    label = { Text("Business Phone") },
+                    label = { Text(stringResource(Res.string.business_phone_label)) },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
                 )
@@ -65,14 +73,14 @@ fun BusinessProfileScreen(viewModel: SettingsViewModel, onBack: () -> Unit) {
                 OutlinedTextField(
                     value = uiState.businessAddress,
                     onValueChange = viewModel::onBusinessAddressChanged,
-                    label = { Text("Business Address") },
+                    label = { Text(stringResource(Res.string.business_address_label)) },
                     modifier = Modifier.fillMaxWidth(),
                     minLines = 2
                 )
             }
             item {
                 Text(
-                    "These details appear on the letterhead of every appraisal report.",
+                    stringResource(Res.string.business_profile_footer),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

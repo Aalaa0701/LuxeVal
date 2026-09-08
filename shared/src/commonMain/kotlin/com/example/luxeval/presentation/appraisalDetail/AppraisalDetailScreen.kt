@@ -569,7 +569,7 @@ private fun ItemRow(item: com.example.luxeval.domain.AppraisalItem, onClick: () 
             }
         },
         headlineContent = { Text(item.itemName, fontWeight = FontWeight.Medium) },
-        supportingContent = { Text(item.category.label()) },
+        supportingContent = { Text(stringResource(item.category.label())) },
         trailingContent = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 item.estimatedValue?.let {

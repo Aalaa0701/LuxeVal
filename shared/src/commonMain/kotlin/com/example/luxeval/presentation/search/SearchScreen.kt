@@ -17,9 +17,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.luxeval.presentation.util.AppraisalCardView
 import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.appraisals_results
+import luxeval.shared.generated.resources.business_profile_title
+import luxeval.shared.generated.resources.customers_results_one
+import luxeval.shared.generated.resources.customers_results_other
 import luxeval.shared.generated.resources.ic_search
 import luxeval.shared.generated.resources.ic_search_off
+import luxeval.shared.generated.resources.search_no_results_body
+import luxeval.shared.generated.resources.search_placeholder
+import luxeval.shared.generated.resources.search_prompt
+import luxeval.shared.generated.resources.search_title
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.pluralStringResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun SearchScreen(
@@ -35,7 +45,7 @@ fun SearchScreen(
             verticalArrangement = Arrangement.spacedBy(LuxeSpacing.md)
         ) {
             item {
-                Text("Global Search", style = MaterialTheme.typography.displayLarge, fontWeight = FontWeight.Bold)
+                Text(stringResource(Res.string.search_title), style = MaterialTheme.typography.displayLarge, fontWeight = FontWeight.Bold)
             }
 
             item {
@@ -43,7 +53,7 @@ fun SearchScreen(
                     value = uiState.query,
                     onValueChange = viewModel::onQueryChanged,
                     modifier = Modifier.fillMaxWidth(),
-                    placeholder = { Text("Search appraisals, clients, or jewelry items...") },
+                    placeholder = { Text(stringResource(Res.string.search_placeholder)) },
                     leadingIcon = { Icon(painterResource(Res.drawable.ic_search), contentDescription = null, Modifier.size(24.dp)) },
                     singleLine = true,
                     shape = RoundedCornerShape(10.dp),
@@ -62,7 +72,7 @@ fun SearchScreen(
             when {
                 !uiState.hasSearched -> item {
                     Text(
-                        "Start typing to search across your appraisals and clients.",
+                        stringResource(Res.string.search_prompt),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.padding(vertical = LuxeSpacing.lg)
@@ -77,7 +87,10 @@ fun SearchScreen(
                     if (uiState.appraisalResults.isNotEmpty()) {
                         item {
                             Text(
-                                "Appraisals · ${uiState.appraisalResults.size} Results",
+                                stringResource(
+                                    Res.string.appraisals_results,
+                                    uiState.appraisalResults.size
+                                ),
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.Bold
                             )
@@ -90,7 +103,13 @@ fun SearchScreen(
                     if (uiState.clientResults.isNotEmpty()) {
                         item {
                             Text(
-                                "Customers · ${uiState.clientResults.size} Result${if (uiState.clientResults.size == 1) "" else "s"}",
+                                stringResource(
+                                    if (uiState.clientResults.size == 1)
+                                        Res.string.customers_results_one
+                                    else
+                                        Res.string.customers_results_other,
+                                    uiState.clientResults.size
+                                ),
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.Bold
                             )
@@ -124,7 +143,10 @@ private fun NoResultsState(query: String, onClear: () -> Unit) {
         Text("No results found", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(LuxeSpacing.xs))
         Text(
-            "We couldn't find anything matching \"$query\". Try adjusting your search terms.",
+            stringResource(
+                Res.string.search_no_results_body,
+                query
+            ),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

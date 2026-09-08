@@ -9,6 +9,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.luxeval.presentation.theme.LuxeSpacing
+import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.action_cancel
+import luxeval.shared.generated.resources.action_delete
+import luxeval.shared.generated.resources.business_profile_title
+import luxeval.shared.generated.resources.delete_account_confirm_body
+import luxeval.shared.generated.resources.delete_forever
+import luxeval.shared.generated.resources.settings_delete_account
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun DeleteAccountDialog(
@@ -17,16 +25,15 @@ fun DeleteAccountDialog(
     onDismiss: () -> Unit
 ) {
     var confirmText by remember { mutableStateOf("") }
-    val canConfirm = confirmText.trim().equals("DELETE", ignoreCase = false) && !isDeleting
+    val canConfirm = confirmText.trim().equals(stringResource(Res.string.action_delete), ignoreCase = false) && !isDeleting
 
     AlertDialog(
         onDismissRequest = { if (!isDeleting) onDismiss() },
-        title = { Text("Delete Account") },
+        title = { Text(stringResource(Res.string.settings_delete_account)) },
         text = {
             Column {
                 Text(
-                    "This permanently deletes your account, all appraisals, clients, " +
-                            "items, and photos. This cannot be undone.\n\nType DELETE to confirm."
+                    stringResource(Res.string.delete_account_confirm_body),
                 )
                 Spacer(Modifier.height(LuxeSpacing.sm))
                 OutlinedTextField(
@@ -43,12 +50,12 @@ fun DeleteAccountDialog(
                 if (isDeleting) {
                     CircularProgressIndicator(Modifier, strokeWidth = 2.dp)
                 } else {
-                    Text("Delete Forever", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(Res.string.delete_forever), color = MaterialTheme.colorScheme.error)
                 }
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss, enabled = !isDeleting) { Text("Cancel") }
+            TextButton(onClick = onDismiss, enabled = !isDeleting) { Text(stringResource(Res.string.action_cancel)) }
         }
     )
 }

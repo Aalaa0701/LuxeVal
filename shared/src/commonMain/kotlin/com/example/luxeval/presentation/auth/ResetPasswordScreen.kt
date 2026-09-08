@@ -8,8 +8,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.action_send_reset_link
+import luxeval.shared.generated.resources.auth_email_address
+import luxeval.shared.generated.resources.back
 import luxeval.shared.generated.resources.ic_back
+import luxeval.shared.generated.resources.reset_password_body
+import luxeval.shared.generated.resources.reset_password_title
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,14 +33,14 @@ fun ResetPasswordScreen(viewModel: AuthViewModel, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Reset Password") },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(painterResource(Res.drawable.ic_back), contentDescription = "Back") } }
+                title = { Text(stringResource(Res.string.reset_password_title)) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(painterResource(Res.drawable.ic_back), contentDescription = stringResource(Res.string.back)) } }
             )
         }
     ) { padding ->
         Column(Modifier.fillMaxSize().padding(padding).padding(LuxeSpacing.lg)) {
             Text(
-                "Enter the email associated with your account and we'll send you a link to reset your password.",
+                stringResource(Res.string.reset_password_body),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -42,7 +48,7 @@ fun ResetPasswordScreen(viewModel: AuthViewModel, onBack: () -> Unit) {
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                label = { Text("Email Address") },
+                label = { Text(stringResource(Res.string.auth_email_address)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -51,7 +57,7 @@ fun ResetPasswordScreen(viewModel: AuthViewModel, onBack: () -> Unit) {
                 onClick = { viewModel.sendPasswordReset(email.trim()) },
                 enabled = email.isNotBlank(),
                 modifier = Modifier.fillMaxWidth()
-            ) { Text("Send Reset Link") }
+            ) { Text(stringResource(Res.string.action_send_reset_link)) }
         }
     }
 

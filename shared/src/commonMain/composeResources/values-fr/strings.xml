@@ -19,11 +19,11 @@
 <!--    &lt;!&ndash; Settings &ndash;&gt;-->
 <!--    <string name="settings_title">Paramètres</string>-->
 <!--    <string name="settings_subtitle">Gérez les préférences de votre compte et les informations de votre entreprise.</string>-->
-<!--    <string name="settings_business_info">Informations de l’entreprise</string>-->
+    <string name="settings_business_info">Informations de l’entreprise</string>
 <!--    <string name="settings_business_profile">Profil de l’entreprise</string>-->
 <!--    <string name="settings_brand_logo">Logo de la marque</string>-->
 <!--    <string name="settings_digital_signature">Signature numérique</string>-->
-<!--    <string name="settings_preferences">Préférences</string>-->
+    <string name="settings_preferences">Préférences</string>
 <!--    <string name="settings_currency">Devise</string>-->
 <!--    <string name="settings_measurement_units">Unités de mesure</string>-->
 <!--    <string name="settings_language">Langue</string>-->
@@ -37,6 +37,8 @@
 <!--    <string name="status_completed">Terminée</string>-->
 <!--    <string name="status_archived">Archivée</string>-->
 
+    <string name="unit_metric_description">Millimètres (mm), carats (ct)</string>
+    <string name="unit_imperial_description">Pouces, points</string>
     <!-- Auth -->
     <string name="auth_welcome_back">Bon retour</string>
     <string name="auth_sign_in_subtitle">Connectez-vous pour continuer vos évaluations.</string>
@@ -116,7 +118,8 @@
     <string name="search_placeholder">Rechercher des évaluations, clients ou bijoux...</string>
     <string name="search_prompt">Commencez à saisir du texte pour rechercher dans vos évaluations et vos clients.</string>
     <string name="search_no_results_title">Aucun résultat</string>
-    <string name="search_no_results_body">Nous n’avons rien trouvé correspondant à "{query}"...</string>
+    <string name="customers_results_one">Clients · %1$d résultat</string>
+    <string name="customers_results_other">Clients · %1$d résultats</string>
     <string name="action_clear_search">Effacer la recherche</string>
     <string name="search_appraisals_count">Évaluations · {n} résultats</string>
     <string name="search_customers_count">Clients · {n} résultat(s)</string>
@@ -150,7 +153,12 @@
     <string name="settings_about_body">LuxeValuation aide les évaluateurs certifiés à créer des rapports professionnels d’évaluation de bijoux.</string>
     <string name="unit_metric">Millimètres (mm), carats (ct)</string>
     <string name="unit_imperial">Pouces, points</string>
-
+    <string name="search_no_results_body">Nous n'avons rien trouvé correspondant à "%1$s". Essayez de modifier vos termes de recherche.</string>
+    <string name="delete_forever">Supprimer définitivement</string>
+    <string name="delete_account_confirm_body">
+    Cette action supprimera définitivement votre compte, toutes vos évaluations, vos clients, vos articles et vos photos. Cette action est irréversible.\n\nTapez DELETE pour confirmer.
+</string>
+    <string name="appraisals_results">Évaluations · %1$d résultats</string>
     <string name="business_profile_title">Profil professionnel</string>
     <string name="business_name_label">Nom de l’entreprise</string>
     <string name="license_number_label">Numéro de licence</string>
@@ -175,10 +183,16 @@
     <string name="mark_completed_unpriced_confirm">
     %1$d article(s) n'ont pas encore de valeur : %2$s. Le total du rapport ne les inclura pas. Voulez-vous quand même marquer cette évaluation comme terminée ?
 </string>
+    <string name="auth_agree">J'accepte les </string>
+    <string name="auth_terms">Conditions d'utilisation</string>
+    <string name="auth_privacy">Politique de confidentialité</string>
+    <string name="auth_and"> et </string>
     <string name="action_mark_completed_anyway">Terminer quand même</string>
     <string name="delete_item_confirm_body">
     Supprimer définitivement « %1$s » et ses photos ? Cette action est irréversible.
 </string>
+    <string name="auth_hide_password">Masquer le mot de passe</string>
+    <string name="auth_show_password">Afficher le mot de passe</string>
     <string name="report_unpriced_items_notice">
     %1$d article(s) n'ont pas encore de valeur — le total du rapport ne les inclura pas : %2$s
 </string>

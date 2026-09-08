@@ -23,20 +23,31 @@ import coil3.compose.AsyncImage
 import com.example.luxeval.data.AppSettingsStore
 import kotlinx.coroutines.launch
 import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.action_continue
+import luxeval.shared.generated.resources.action_get_started
+import luxeval.shared.generated.resources.action_skip
 import luxeval.shared.generated.resources.ic_arrow_forward
 import luxeval.shared.generated.resources.ic_other_jewelry
 import luxeval.shared.generated.resources.image1
 import luxeval.shared.generated.resources.image2
 import luxeval.shared.generated.resources.image3
+import luxeval.shared.generated.resources.onboarding_1_body
+import luxeval.shared.generated.resources.onboarding_1_title
+import luxeval.shared.generated.resources.onboarding_2_body
+import luxeval.shared.generated.resources.onboarding_2_title
+import luxeval.shared.generated.resources.onboarding_3_body
+import luxeval.shared.generated.resources.onboarding_3_title
 import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
 private data class OnboardingSlide(
     val imageUrl: DrawableResource,
-    val title: String,
-    val subtitle: String,
-    val ctaLabel: String
+    val title: StringResource,
+    val subtitle: StringResource,
+    val ctaLabel: StringResource
 )
 
 // Swap these image URLs for your own hosted/bundled jewelry photography —
@@ -44,21 +55,22 @@ private data class OnboardingSlide(
 private val slides = listOf(
     OnboardingSlide(
         imageUrl = Res.drawable.image1,
-        title = "Know the True\nWorth of Your Jewelry",
-        subtitle = "Professional appraisals by certified gemologists for insurance, estate, and resale purposes.",
-        ctaLabel = "Continue"
+        title = Res.string.onboarding_1_title,
+        subtitle = Res.string.onboarding_1_body,
+        ctaLabel = Res.string.action_continue
     ),
+
     OnboardingSlide(
         imageUrl = Res.drawable.image2,
-        title = "Certified Reports\nYou Can Trust",
-        subtitle = "Receive a detailed appraisal certificate accepted by insurers and financial institutions.",
-        ctaLabel = "Continue"
+        title = Res.string.onboarding_2_title,
+        subtitle = Res.string.onboarding_2_body,
+        ctaLabel = Res.string.action_continue
     ),
     OnboardingSlide(
         imageUrl = Res.drawable.image3,
-        title = "Submit from\nAnywhere, Anytime",
-        subtitle = "Simply photograph your piece and fill in the details — our experts handle the rest.",
-        ctaLabel = "Get Started"
+        title = Res.string.onboarding_3_title,
+        subtitle = Res.string.onboarding_3_body,
+        ctaLabel = Res.string.action_get_started
     )
 )
 
@@ -132,7 +144,7 @@ private fun OnboardingSlideContent(
                     .padding(top = 48.dp, end = 20.dp)
             ) {
                 Text(
-                    "Skip",
+                    stringResource(Res.string.action_skip),
                     color = Color.White,
                     modifier = Modifier
                         .clickable(onClick = onSkip)
@@ -156,14 +168,14 @@ private fun OnboardingSlideContent(
             )
             Spacer(Modifier.height(16.dp))
             Text(
-                slide.title,
+                stringResource(slide.title),
                 color = Color.White,
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold
             )
             Spacer(Modifier.height(8.dp))
             Text(
-                slide.subtitle,
+                stringResource(slide.subtitle),
                 color = Color.White.copy(alpha = 0.85f),
                 style = MaterialTheme.typography.bodyMedium
             )
@@ -204,7 +216,7 @@ private fun OnboardingSlideContent(
                     Icon(painterResource(Res.drawable.ic_other_jewelry), contentDescription = null, tint = Color.White, modifier = Modifier.size(14.dp))
                 }
                 Spacer(Modifier.width(10.dp))
-                Text(slide.ctaLabel, color = Color.White, fontWeight = FontWeight.Bold)
+                Text(stringResource(slide.ctaLabel), color = Color.White, fontWeight = FontWeight.Bold)
                 Spacer(Modifier.width(6.dp))
                 Icon(painterResource(Res.drawable.ic_arrow_forward), contentDescription = null, tint = Color.White, modifier = Modifier.size(16.dp))
             }
