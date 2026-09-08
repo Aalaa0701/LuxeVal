@@ -17,4 +17,6 @@ expect class PhotoStorage {
     suspend fun saveCachedFile(key: String, bytes: ByteArray): String
     fun cachedFilePath(key: String): String
     fun cachedFileExists(key: String): Boolean
+    // PhotoStorage — add to both actuals
+    fun enforceCacheLimit(maxBytes: Long = 250L * 1024 * 1024)
 }

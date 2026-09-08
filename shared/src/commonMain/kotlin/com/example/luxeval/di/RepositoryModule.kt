@@ -21,7 +21,7 @@ val repositoryModule = module {
     single { ItemRepository(get(), get(), get()) }
     single { ClientRepository(get()) }
     single { PricingRepository(get()) }
-    single { AuthRepository(get()) }
+    single { AuthRepository(get(), get()) }
     single { AppraisalRepository(get()) }
     single { AppraiserProfileStore(get()) }
     single { AppraiserProfileStore(get()) }
@@ -31,7 +31,7 @@ val repositoryModule = module {
     single { PhotoRepository(get(), get()) }
     single { SyncRepository(get(), get(), get(), get(), get(), get()) }
     single { DeleteAppraisalUseCase(get(), get(), get()) }
-    single { SessionRepository(get(), get(), get(), ) }
+    single { SessionRepository(get(), get(), get(), get()) }
     single { get<AppDatabase>().syncOutboxDao() }
 
 }

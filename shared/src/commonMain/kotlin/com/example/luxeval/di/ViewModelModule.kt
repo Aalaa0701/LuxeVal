@@ -109,5 +109,5 @@ val viewModelModule = module {
     }
     viewModel { AppraisalsListViewModel(get(), get(), get(), get(), get()) }
     viewModel { SearchViewModel(get(), get(), get()) }
-    viewModel { SettingsViewModel(get(), get(), get(), get()) }
+    viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get()) }
 }

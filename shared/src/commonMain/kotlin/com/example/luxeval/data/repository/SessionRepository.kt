@@ -13,7 +13,8 @@ import kotlinx.coroutines.withContext
 class SessionRepository(
     private val supabase: SupabaseClient,
     private val database: AppDatabase,
-    private val profileStore: AppraiserProfileStore
+    private val profileStore: AppraiserProfileStore,
+    private val authRepository: AuthRepository
 ) {
     suspend fun signOutAndClearLocalData() {
         supabase.auth.signOut()
@@ -24,5 +25,10 @@ class SessionRepository(
         profileStore.setLicenseNumber("")
         profileStore.setBusinessPhone("")
         profileStore.setBusinessAddress("")
+    }
+    // SessionRepository.kt — add
+    suspend fun deleteAccountAndClearLocalData() {
+        authRepository.deleteAccount()       // remote user + cascaded rows + storage
+        signOutAndClearLocalData()           // clears local Room tables, local prefs, signs out client-side session
     }
 }

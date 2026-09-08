@@ -1,11 +1,17 @@
 package com.example.luxeval.data.repository
 
+import com.example.luxeval.config.LuxValConfig
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.auth.providers.Google
 import io.github.jan.supabase.auth.status.SessionStatus
 import io.github.jan.supabase.auth.OtpType
+import io.ktor.client.HttpClient
+import io.ktor.client.request.header
+import io.ktor.client.request.post
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.isSuccess
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -36,7 +42,10 @@ sealed class AuthError(val message: String) {
     data class Other(val raw: String) : AuthError(raw)
 }
 
-class AuthRepository(private val client: SupabaseClient) {
+class AuthRepository(
+    private val client: SupabaseClient,
+    private val httpClient: HttpClient
+) {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
@@ -65,6 +74,18 @@ class AuthRepository(private val client: SupabaseClient) {
             SignUpResult.LoggedInImmediately
         } else {
             SignUpResult.NeedsEmailConfirmation(email)
+        }
+    }
+    // AuthRepository.kt
+    suspend fun deleteAccount() {
+        val session = client.auth.currentSessionOrNull()
+            ?: throw IllegalStateException("No active session — cannot delete account")
+
+        val response = httpClient.post("${LuxValConfig.SUPABASE_URL}/functions/v1/delete-account") {
+            header("Authorization", "Bearer ${session.accessToken}")
+        }
+        if (!response.status.isSuccess()) {
+            throw Exception("Account deletion failed: ${response.bodyAsText()}")
         }
     }
 

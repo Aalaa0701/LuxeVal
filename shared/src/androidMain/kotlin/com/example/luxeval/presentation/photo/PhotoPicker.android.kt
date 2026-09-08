@@ -78,7 +78,16 @@ actual class PhotoStorage(private val context: Context) {
         runCatching { File(path).delete() }
         Unit
     }
-    // PhotoPicker.android.kt
+    // PhotoStorage — add to both actuals
+    actual fun enforceCacheLimit(maxBytes: Long) {
+        val files = cacheDir.listFiles()?.sortedBy { it.lastModified() } ?: return
+        var total = files.sumOf { it.length() }
+        for (f in files) {
+            if (total <= maxBytes) break
+            total -= f.length()
+            f.delete()
+        }
+    }
     actual suspend fun readImage(path: String): ByteArray =
         withContext(Dispatchers.IO) { File(path).readBytes() }
     private fun scaleDown(bitmap: Bitmap, maxDimension: Int): Bitmap {

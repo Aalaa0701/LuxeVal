@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,10 +16,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.example.luxeval.config.LuxValConfig
 import com.example.luxeval.presentation.theme.LuxeShapes
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import luxeval.shared.generated.resources.*
@@ -148,9 +155,37 @@ fun AuthScreen(
                             }
                         }
                     } else {
+                        val uriHandler = LocalUriHandler.current
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Checkbox(checked = formState.agreedToTerms, onCheckedChange = viewModel::onAgreedToTermsChanged)
-                            Text("I agree to the Terms of Service and Privacy Policy", style = MaterialTheme.typography.bodySmall)
+                            val annotatedText = buildAnnotatedString {
+                                append("I agree to the ")
+                                pushStringAnnotation(tag = "tos", annotation = LuxValConfig.TERMS_OF_SERVICE_URL)
+                                withStyle(
+                                    SpanStyle(
+                                        color = MaterialTheme.colorScheme.secondary,
+                                        textDecoration = TextDecoration.Underline
+                                    )
+                                ) {
+                                    append("Terms of Service")
+                                }
+                                pop()
+                                append(" and ")
+                                pushStringAnnotation(tag = "privacy", annotation = LuxValConfig.PRIVACY_POLICY_URL)
+                                withStyle(SpanStyle(color = MaterialTheme.colorScheme.secondary, textDecoration = TextDecoration.Underline)) {
+                                    append("Privacy Policy")
+                                }
+                                pop()
+                            }
+                            ClickableText(
+                                text = annotatedText,
+                                style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onSurface),
+                                onClick = { offset ->
+                                    annotatedText.getStringAnnotations(start = offset, end = offset).firstOrNull()?.let {
+                                        uriHandler.openUri(it.item)
+                                    }
+                                }
+                            )
                         }
                     }
 

@@ -9,8 +9,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.luxeval.config.LuxValConfig
 import com.example.luxeval.data.MeasurementUnit
 import com.example.luxeval.data.ThemeMode
 import com.example.luxeval.presentation.photo.rememberPhotoPickerLauncher
@@ -21,6 +23,7 @@ import com.example.luxeval.presentation.util.LuxeTopBar
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.ic_arrow_forward
 import luxeval.shared.generated.resources.ic_business
+import luxeval.shared.generated.resources.ic_delete
 import luxeval.shared.generated.resources.ic_image
 import luxeval.shared.generated.resources.ic_info
 import luxeval.shared.generated.resources.ic_logout
@@ -28,7 +31,9 @@ import luxeval.shared.generated.resources.ic_measurements
 import luxeval.shared.generated.resources.ic_money
 import luxeval.shared.generated.resources.ic_signature
 import luxeval.shared.generated.resources.ic_theme
+import luxeval.shared.generated.resources.settings_delete_account
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 private val supportedLanguages = listOf(
     "en" to "English",
@@ -60,7 +65,16 @@ fun SettingsScreen(
     var showThemePicker by remember { mutableStateOf(false) }
     var showLogOutConfirm by remember { mutableStateOf(false) }
     var showAboutDialog by remember { mutableStateOf(false) }
+    var showDeleteAccountConfirm by remember { mutableStateOf(false) }
+    val isDeletingAccount by viewModel.isDeletingAccount.collectAsState()
 
+    if (showDeleteAccountConfirm) {
+        DeleteAccountDialog(
+            isDeleting = isDeletingAccount,
+            onConfirm = { viewModel.deleteAccount(onDeleted = onLogOut) }, // reuse existing nav-away callback
+            onDismiss = { showDeleteAccountConfirm = false }
+        )
+    }
     val snackbarHostState = remember { SnackbarHostState() }
     if (uiState.uploadError != null) {
         ErrorDialog(
@@ -166,6 +180,7 @@ fun SettingsScreen(
             }
 
             item {
+                val uriHandler = LocalUriHandler.current
                 SettingsSection(title = null) {
                     SettingsRow(
                         icon = painterResource(Res.drawable.ic_info),
@@ -174,11 +189,24 @@ fun SettingsScreen(
                         onClick = { showAboutDialog = true }
                     )
                     SettingsRow(
+                        icon = painterResource(Res.drawable.ic_info),
+                        title = "Privacy Policy",
+                        subtitle = null,
+                        onClick = { uriHandler.openUri(LuxValConfig.PRIVACY_POLICY_URL) }
+                    )
+                    SettingsRow(
                         icon = painterResource(Res.drawable.ic_logout),
                         title = "Log Out",
                         subtitle = null,
                         titleColor = MaterialTheme.colorScheme.error,
                         onClick = { showLogOutConfirm = true }
+                    )
+                    SettingsRow(
+                        icon = painterResource(Res.drawable.ic_delete),
+                        title = stringResource(Res.string.settings_delete_account),
+                        subtitle = null,
+                        titleColor = MaterialTheme.colorScheme.error,
+                        onClick = { showDeleteAccountConfirm = true }
                     )
                 }
             }

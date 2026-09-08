@@ -6,7 +6,9 @@ import com.example.luxeval.data.AppSettingsStore
 import com.example.luxeval.data.AppraiserProfileStore
 import com.example.luxeval.data.MeasurementUnit
 import com.example.luxeval.data.ThemeMode
+import com.example.luxeval.data.repository.AuthRepository
 import com.example.luxeval.data.repository.BusinessProfileRepository
+import com.example.luxeval.data.repository.SessionRepository
 import com.example.luxeval.presentation.theme.ThemeController
 import com.example.luxeval.presentation.util.ErrorContext
 import com.example.luxeval.presentation.util.toUserError
@@ -25,11 +27,15 @@ class SettingsViewModel(
     private val profileStore: AppraiserProfileStore,
     private val settingsStore: AppSettingsStore,
     private val themeController: ThemeController,
-    private val businessProfileRepository: BusinessProfileRepository
+    private val businessProfileRepository: BusinessProfileRepository,
+    private val sessionRepository: SessionRepository, // add to constructor + Koin module
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(loadCurrentState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
+    private val _isDeletingAccount = MutableStateFlow(false)
+    val isDeletingAccount: StateFlow<Boolean> = _isDeletingAccount.asStateFlow()
 
     // Fired on every text-field/currency/unit change. Debounced so typing a
     // business name doesn't push a network request per keystroke — only
@@ -55,6 +61,20 @@ class SettingsViewModel(
         languageCode = settingsStore.getLanguageCode(),
         themeMode = settingsStore.getThemeMode()
     )
+
+    fun deleteAccount(onDeleted: () -> Unit) {
+        viewModelScope.launch {
+            _isDeletingAccount.value = true
+            try {
+                sessionRepository.deleteAccountAndClearLocalData()
+                onDeleted()
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(uploadError = e.toUserError(ErrorContext.GENERIC))
+            } finally {
+                _isDeletingAccount.value = false
+            }
+        }
+    }
 
     private fun schedulePush() {
         pushTrigger.tryEmit(Unit)

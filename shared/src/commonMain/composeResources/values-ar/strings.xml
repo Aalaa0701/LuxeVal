@@ -32,7 +32,7 @@
     <string name="settings_log_out">تسجيل الخروج</string>
     <string name="settings_log_out_confirm_title">تسجيل الخروج</string>
     <string name="settings_log_out_confirm_body">هل أنت متأكد أنك تريد تسجيل الخروج؟</string>
-
+    <string name="settings_delete_account">حذف الحساب</string>
     <!-- Appraisal statuses -->
     <string name="status_draft">مسودة</string>
     <string name="status_completed">مكتملة</string>
@@ -46,4 +46,294 @@
     <string name="auth_sign_in">تسجيل الدخول</string>
     <string name="auth_sign_up">إنشاء حساب</string>
     <string name="auth_no_account">ليس لديك حساب؟</string>
+
+
+    <!-- AUTH -->
+    <string name="auth_tagline">تقييم احترافي للمجوهرات بين يديك</string>
+    <string name="auth_full_name">الاسم الكامل</string>
+    <string name="auth_email_address">عنوان البريد الإلكتروني</string>
+    <string name="auth_email_placeholder">your@email.com</string>
+    <string name="auth_password_placeholder">••••••••</string>
+    <string name="auth_password_hint">8 أحرف على الأقل</string>
+    <string name="auth_confirm_password">تأكيد كلمة المرور</string>
+    <string name="auth_tab_login">تسجيل الدخول</string>
+    <string name="auth_tab_signup">إنشاء حساب</string>
+    <string name="auth_remember_me">تذكرني</string>
+    <string name="auth_forgot_password">هل نسيت كلمة المرور؟</string>
+    <string name="auth_agree_terms">أوافق على شروط الخدمة وسياسة الخصوصية</string>
+    <string name="auth_sign_in_button">تسجيل الدخول</string>
+    <string name="auth_create_account_button">إنشاء حساب</string>
+    <string name="auth_or_continue_with">أو المتابعة باستخدام</string>
+    <string name="auth_continue_google">المتابعة باستخدام Google</string>
+    <string name="auth_no_account_prompt">ليس لديك حساب؟ </string>
+    <string name="auth_has_account_prompt">لديك حساب بالفعل؟ </string>
+
+    <!-- AUTH STATUS -->
+    <string name="dialog_check_email_title">تحقق من بريدك الإلكتروني</string>
+    <string name="dialog_check_email_body">لقد أرسلنا رابط تأكيد إلى {email}...</string>
+    <string name="action_go_to_login">الانتقال إلى تسجيل الدخول</string>
+    <string name="action_resend_email">إعادة إرسال البريد الإلكتروني</string>
+    <string name="dialog_welcome_title">مرحباً!</string>
+    <string name="dialog_welcome_body">حسابك جاهز. لنبدأ بإعداد ملف نشاطك التجاري.</string>
+    <string name="action_continue">متابعة</string>
+    <string name="dialog_email_not_verified_title">البريد الإلكتروني غير مؤكد</string>
+    <string name="dialog_email_not_verified_body">يرجى تأكيد {email} قبل تسجيل الدخول. لم يصلك الرابط؟</string>
+    <string name="action_cancel">إلغاء</string>
+    <string name="dialog_reset_sent_title">تم إرسال رابط إعادة التعيين</string>
+    <string name="dialog_reset_sent_body">تحقق من بريدك الإلكتروني للحصول على رابط إعادة تعيين كلمة المرور.</string>
+    <string name="action_ok">حسناً</string>
+    <string name="dialog_email_sent_title">تم إرسال البريد الإلكتروني</string>
+    <string name="dialog_email_sent_body">لقد أرسلنا رابط تأكيد آخر — انتظر قليلاً حتى يصل.</string>
+    <string name="dialog_generic_error_title">حدث خطأ ما</string>
+
+    <!-- RESET PASSWORD -->
+    <string name="reset_password_title">إعادة تعيين كلمة المرور</string>
+    <string name="reset_password_body">أدخل البريد الإلكتروني المرتبط بحسابك...</string>
+    <string name="action_send_reset_link">إرسال رابط إعادة التعيين</string>
+
+    <!-- DASHBOARD -->
+    <string name="dashboard_greeting">صباح الخير</string>
+    <string name="dashboard_total_appraisals">إجمالي التقييمات</string>
+    <string name="dashboard_completed">مكتملة</string>
+    <string name="dashboard_drafts">مسودات</string>
+    <string name="dashboard_customers">العملاء</string>
+    <string name="dashboard_continue_draft">متابعة المسودة</string>
+    <string name="dashboard_recent_appraisals">التقييمات الأخيرة</string>
+    <string name="dialog_incomplete_profile_title">أكمل ملف نشاطك التجاري</string>
+    <string name="dialog_incomplete_profile_body">أضف اسم نشاطك التجاري ورقم الترخيص...</string>
+    <string name="action_go_to_profile">الانتقال إلى الملف الشخصي</string>
+
+    <!-- APPRAISALS -->
+    <string name="appraisals_list_title">التقييمات</string>
+    <string name="appraisals_list_subtitle">إدارة ومراجعة محفظة التقييمات الخاصة بك.</string>
+    <string name="action_new_appraisal">تقييم جديد</string>
+    <string name="label_sort_by">ترتيب حسب</string>
+    <string name="appraisals_empty_title">لا توجد تقييمات بعد</string>
+    <string name="appraisals_empty_body">ابدأ أول تقرير تقييم لك.</string>
+    <string name="filter_all">الكل</string>
+    <string name="filter_drafts">المسودات</string>
+    <string name="filter_completed">المكتملة</string>
+    <string name="filter_archived">المؤرشفة</string>
+    <string name="sort_date_added">تاريخ الإضافة</string>
+    <string name="sort_estimated_value">القيمة المقدرة</string>
+    <string name="sort_client_name">اسم العميل</string>
+
+    <!-- SEARCH -->
+    <string name="search_title">البحث الشامل</string>
+    <string name="search_placeholder">ابحث في التقييمات أو العملاء أو قطع المجوهرات...</string>
+    <string name="search_prompt">ابدأ بالكتابة للبحث في التقييمات والعملاء.</string>
+    <string name="search_no_results_title">لم يتم العثور على نتائج</string>
+    <string name="search_no_results_body">لم نتمكن من العثور على أي شيء يطابق "{query}"...</string>
+    <string name="action_clear_search">مسح البحث</string>
+    <string name="search_appraisals_count">التقييمات · {n} نتائج</string>
+    <string name="search_customers_count">العملاء · {n} نتيجة</string>
+
+    <!-- SETTINGS -->
+    <string name="settings_subtitle">إدارة تفضيلات حسابك وتفاصيل نشاطك التجاري.</string>
+    <string name="settings_business_profile">ملف النشاط التجاري</string>
+    <string name="settings_business_profile_subtitle">الاسم، العنوان، بيانات الاتصال</string>
+    <string name="settings_brand_logo">شعار العلامة التجارية</string>
+    <string name="status_uploading">جارٍ الرفع...</string>
+    <string name="status_logo_set">تم تعيين الشعار</string>
+    <string name="settings_logo_subtitle">تحديث هوية التقارير</string>
+    <string name="settings_digital_signature">التوقيع الرقمي</string>
+    <string name="status_signature_set">تم تعيين التوقيع</string>
+    <string name="settings_signature_subtitle">إدارة توقيعات التقييمات</string>
+    <string name="settings_currency">العملة</string>
+    <string name="settings_measurement_units">وحدات القياس</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_theme">المظهر</string>
+    <string name="settings_about">حول LuxeValuation</string>
+    <string name="settings_version">الإصدار 1.0.0</string>
+    <string name="settings_log_out">تسجيل الخروج</string>
+    <string name="settings_select_currency">اختر العملة</string>
+    <string name="settings_select_language">اختر اللغة</string>
+    <string name="theme_system">إعدادات الجهاز الافتراضية</string>
+    <string name="theme_light">فاتح</string>
+    <string name="theme_dark">داكن</string>
+    <string name="theme_system_desc">يتطابق مع مظهر جهازك</string>
+    <string name="theme_light_desc">استخدام المظهر الفاتح دائماً</string>
+    <string name="theme_dark_desc">استخدام المظهر الداكن دائماً</string>
+    <string name="settings_log_out_confirm_body">هل أنت متأكد أنك تريد تسجيل الخروج؟</string>
+    <string name="settings_about_body">يساعد LuxeValuation المقيّمين المعتمدين على إنشاء تقارير احترافية لتقييم المجوهرات.</string>
+    <string name="unit_metric">ملليمتر (مم)، قيراط (ق)</string>
+    <string name="unit_imperial">بوصة، نقطة</string>
+    <string name="settings_privacy_policy">سياسة الخصوصية</string>
+    <!-- BUSINESS PROFILE -->
+    <string name="business_profile_title">ملف النشاط التجاري</string>
+    <string name="business_name_label">اسم النشاط التجاري</string>
+    <string name="license_number_label">رقم الترخيص</string>
+    <string name="business_phone_label">هاتف النشاط التجاري</string>
+    <string name="business_address_label">عنوان النشاط التجاري</string>
+    <string name="business_profile_footer">تظهر هذه التفاصيل في ترويسة كل تقرير تقييم.</string>
+
+    <!-- APPRAISAL DETAIL -->
+    <string name="appraisal_detail_fallback_title">التقييم</string>
+    <string name="action_restore_draft">استعادة كمسودة</string>
+    <string name="action_archive">أرشفة</string>
+    <string name="action_delete_appraisal">حذف التقييم</string>
+    <string name="section_jewelry_items">قطع المجوهرات</string>
+    <string name="items_count">{n} قطع</string>
+    <string name="action_add_another_item">إضافة قطعة أخرى</string>
+    <string name="unpriced_items_title">قطع بدون سعر</string>
+    <string name="unpriced_items_body">{n} قطعة لم يتم تحديد قيمتها بعد — لن يشملها إجمالي التقرير: {names}</string>
+    <string name="action_preview_report">معاينة التقرير</string>
+    <string name="action_mark_completed">تحديد كمكتمل</string>
+    <string name="delete_appraisal_confirm_body">سيؤدي هذا إلى حذف هذا التقييم وجميع القطع وعددها {n} نهائياً...</string>
+    <string name="action_delete">حذف</string>
+    <string name="mark_completed_unpriced_confirm">{n} قطعة لم يتم تحديد قيمتها بعد: {names}. ... هل تريد تحديد هذا التقييم كمكتمل على أي حال؟</string>
+    <string name="action_mark_completed_anyway">تحديد كمكتمل على أي حال</string>
+    <string name="action_go_back">العودة</string>
+    <string name="delete_item_title">حذف القطعة</string>
+    <string name="delete_item_confirm_body">هل تريد حذف "{name}" وصورها نهائياً؟ لا يمكن التراجع عن هذا الإجراء.</string>
+    <string name="section_appraisal_context">بيانات التقييم</string>
+    <string name="label_primary_purpose">الغرض الرئيسي</string>
+    <string name="section_client_info">معلومات العميل</string>
+    <string name="label_full_legal_name">الاسم القانوني الكامل</string>
+    <string name="label_phone_number">رقم الهاتف</string>
+    <string name="action_save">حفظ</string>
+    <string name="items_empty_title">لم تتم إضافة قطع بعد</string>
+    <string name="items_empty_body">ابدأ بإضافة أول قطعة مجوهرات...</string>
+    <string name="action_add_jewelry_item">إضافة قطعة مجوهرات</string>
+
+    <!-- PURPOSES -->
+    <string name="purpose_insurance">استبدال التأمين</string>
+    <string name="purpose_fair_market">القيمة السوقية العادلة</string>
+    <string name="purpose_estate">تقييم التركة</string>
+    <string name="purpose_wholesale">التصفية بالجملة</string>
+    <string name="purpose_other">أخرى</string>
+
+    <!-- CATEGORY -->
+    <string name="category_picker_subtitle">اختر فئة للمتابعة.</string>
+    <string name="category_ring">خاتم</string>
+    <string name="category_necklace">قلادة</string>
+    <string name="category_pendant">تعليقة</string>
+    <string name="category_bracelet">سوار</string>
+    <string name="category_earrings">أقراط</string>
+    <string name="category_brooch">دبوس زينة</string>
+    <string name="category_watch">ساعة</string>
+    <string name="category_gemstone">حجر كريم</string>
+    <string name="category_pearl">لؤلؤ</string>
+    <string name="category_other">أخرى</string>
+
+    <!-- ITEM EDITOR -->
+    <string name="field_item_name">اسم القطعة</string>
+    <string name="field_hallmarks">العلامات / الأختام</string>
+    <string name="action_save_item">حفظ القطعة</string>
+    <string name="editor_title_ring">محرر الخاتم</string>
+    <string name="editor_title_necklace">محرر القلادة</string>
+    <string name="editor_title_pendant">محرر التعليقة</string>
+    <string name="editor_title_bracelet">محرر السوار</string>
+    <string name="editor_title_earrings">محرر الأقراط</string>
+    <string name="editor_title_brooch">محرر دبوس الزينة</string>
+    <string name="editor_title_watch">محرر الساعة</string>
+    <string name="editor_title_pearl">محرر اللؤلؤ</string>
+    <string name="editor_title_gemstone">محرر الحجر الكريم</string>
+    <string name="field_ring_size">مقاس الخاتم</string>
+    <string name="field_band_width">عرض الشريط (مم)</string>
+    <string name="field_band_style">نمط الشريط</string>
+    <string name="field_length_cm">الطول (سم)</string>
+    <string name="field_chain_style">نمط السلسلة</string>
+    <string name="field_clasp_type">نوع المشبك</string>
+    <string name="field_pendant_attached">التعليقة مرفقة</string>
+    <string name="field_bail_type">نوع الحلقة</string>
+    <string name="field_height_mm">الارتفاع (مم)</string>
+    <string name="field_width_mm">العرض (مم)</string>
+    <string name="field_sold_with_chain">تباع مع السلسلة</string>
+    <string name="field_style">النمط</string>
+    <string name="field_adjustable">قابل للتعديل</string>
+    <string name="field_charm_count">عدد التعليقات</string>
+    <string name="field_charm_descriptions">وصف التعليقات (واحد في كل سطر)</string>
+    <string name="field_backing">الجزء الخلفي</string>
+    <string name="field_hoop_diameter">قطر الحلقة (مم) — إن أمكن</string>
+    <string name="field_confirmed_pair">زوج متطابق مؤكد</string>
+    <string name="field_pin_mechanism">آلية الدبوس</string>
+    <string name="field_motif_description">وصف الزخرفة</string>
+    <string name="section_basic_info">المعلومات الأساسية</string>
+    <string name="field_brand">العلامة التجارية</string>
+    <string name="field_model">الطراز</string>
+    <string name="field_reference_number">رقم المرجع</string>
+    <string name="field_serial_number">الرقم التسلسلي</string>
+    <string name="section_specifications">المواصفات</string>
+    <string name="field_movement">الحركة</string>
+    <string name="field_case_material">مادة العلبة</string>
+    <string name="field_case_size">حجم العلبة (مم)</string>
+    <string name="field_band_material">مادة السوار / الحزام</string>
+    <string name="field_dial_color">لون المينا</string>
+    <string name="field_water_resistance">مقاومة الماء</string>
+    <string name="field_year_manufacture">سنة التصنيع</string>
+    <string name="section_complications">التعقيدات</string>
+    <string name="section_condition">الحالة</string>
+    <string name="field_running_condition">حالة التشغيل</string>
+    <string name="field_has_box">توجد العلبة</string>
+    <string name="field_has_papers">توجد الأوراق</string>
+    <string name="field_appraiser_notes">ملاحظات المقيّم</string>
+    <string name="field_origin_type">نوع المنشأ</string>
+    <string name="field_size_mm">الحجم (مم)</string>
+    <string name="field_overtone_color">اللون الأساسي / الدرجة الثانوية</string>
+    <string name="label_gia_grading">تصنيف الجودة (نظام GIA)</string>
+    <string name="field_luster">البريق</string>
+    <string name="field_surface_quality">جودة السطح</string>
+    <string name="field_pearl_count">عدد حبات اللؤلؤ</string>
+    <string name="field_matched_strand">سلسلة متطابقة</string>
+    <string name="field_clasp_metal">معدن المشبك / التثبيت</string>
+
+    <!-- METAL -->
+    <string name="section_material_analysis">تحليل المادة</string>
+    <string name="field_primary_metal">المعدن الأساسي</string>
+    <string name="field_purity">النقاوة</string>
+    <string name="field_color">اللون</string>
+    <string name="field_net_weight">الوزن الصافي للمعدن (جم)</string>
+    <string name="field_plated">مطلي</string>
+    <string name="field_base_metal">المعدن الأساسي</string>
+
+    <!-- GEMSTONE -->
+    <string name="section_gemstone">الحجر الكريم</string>
+    <string name="field_stone_type">نوع الحجر</string>
+    <string name="field_origin">المنشأ</string>
+    <string name="field_carat_weight">وزن القيراط</string>
+    <string name="field_color_grade">درجة اللون</string>
+    <string name="field_clarity_grade">درجة النقاء</string>
+    <string name="field_setting_type">نوع التثبيت</string>
+    <string name="field_measurements">القياسات (مم)</string>
+    <string name="field_cert_lab">مختبر الشهادة</string>
+    <string name="field_cert_number">رقم الشهادة</string>
+
+    <!-- VALUATION -->
+    <string name="section_appraisal_value">قيمة التقييم</string>
+    <string name="field_estimated_value">القيمة المقدرة (بالدولار الأمريكي)</string>
+    <string name="hint_market_price_source">مصدرها سعر السوق الحالي — عدّلها للتجاوز</string>
+    <string name="field_appraiser_notes_internal">ملاحظات المقيّم (داخلية)</string>
+
+    <!-- REPORT -->
+    <string name="report_preview_title">معاينة التقرير</string>
+    <string name="action_export_pdf">تصدير PDF</string>
+    <string name="section_itemized_valuation">التقييم التفصيلي</string>
+    <string name="report_partial_valuation_notice">{n} قطعة لم يتم تحديد قيمتها بعد. الإجمالي أدناه يعكس القطع التي تم تسعيرها فقط.</string>
+    <string name="label_total_appraised_value">إجمالي القيمة المقدرة</string>
+    <string name="label_items_pending">{n} قطعة معلقة</string>
+    <string name="label_partial_total_note">إجمالي جزئي — لا يشمل القطع التي لا تحتوي على قيمة</string>
+    <string name="label_certified_appraiser">مقيّم معتمد</string>
+    <string name="report_disclaimer">يمثل تقرير التقييم هذا الرأي المهني للمقيّم بناءً على المعلومات وظروف السوق المتاحة وقت إجراء التقييم.</string>
+    <string name="label_document_id">معرّف المستند</string>
+    <string name="label_date">التاريخ</string>
+    <string name="label_purpose">الغرض</string>
+    <string name="label_client">العميل</string>
+    <string name="label_email">البريد الإلكتروني</string>
+    <string name="label_phone">الهاتف</string>
+
+    <!-- ONBOARDING -->
+    <string name="action_skip">تخطي</string>
+    <string name="onboarding_1_title">تقييم احترافي للمجوهرات</string>
+    <string name="onboarding_1_body">أنشئ تقارير تقييم دقيقة واحترافية للمجوهرات بسهولة.</string>
+    <string name="onboarding_2_title">إدارة تقييماتك</string>
+    <string name="onboarding_2_body">نظّم عملاءك وقطع المجوهرات وتقارير التقييم في مكان واحد.</string>
+    <string name="onboarding_3_title">تقارير احترافية</string>
+    <string name="onboarding_3_body">أنشئ تقارير تقييم احترافية جاهزة للمشاركة مع عملائك.</string>
+    <string name="action_get_started">ابدأ الآن</string>
+
+    <!-- PHOTO GRID -->
+    <string name="action_add_photo">إضافة صورة</string>
+    <string name="cd_remove_photo">إزالة</string>
+
 </resources>

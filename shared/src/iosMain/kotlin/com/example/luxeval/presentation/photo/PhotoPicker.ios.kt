@@ -162,4 +162,7 @@ actual class PhotoStorage {
         return data.toByteArrayKt()
     }
 
+    actual fun enforceCacheLimit(maxBytes: Long) {
+    }
+
 }

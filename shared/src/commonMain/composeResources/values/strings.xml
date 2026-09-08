@@ -32,6 +32,7 @@
     <string name="settings_log_out">Log Out</string>
     <string name="settings_log_out_confirm_title">Log Out</string>
     <string name="settings_log_out_confirm_body">Are you sure you want to log out?</string>
+    <string name="settings_delete_account">Delete account</string>
 
     <!-- Appraisal statuses -->
     <string name="status_draft">Draft</string>
@@ -46,4 +47,313 @@
     <string name="auth_sign_in">Sign In</string>
     <string name="auth_sign_up">Sign Up</string>
     <string name="auth_no_account">Don\'t have an account?</string>
+
+
+    <!-- ==================== AUTH ==================== -->
+    <string name="auth_tagline">Professional jewelry valuation at your fingertips</string>
+    <string name="auth_full_name">Full Name</string>
+    <string name="auth_email_address">Email Address</string>
+    <string name="auth_email_placeholder">your@email.com</string>
+    <string name="auth_password_placeholder">••••••••</string>
+    <string name="auth_password_hint">Minimum 8 characters</string>
+    <string name="auth_confirm_password">Confirm Password</string>
+    <string name="auth_tab_login">Login</string>
+    <string name="auth_tab_signup">Sign Up</string>
+    <string name="auth_remember_me">Remember me</string>
+    <string name="auth_forgot_password">Forgot Password?</string>
+    <string name="auth_agree_terms">I agree to the Terms of Service and Privacy Policy</string>
+    <string name="auth_sign_in_button">Sign In</string>
+    <string name="auth_create_account_button">Create Account</string>
+    <string name="auth_or_continue_with">or continue with</string>
+    <string name="auth_continue_google">Continue with Google</string>
+    <string name="auth_no_account_prompt">Don't have an account? </string>
+    <string name="auth_has_account_prompt">Already have an account? </string>
+
+    <!-- ==================== AUTH STATUS DIALOG ==================== -->
+    <string name="dialog_check_email_title">Check Your Email</string>
+    <string name="dialog_check_email_body">We've sent a confirmation link to {email}...</string>
+    <string name="action_go_to_login">Go to Login</string>
+    <string name="action_resend_email">Resend Email</string>
+    <string name="dialog_welcome_title">Welcome!</string>
+    <string name="dialog_welcome_body">Your account is ready. Let's get your business profile set up.</string>
+    <string name="action_continue">Continue</string>
+    <string name="dialog_email_not_verified_title">Email Not Verified</string>
+    <string name="dialog_email_not_verified_body">Please confirm {email} before signing in. Didn't get the link?</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="dialog_reset_sent_title">Reset Link Sent</string>
+    <string name="dialog_reset_sent_body">Check your email for a link to reset your password.</string>
+    <string name="action_ok">OK</string>
+    <string name="dialog_email_sent_title">Email Sent</string>
+    <string name="dialog_email_sent_body">We've sent another confirmation link — give it a minute to arrive.</string>
+    <string name="dialog_generic_error_title">Something Went Wrong</string>
+
+    <!-- ==================== RESET PASSWORD ==================== -->
+    <string name="reset_password_title">Reset Password</string>
+    <string name="reset_password_body">Enter the email associated with your account...</string>
+    <string name="action_send_reset_link">Send Reset Link</string>
+
+    <!-- ==================== DASHBOARD ==================== -->
+    <string name="dashboard_greeting">Good Morning</string>
+    <string name="dashboard_total_appraisals">Total Appraisals</string>
+    <string name="dashboard_completed">Completed</string>
+    <string name="dashboard_drafts">Drafts</string>
+    <string name="dashboard_customers">Customers</string>
+    <string name="dashboard_continue_draft">Continue Draft</string>
+    <string name="dashboard_recent_appraisals">Recent Appraisals</string>
+    <string name="dialog_incomplete_profile_title">Complete Your Business Profile</string>
+    <string name="dialog_incomplete_profile_body">Add your business name, license number...</string>
+    <string name="action_go_to_profile">Go to Profile</string>
+
+    <!-- ==================== APPRAISALS LIST ==================== -->
+    <string name="appraisals_list_title">Appraisals</string>
+    <string name="appraisals_list_subtitle">Manage and review your valuation portfolio.</string>
+    <string name="action_new_appraisal">New Appraisal</string>
+    <string name="label_sort_by">Sort by</string>
+    <string name="appraisals_empty_title">No appraisals yet</string>
+    <string name="appraisals_empty_body">Start your first valuation report.</string>
+    <string name="filter_all">All</string>
+    <string name="filter_drafts">Drafts</string>
+    <string name="filter_completed">Completed</string>
+    <string name="filter_archived">Archived</string>
+    <string name="sort_date_added">Date Added</string>
+    <string name="sort_estimated_value">Estimated Value</string>
+    <string name="sort_client_name">Client Name</string>
+
+    <!-- ==================== SEARCH ==================== -->
+    <string name="search_title">Global Search</string>
+    <string name="search_placeholder">Search appraisals, clients, or jewelry items...</string>
+    <string name="search_prompt">Start typing to search across your appraisals and clients.</string>
+    <string name="search_no_results_title">No results found</string>
+    <string name="search_no_results_body">We couldn't find anything matching "{query}"...</string>
+    <string name="action_clear_search">Clear Search</string>
+    <string name="search_appraisals_count">Appraisals · {n} Results</string>
+    <string name="search_customers_count">Customers · {n} Result(s)</string>
+
+    <!-- ==================== SETTINGS ==================== -->
+    <string name="settings_subtitle">Manage your account preferences and business details.</string>
+    <string name="settings_business_profile">Business Profile</string>
+    <string name="settings_business_profile_subtitle">Name, Address, Contact</string>
+    <string name="settings_brand_logo">Brand Logo</string>
+    <string name="status_uploading">Uploading...</string>
+    <string name="status_logo_set">Logo set</string>
+    <string name="settings_logo_subtitle">Update report branding</string>
+    <string name="settings_digital_signature">Digital Signature</string>
+    <string name="status_signature_set">Signature set</string>
+    <string name="settings_signature_subtitle">Manage appraisal signatures</string>
+    <string name="settings_currency">Currency</string>
+    <string name="settings_measurement_units">Measurement Units</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_about">About LuxeValuation</string>
+    <string name="settings_version">Version 1.0.0</string>
+    <string name="settings_log_out">Log Out</string>
+    <string name="settings_select_currency">Select Currency</string>
+    <string name="settings_select_language">Select Language</string>
+    <string name="theme_system">System Default</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_system_desc">Matches your device's appearance</string>
+    <string name="theme_light_desc">Always use light appearance</string>
+    <string name="theme_dark_desc">Always use dark appearance</string>
+    <string name="settings_log_out_confirm_body">Are you sure you want to log out?</string>
+    <string name="settings_about_body">LuxeValuation helps certified appraisers create professional jewelry valuation reports.</string>
+    <string name="unit_metric">Millimeters (mm), Carats (ct)</string>
+    <string name="unit_imperial">Inches, Points</string>
+
+    <!-- ==================== BUSINESS PROFILE ==================== -->
+    <string name="business_profile_title">Business Profile</string>
+    <string name="business_name_label">Business Name</string>
+    <string name="license_number_label">License Number</string>
+    <string name="business_phone_label">Business Phone</string>
+    <string name="business_address_label">Business Address</string>
+    <string name="business_profile_footer">These details appear on the letterhead of every appraisal report.</string>
+
+    <!-- ==================== APPRAISAL DETAIL ==================== -->
+    <string name="appraisal_detail_fallback_title">Appraisal</string>
+    <string name="action_restore_draft">Restore to Draft</string>
+    <string name="action_archive">Archive</string>
+    <string name="action_delete_appraisal">Delete Appraisal</string>
+    <string name="section_jewelry_items">Jewelry Items</string>
+    <string name="items_count">{n} Items</string>
+    <string name="action_add_another_item">Add Another Item</string>
+    <string name="unpriced_items_title">Unpriced Items</string>
+    <string name="unpriced_items_body">{n} item(s) have no value yet — the report total won't include them: {names}</string>
+    <string name="action_preview_report">Preview Report</string>
+    <string name="action_mark_completed">Mark Completed</string>
+    <string name="delete_appraisal_confirm_body">This permanently deletes this appraisal and all {n} item(s)...</string>
+    <string name="action_delete">Delete</string>
+    <string name="mark_completed_unpriced_confirm">{n} item(s) don't have a value yet: {names}. ... Mark this appraisal completed anyway?</string>
+    <string name="action_mark_completed_anyway">Mark Completed Anyway</string>
+    <string name="action_go_back">Go Back</string>
+    <string name="delete_item_title">Delete Item</string>
+    <string name="delete_item_confirm_body">Permanently delete "{name}" and its photos? This can't be undone.</string>
+    <string name="section_appraisal_context">Appraisal Context</string>
+    <string name="label_primary_purpose">Primary Purpose</string>
+    <string name="section_client_info">Client Information</string>
+    <string name="label_full_legal_name">Full Legal Name</string>
+    <string name="label_phone_number">Phone Number</string>
+    <string name="action_save">Save</string>
+    <string name="items_empty_title">No items added yet</string>
+    <string name="items_empty_body">Begin by adding the first piece of jewelry...</string>
+    <string name="action_add_jewelry_item">Add Jewelry Item</string>
+
+    <!-- Purposes -->
+    <string name="purpose_insurance">Insurance Replacement</string>
+    <string name="purpose_fair_market">Fair Market Value</string>
+    <string name="purpose_estate">Estate Valuation</string>
+    <string name="purpose_wholesale">Wholesale Liquidation</string>
+    <string name="purpose_other">Other</string>
+
+    <!-- ==================== CATEGORY PICKER ==================== -->
+    <string name="category_picker_subtitle">Choose a category to continue.</string>
+    <string name="category_ring">Ring</string>
+    <string name="category_necklace">Necklace</string>
+    <string name="category_pendant">Pendant</string>
+    <string name="category_bracelet">Bracelet</string>
+    <string name="category_earrings">Earrings</string>
+    <string name="category_brooch">Brooch</string>
+    <string name="category_watch">Watch</string>
+    <string name="category_gemstone">Gemstone</string>
+    <string name="category_pearl">Pearl</string>
+    <string name="category_other">Other</string>
+
+    <!-- ==================== ITEM EDITOR ==================== -->
+    <string name="field_item_name">Item Name</string>
+    <string name="field_hallmarks">Hallmarks / Stamps</string>
+    <string name="action_save_item">Save Item</string>
+
+    <string name="editor_title_ring">Ring Editor</string>
+    <string name="editor_title_necklace">Necklace Editor</string>
+    <string name="editor_title_pendant">Pendant Editor</string>
+    <string name="editor_title_bracelet">Bracelet Editor</string>
+    <string name="editor_title_earrings">Earrings Editor</string>
+    <string name="editor_title_brooch">Brooch Editor</string>
+    <string name="editor_title_watch">Watch Editor</string>
+    <string name="editor_title_pearl">Pearl Editor</string>
+    <string name="editor_title_gemstone">Gemstone Editor</string>
+
+    <!-- Ring -->
+    <string name="field_ring_size">Ring Size</string>
+    <string name="field_band_width">Band Width (mm)</string>
+    <string name="field_band_style">Band Style</string>
+
+    <!-- Necklace -->
+    <string name="field_length_cm">Length (cm)</string>
+    <string name="field_chain_style">Chain Style</string>
+    <string name="field_clasp_type">Clasp Type</string>
+
+    <!-- Pendant -->
+    <string name="field_pendant_attached">Pendant Attached</string>
+    <string name="field_bail_type">Bail Type</string>
+    <string name="field_height_mm">Height (mm)</string>
+    <string name="field_width_mm">Width (mm)</string>
+    <string name="field_sold_with_chain">Sold With Chain</string>
+
+    <!-- Bracelet -->
+    <string name="field_style">Style</string>
+    <string name="field_adjustable">Adjustable</string>
+    <string name="field_charm_count">Charm Count</string>
+    <string name="field_charm_descriptions">Charm Descriptions (one per line)</string>
+
+    <!-- Earrings -->
+    <string name="field_backing">Backing</string>
+    <string name="field_hoop_diameter">Hoop Diameter (mm) — if applicable</string>
+    <string name="field_confirmed_pair">Confirmed Matching Pair</string>
+
+    <!-- Brooch -->
+    <string name="field_pin_mechanism">Pin Mechanism</string>
+    <string name="field_motif_description">Motif Description</string>
+
+    <!-- Watch / General -->
+    <string name="section_basic_info">Basic Info</string>
+    <string name="field_brand">Brand</string>
+    <string name="field_model">Model</string>
+    <string name="field_reference_number">Reference #</string>
+    <string name="field_serial_number">Serial #</string>
+
+    <string name="section_specifications">Specifications</string>
+    <string name="field_movement">Movement</string>
+    <string name="field_case_material">Case Material</string>
+    <string name="field_case_size">Case Size (mm)</string>
+    <string name="field_band_material">Bracelet / Band Material</string>
+    <string name="field_dial_color">Dial Color</string>
+    <string name="field_water_resistance">Water Resistance</string>
+    <string name="field_year_manufacture">Year of Manufacture</string>
+    <string name="section_complications">Complications</string>
+    <string name="section_condition">Condition</string>
+    <string name="field_running_condition">Running Condition</string>
+    <string name="field_has_box">Has Box</string>
+    <string name="field_has_papers">Has Papers</string>
+    <string name="field_appraiser_notes">Appraiser Notes</string>
+
+    <!-- Pearl -->
+    <string name="field_origin_type">Origin Type</string>
+    <string name="field_size_mm">Size (mm)</string>
+    <string name="field_overtone_color">Body Color / Overtone</string>
+    <string name="label_gia_grading">Quality Grading (GIA System)</string>
+    <string name="field_luster">Luster</string>
+    <string name="field_surface_quality">Surface</string>
+    <string name="field_pearl_count">Pearl Count</string>
+    <string name="field_matched_strand">Matched Strand</string>
+    <string name="field_clasp_metal">Clasp / Setting Metal</string>
+
+    <!-- ==================== METAL DETAILS ==================== -->
+    <string name="section_material_analysis">Material Analysis</string>
+    <string name="field_primary_metal">Primary Metal</string>
+    <string name="field_purity">Purity</string>
+    <string name="field_color">Color</string>
+    <string name="field_net_weight">Net Metal Weight (g)</string>
+    <string name="field_plated">Plated</string>
+    <string name="field_base_metal">Base Metal</string>
+
+    <!-- ==================== GEMSTONE DETAILS ==================== -->
+    <string name="section_gemstone">Gemstone</string>
+    <string name="field_stone_type">Stone Type</string>
+    <string name="field_origin">Origin</string>
+    <string name="field_carat_weight">Carat Weight</string>
+    <string name="field_color_grade">Color Grade</string>
+    <string name="field_clarity_grade">Clarity Grade</string>
+    <string name="field_setting_type">Setting Type</string>
+    <string name="field_measurements">Measurements (mm)</string>
+    <string name="field_cert_lab">Cert. Lab</string>
+    <string name="field_cert_number">Cert. Number</string>
+
+    <!-- ==================== VALUATION ==================== -->
+    <string name="section_appraisal_value">Appraisal Value</string>
+    <string name="field_estimated_value">Estimated Value (USD)</string>
+    <string name="hint_market_price_source">Sourced from live market price — edit to override</string>
+    <string name="field_appraiser_notes_internal">Appraiser Notes (Internal)</string>
+
+    <!-- ==================== REPORT ==================== -->
+    <string name="report_preview_title">Report Preview</string>
+    <string name="action_export_pdf">Export PDF</string>
+    <string name="section_itemized_valuation">Itemized Valuation</string>
+    <string name="report_partial_valuation_notice">{n} item(s) don't have a value yet. The total below reflects only priced items.</string>
+    <string name="label_total_appraised_value">TOTAL APPRAISED VALUE</string>
+    <string name="label_items_pending">{n} item(s) pending</string>
+    <string name="label_partial_total_note">Partial total — excludes items without a value</string>
+    <string name="label_certified_appraiser">Certified Appraiser</string>
+    <string name="report_disclaimer">This appraisal report represents the professional opinion of the appraiser based on the information and market conditions available at the time of valuation.</string>
+    <string name="label_document_id">Document ID</string>
+    <string name="label_date">Date</string>
+    <string name="label_purpose">Purpose</string>
+    <string name="label_client">Client</string>
+    <string name="label_email">Email</string>
+    <string name="label_phone">Phone</string>
+
+    <!-- ==================== ONBOARDING ==================== -->
+    <string name="action_skip">Skip</string>
+    <string name="onboarding_1_title">Professional Jewelry Valuation</string>
+    <string name="onboarding_1_body">Create accurate and professional jewelry appraisal reports with ease.</string>
+    <string name="onboarding_2_title">Manage Your Appraisals</string>
+    <string name="onboarding_2_body">Keep your clients, jewelry items, and valuation reports organized in one place.</string>
+    <string name="onboarding_3_title">Professional Reports</string>
+    <string name="onboarding_3_body">Generate polished appraisal reports ready to share with your clients.</string>
+    <string name="action_get_started">Get Started</string>
+
+    <!-- ==================== PHOTO GRID ==================== -->
+    <string name="action_add_photo">Add Photo</string>
+    <string name="cd_remove_photo">Remove</string>
+
+
 </resources>
