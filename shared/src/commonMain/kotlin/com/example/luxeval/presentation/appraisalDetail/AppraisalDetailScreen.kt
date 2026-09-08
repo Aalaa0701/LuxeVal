@@ -24,6 +24,7 @@ import org.jetbrains.compose.resources.painterResource
 import androidx.compose.material3.OutlinedButton
 import com.example.luxeval.domain.AppraisalStatus
 import com.example.luxeval.presentation.theme.StatusColors
+import com.example.luxeval.presentation.util.ErrorDialog
 import com.example.luxeval.presentation.util.formatGroupedAmount
 import luxeval.shared.generated.resources.ic_appraisal_detail
 import luxeval.shared.generated.resources.ic_client_info
@@ -102,7 +103,8 @@ fun AppraisalDetailScreen(
                     onNameChanged = viewModel::onClientNameChanged,
                     onEmailChanged = viewModel::onClientEmailChanged,
                     onPhoneChanged = viewModel::onClientPhoneChanged,
-                    onSave = viewModel::save
+                    onSave = viewModel::save,
+                    onDismiss = viewModel::dismissSaveError
                 )
             }
 
@@ -370,7 +372,8 @@ private fun ClientInfoSection(
     onNameChanged: (String) -> Unit,
     onEmailChanged: (String) -> Unit,
     onPhoneChanged: (String) -> Unit,
-    onSave: () -> Unit
+    onSave: () -> Unit,
+    onDismiss: () -> Unit
 ) {
     Card(
         shape = LuxeShapes.lg,
@@ -458,7 +461,7 @@ private fun ClientInfoSection(
             )
             uiState.saveError?.let {
                 Spacer(Modifier.height(LuxeSpacing.xs))
-                Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium)
+                ErrorDialog(error = uiState.saveError, onDismiss = onDismiss, onRetry =  onSave)
             }
             Spacer(Modifier.height(LuxeSpacing.sm))
             Button(

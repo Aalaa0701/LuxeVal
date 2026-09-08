@@ -13,5 +13,8 @@ expect fun rememberPhotoPickerLauncher(onPhotosPicked: (List<String>) -> Unit): 
 expect class PhotoStorage {
     suspend fun saveImage(bytes: ByteArray, extension: String = "jpg"): String
     suspend fun deleteImage(path: String)
-    suspend fun readImage(path: String): ByteArray   // NEW
+    suspend fun readImage(path: String): ByteArray
+    suspend fun saveCachedFile(key: String, bytes: ByteArray): String
+    fun cachedFilePath(key: String): String
+    fun cachedFileExists(key: String): Boolean
 }

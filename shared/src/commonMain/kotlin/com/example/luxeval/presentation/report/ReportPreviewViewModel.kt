@@ -10,6 +10,8 @@ import com.example.luxeval.data.repository.ItemRepository
 import com.example.luxeval.data.repository.PhotoRepository
 import com.example.luxeval.domain.withPhotoUris
 import com.example.luxeval.presentation.share.FileSharer
+import com.example.luxeval.presentation.util.ErrorContext
+import com.example.luxeval.presentation.util.toUserError
 import io.ktor.util.logging.Logger
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -83,12 +85,13 @@ class ReportPreviewViewModel(
                 onExported(path)
             } catch (e: TimeoutCancellationException) {
                 println("exportPdf: TIMED OUT")
-                _uiState.value = _uiState.value.copy(isExporting = false, exportError = "PDF export timed out")
+                _uiState.value = _uiState.value.copy(isExporting = false, exportError = e.toUserError(ErrorContext.EXPORT))
                 onError("PDF export timed out")
             } catch (e: Exception) {
                 println("exportPdf: EXCEPTION ${e::class.simpleName}: ${e.message}")
                 e.printStackTrace()
-                _uiState.value = _uiState.value.copy(isExporting = false, exportError = e.message)
+                _uiState.value = _uiState.value.copy(isExporting = false, exportError = e.toUserError(
+                    ErrorContext.EXPORT))
                 onError(e.message ?: "Export failed")
             }
         }

@@ -3,6 +3,7 @@ package com.example.luxeval.presentation.report
 import com.example.luxeval.domain.Appraisal
 import com.example.luxeval.domain.AppraisalItem
 import com.example.luxeval.domain.Client
+import com.example.luxeval.presentation.util.UserError
 
 data class ReportItemRow(
     val item: AppraisalItem,
@@ -26,7 +27,7 @@ data class ReportPreviewUiState(
     val business: ReportBusinessInfo = ReportBusinessInfo("", "", "", "", null, null),
     val currencyCode: String = "USD",
     val isExporting: Boolean = false,
-    val exportError: String? = null
+    val exportError: UserError? = null
 ) {
     val totalValue: Double get() = items.sumOf { it.item.estimatedValue ?: 0.0 }
     val unpricedItemCount: Int get() = items.count { it.item.estimatedValue == null }

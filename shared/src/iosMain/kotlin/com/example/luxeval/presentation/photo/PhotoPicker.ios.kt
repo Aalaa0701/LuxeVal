@@ -103,6 +103,28 @@ actual fun rememberPhotoPickerLauncher(onPhotosPicked: (List<String>) -> Unit): 
 
 @OptIn(ExperimentalForeignApi::class)
 actual class PhotoStorage {
+    private fun cacheDirPath(): String {
+        val docsDir = requireNotNull(
+            NSFileManager.defaultManager
+                .URLsForDirectory(NSDocumentDirectory, NSUserDomainMask)
+                .firstOrNull() as? platform.Foundation.NSURL
+        ).path!!
+        val dir = "$docsDir/photo_cache"
+        NSFileManager.defaultManager.createDirectoryAtPath(dir, true, null, null)
+        return dir
+    }
+
+    @OptIn(ExperimentalForeignApi::class)
+    actual suspend fun saveCachedFile(key: String, bytes: ByteArray): String {
+        val path = "${cacheDirPath()}/$key.jpg"
+        val data = bytes.usePinned { NSData.create(bytes = it.addressOf(0), length = bytes.size.toULong()) }
+        data.writeToFile(path, true)
+        return path
+    }
+
+    actual fun cachedFilePath(key: String): String = "${cacheDirPath()}/$key.jpg"
+    actual fun cachedFileExists(key: String): Boolean =
+        NSFileManager.defaultManager.fileExistsAtPath(cachedFilePath(key))
     actual suspend fun saveImage(bytes: ByteArray, extension: String): String {
 //        val image = UIImage(data = bytes.toNSData())
 //        val resized = image.resized(maxDimension = 1600.0)
@@ -125,11 +147,13 @@ actual class PhotoStorage {
         return path
     }
 
+
     actual suspend fun deleteImage(path: String) {
         runCatching {
             NSFileManager.defaultManager.removeItemAtPath(path, null)
         }
     }
+
     // PhotoPicker.ios.kt
     @OptIn(ExperimentalForeignApi::class)
     actual suspend fun readImage(path: String): ByteArray {

@@ -8,6 +8,8 @@ import com.example.luxeval.data.MeasurementUnit
 import com.example.luxeval.data.ThemeMode
 import com.example.luxeval.data.repository.BusinessProfileRepository
 import com.example.luxeval.presentation.theme.ThemeController
+import com.example.luxeval.presentation.util.ErrorContext
+import com.example.luxeval.presentation.util.toUserError
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -101,7 +103,7 @@ class SettingsViewModel(
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
                     isUploadingLogo = false,
-                    uploadError = e.message ?: "Couldn't upload logo"
+                    uploadError = e.toUserError(ErrorContext.UPLOAD)
                 )
             }
         }
@@ -121,7 +123,7 @@ class SettingsViewModel(
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
                     isUploadingSignature = false,
-                    uploadError = e.message ?: "Couldn't upload signature"
+                    uploadError = e.toUserError(ErrorContext.UPLOAD)
                 )
             }
         }

@@ -23,5 +23,4 @@ fun buildDatabase(): AppDatabase =
     Room.databaseBuilder<AppDatabase>(name = documentDirectory() + "/luxeval.db")
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
-        .fallbackToDestructiveMigration(dropAllTables = true)
         .build()

@@ -5,12 +5,13 @@ import com.example.luxeval.domain.ValueSource
 import com.example.luxeval.domain.WatchComplication
 import com.example.luxeval.domain.WatchMovementType
 import com.example.luxeval.domain.WatchRunningCondition
+import com.example.luxeval.presentation.util.UserError
 
 data class WatchEditorUiState(
     val isLoading: Boolean = false,
     val isSaving: Boolean = false,
     val isNewItem: Boolean = true,
-    val saveError: String? = null,
+    val saveError: UserError? = null,
 
     val photoUris: List<String> = emptyList(),
     val itemName: String = "",

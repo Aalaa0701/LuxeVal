@@ -12,6 +12,8 @@ import com.example.luxeval.domain.AppraisalPurpose
 import com.example.luxeval.domain.AppraisalStatus
 import com.example.luxeval.domain.Client
 import com.example.luxeval.domain.usecase.DeleteAppraisalUseCase
+import com.example.luxeval.presentation.util.ErrorContext
+import com.example.luxeval.presentation.util.toUserError
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -192,9 +194,13 @@ class AppraisalDetailViewModel(
                 loadedNotes = state.internalNotes
                 _uiState.value = _uiState.value.copy(isSaving = false, hasUnsavedChanges = false)
             } catch (e: Exception) {
-                _uiState.value = _uiState.value.copy(isSaving = false, saveError = e.message)
+                _uiState.value = _uiState.value.copy(isSaving = false, saveError = e.toUserError(
+                    ErrorContext.SAVE))
             }
         }
+    }
+    fun dismissSaveError() {
+        _uiState.value = _uiState.value.copy(saveError = null)
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.luxeval.presentation.appraisalDetail
 import com.example.luxeval.domain.Appraisal
 import com.example.luxeval.domain.AppraisalItem
 import com.example.luxeval.domain.AppraisalPurpose
+import com.example.luxeval.presentation.util.UserError
 
 data class ClientFormState(
     val name: String = "",
@@ -19,7 +20,7 @@ data class AppraisalDetailUiState(
     val internalNotes: String = "",
     val hasUnsavedChanges: Boolean = false,
     val isSaving: Boolean = false,
-    val saveError: String? = null,
+    val saveError: UserError? = null,
     val businessProfileComplete: Boolean = false
 ) {
     /** Mirrors your mockup: items must exist and client must be filled before finalize/report actions light up. */

@@ -24,6 +24,7 @@ import coil3.util.Logger
 import com.example.luxeval.presentation.theme.LuxeShapes
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import com.example.luxeval.presentation.theme.StatusColors
+import com.example.luxeval.presentation.util.ErrorDialog
 import com.example.luxeval.presentation.util.PhotoImage
 import com.example.luxeval.presentation.util.formatCurrency
 import com.example.luxeval.presentation.util.formatDate
@@ -42,13 +43,29 @@ fun ReportPreviewScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
-
-    LaunchedEffect(uiState.exportError) {
-        uiState.exportError?.let { message ->
-            snackbarHostState.showSnackbar("Export failed: $message")
-            viewModel.dismissExportError()
-        }
+    if (uiState.exportError != null) {
+        ErrorDialog(
+            error = uiState.exportError,
+            onDismiss = viewModel::dismissExportError,
+            onRetry = {
+                viewModel.exportPdf(
+                    onExported = { path ->
+                        viewModel.shareFile(path)
+                    },
+                    onError = {
+                        // ViewModel should update exportError
+                    }
+                )
+            }
+        )
     }
+//    LaunchedEffect(uiState.exportError) {
+//        uiState.exportError?.let { message ->
+//            ErrorDialog(error = message, onDismiss = viewModel::dismissExportError, onRetry = { viewModel.exportPdf({},{}) })
+////            snackbarHostState.showSnackbar("Export failed: $message")
+//            viewModel.dismissExportError()
+//        }
+//    }
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {

@@ -9,6 +9,8 @@ import com.example.luxeval.data.repository.PricingRepository
 import com.example.luxeval.data.repository.SyncRepository
 import com.example.luxeval.domain.*
 import com.example.luxeval.presentation.photo.PhotoStorage
+import com.example.luxeval.presentation.util.ErrorContext
+import com.example.luxeval.presentation.util.toUserError
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -131,9 +133,13 @@ class WatchEditorViewModel(
                 _uiState.value = _uiState.value.copy(isSaving = false)
                 onSaved()
             } catch (e: Exception) {
-                _uiState.value = _uiState.value.copy(isSaving = false, saveError = e.message)
+                _uiState.value = _uiState.value.copy(isSaving = false, saveError = e.toUserError(
+                    ErrorContext.SAVE))
             }
         }
+    }
+    fun dismissSaveError() {
+        _uiState.value = _uiState.value.copy(saveError = null)
     }
 }
 

@@ -3,12 +3,13 @@ package com.example.luxeval.presentation.itemEditor.ring
 import com.example.luxeval.domain.*
 import com.example.luxeval.presentation.itemEditor.common.GemstoneFormState
 import com.example.luxeval.presentation.itemEditor.common.MetalFormState
+import com.example.luxeval.presentation.util.UserError
 
 data class RingEditorUiState(
     val isLoading: Boolean = false,
     val isSaving: Boolean = false,
     val isNewItem: Boolean = true,
-    val saveError: String? = null,
+    val saveError: UserError? = null,
 
     val photoUris: List<String> = emptyList(),
     val itemName: String = "",

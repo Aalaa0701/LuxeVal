@@ -62,6 +62,18 @@ actual class PhotoStorage(private val context: Context) {
             file.absolutePath
         }
 
+    private val cacheDir get() = File(context.filesDir, "photo_cache").apply { mkdirs() }
+
+    actual suspend fun saveCachedFile(key: String, bytes: ByteArray): String =
+        withContext(Dispatchers.IO) {
+            val file = File(cacheDir, "$key.jpg")
+            file.writeBytes(bytes)
+            file.absolutePath
+        }
+
+    actual fun cachedFilePath(key: String): String = File(cacheDir, "$key.jpg").absolutePath
+    actual fun cachedFileExists(key: String): Boolean = File(cacheDir, "$key.jpg").exists()
+
     actual suspend fun deleteImage(path: String) {
         runCatching { File(path).delete() }
         Unit

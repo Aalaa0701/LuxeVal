@@ -16,6 +16,7 @@ import com.example.luxeval.data.ThemeMode
 import com.example.luxeval.presentation.photo.rememberPhotoPickerLauncher
 import com.example.luxeval.presentation.theme.LuxeShapes
 import com.example.luxeval.presentation.theme.LuxeSpacing
+import com.example.luxeval.presentation.util.ErrorDialog
 import com.example.luxeval.presentation.util.LuxeTopBar
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.ic_arrow_forward
@@ -61,12 +62,19 @@ fun SettingsScreen(
     var showAboutDialog by remember { mutableStateOf(false) }
 
     val snackbarHostState = remember { SnackbarHostState() }
-    LaunchedEffect(uiState.uploadError) {
-        uiState.uploadError?.let { message ->
-            snackbarHostState.showSnackbar("Upload failed: $message")
-            viewModel.dismissUploadError()
-        }
+    if (uiState.uploadError != null) {
+        ErrorDialog(
+            error = uiState.uploadError,
+            onDismiss = viewModel::dismissUploadError,
+            onRetry = viewModel::dismissUploadError
+        )
     }
+//    LaunchedEffect(uiState.uploadError) {
+//        uiState.uploadError?.let { message ->
+//            snackbarHostState.showSnackbar("Upload failed: $message")
+//            viewModel.dismissUploadError()
+//        }
+//    }
 
     val logoPickerLauncher = rememberPhotoPickerLauncher { paths ->
         paths.firstOrNull()?.let { viewModel.onLogoPathChanged(it) }

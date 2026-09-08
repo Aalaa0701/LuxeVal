@@ -1,6 +1,7 @@
 package com.example.luxeval.data.repository
 
 import com.example.luxeval.presentation.photo.PhotoStorage
+import com.example.luxeval.presentation.photo.cacheKeyFor
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.storage.storage
@@ -56,6 +57,18 @@ class PhotoRepository(
         val bytes = photoStorage.readImage(localPath)
         supabase.storage.from(bucket).upload(storagePath, bytes) { upsert = true }
         return "supabase://$bucket/$storagePath"
+    }
+    suspend fun resolveLocalPath(uri: String): String {
+        if (!uri.startsWith("supabase://")) return uri // local file — nothing to resolve
+
+        val key = cacheKeyFor(uri)
+        if (photoStorage.cachedFileExists(key)) {
+            return photoStorage.cachedFilePath(key)
+        }
+
+        val (bucket, path) = parseUri(uri)
+        val bytes = supabase.storage.from(bucket).downloadAuthenticated(path)
+        return photoStorage.saveCachedFile(key, bytes)
     }
 
     /** Uploads a locally-saved item photo. Kept as its own method (rather than

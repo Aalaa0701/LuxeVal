@@ -6,12 +6,13 @@ import com.example.luxeval.domain.ItemCondition
 import com.example.luxeval.domain.ValueSource
 import com.example.luxeval.presentation.itemEditor.common.GemstoneFormState
 import com.example.luxeval.presentation.itemEditor.common.MetalFormState
+import com.example.luxeval.presentation.util.UserError
 
 data class NecklaceEditorUiState(
     val isLoading: Boolean = false,
     val isSaving: Boolean = false,
     val isNewItem: Boolean = true,
-    val saveError: String? = null,
+    val saveError: UserError? = null,
 
     // Shared base-item fields — identical shape to RingEditorUiState
     val photoUris: List<String> = emptyList(),

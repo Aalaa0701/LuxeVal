@@ -107,7 +107,7 @@ class AuthViewModel(
                 }
             } catch (e: Exception) {
                 update { it.copy(isSubmitting = false) }
-                _events.emit(AuthUiEvent.Error(e.message ?: "Something went wrong. Please try again."))
+                _events.emit(AuthUiEvent.Error("Something went wrong. Please try again."))
             }
         }
     }

@@ -10,6 +10,8 @@ import com.example.luxeval.domain.*
 import com.example.luxeval.presentation.itemEditor.common.MetalFormState
 import com.example.luxeval.presentation.itemEditor.common.PearlFormState
 import com.example.luxeval.presentation.photo.PhotoStorage
+import com.example.luxeval.presentation.util.ErrorContext
+import com.example.luxeval.presentation.util.toUserError
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -63,8 +65,9 @@ class PearlEditorViewModel(
                     valueSource = ValueSource.API_FETCHED,
                     isFetchingPrice = false
                 )
-            }.onFailure {
-                _uiState.value = _uiState.value.copy(isFetchingPrice = false, saveError = "Couldn't fetch market price")
+            }.onFailure { e->
+                _uiState.value = _uiState.value.copy(isFetchingPrice = false, saveError = e.toUserError(
+                    ErrorContext.PRICE_FETCH))
             }
         }
     }
@@ -124,9 +127,12 @@ class PearlEditorViewModel(
                 _uiState.value = _uiState.value.copy(isSaving = false)
                 onSaved()
             } catch (e: Exception) {
-                _uiState.value = _uiState.value.copy(isSaving = false, saveError = e.message)
+                _uiState.value = _uiState.value.copy(isSaving = false, saveError = e.toUserError(ErrorContext.SAVE))
             }
         }
+    }
+    fun dismissSaveError() {
+        _uiState.value = _uiState.value.copy(saveError = null)
     }
 }
 

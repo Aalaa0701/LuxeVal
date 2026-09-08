@@ -10,6 +10,7 @@ import com.example.luxeval.domain.RingBandStyle
 import com.example.luxeval.presentation.itemEditor.common.*
 import com.example.luxeval.presentation.photo.rememberPhotoPickerLauncher
 import com.example.luxeval.presentation.theme.LuxeSpacing
+import com.example.luxeval.presentation.util.ErrorDialog
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.ic_back
 import org.jetbrains.compose.resources.painterResource
@@ -113,7 +114,7 @@ fun RingEditorScreen(
 
                 )
                 uiState.saveError?.let {
-                    Text(it, color = MaterialTheme.colorScheme.error)
+                    ErrorDialog(error = uiState.saveError, onDismiss = viewModel::dismissSaveError, onRetry = { viewModel.save(onSaved) })
                 }
             }
         }

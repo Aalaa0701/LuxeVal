@@ -15,6 +15,7 @@ import com.example.luxeval.presentation.itemEditor.common.PhotoGridEditor
 import com.example.luxeval.presentation.itemEditor.common.ValuationSection
 import com.example.luxeval.presentation.photo.rememberPhotoPickerLauncher
 import com.example.luxeval.presentation.theme.LuxeSpacing
+import com.example.luxeval.presentation.util.ErrorDialog
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.ic_back
 import org.jetbrains.compose.resources.painterResource
@@ -189,7 +190,8 @@ fun WatchEditorScreen(
                     valueSource = uiState.valueSource,
 
                 )
-                uiState.saveError?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+                uiState.saveError?.let {
+                    ErrorDialog(error = uiState.saveError, onDismiss = viewModel::dismissSaveError, onRetry = { viewModel.save(onSaved) }) }
             }
         }
     }
