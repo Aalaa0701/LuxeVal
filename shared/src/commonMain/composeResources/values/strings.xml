@@ -141,6 +141,43 @@
     <string name="customers_results_one">Customers · %1$d Result</string>
     <string name="customers_results_other">Customers · %1$d Results</string>
     <string name="search_no_results_body">We couldn't find anything matching "%1$s". Try adjusting your search terms.</string>
+    <string name="language_english">English</string>
+    <string name="language_arabic">Arabic</string>
+    <string name="language_spanish">Spanish</string>
+    <string name="language_french">French</string>
+<!--    <string name="report_preview_title">Report Preview</string>-->
+    <string name="report_export_pdf">Export PDF</string>
+    <string name="report_itemized_valuation">Itemized Valuation</string>
+
+    <string name="report_total_appraised_value">TOTAL APPRAISED VALUE</string>
+    <string name="report_pending_items">%1$d item(s) pending</string>
+    <string name="report_partial_total_note">Partial total — excludes items without a value</string>
+    <string name="report_unpriced_items_notice">%1$d item(s) don't have a value yet. The total below reflects only priced items.</string>
+    <string name="report_business_logo">Business logo</string>
+    <string name="report_business_name_not_set">Business Name Not Set</string>
+    <string name="report_license">License #%1$s</string>
+
+    <string name="report_document_id">Document ID</string>
+    <string name="report_date">Date</string>
+    <string name="report_purpose">Purpose</string>
+    <string name="report_client">Client</string>
+    <string name="report_email">Email</string>
+    <string name="report_phone">Phone</string>
+
+    <string name="report_notes">Notes: %1$s</string>
+    <string name="report_estimated_value">Estimated Value</string>
+
+    <string name="report_appraiser_signature">Appraiser signature</string>
+    <string name="report_appraiser_name">Appraiser</string>
+    <string name="report_certified_appraiser">Certified Appraiser</string>
+
+    <string name="report_purpose_insurance_replacement">Insurance Replacement</string>
+    <string name="report_purpose_fair_market_value">Fair Market Value</string>
+    <string name="report_purpose_estate_valuation">Estate Valuation</string>
+    <string name="report_purpose_wholesale_liquidation">Wholesale Liquidation</string>
+    <string name="report_purpose_other">Other</string>
+
+    <string name="report_disclaimer">This appraisal represents the professional opinion of the undersigned appraiser as of the date shown above, based on visual inspection and the information provided. It is not a guarantee of sale price, insurance payout, or future value, and market conditions may cause actual value to differ. This report is intended solely for the stated purpose and named client and should not be relied upon by any other party.</string>
     <!-- ==================== SETTINGS ==================== -->
     <string name="settings_subtitle">Manage your account preferences and business details.</string>
     <string name="settings_business_profile">Business Profile</string>
@@ -204,9 +241,9 @@
     <string name="mark_completed_unpriced_confirm">
     %1$d item(s) don't have a value yet: %2$s. The total on the report will not include them. Mark this appraisal completed anyway?
 </string>
-    <string name="report_unpriced_items_notice">
-    %1$d item(s) have no value yet — the report total won't include them: %2$s
-</string>
+<!--    <string name="report_unpriced_items_notice">-->
+<!--    %1$d item(s) have no value yet — the report total won't include them: %2$s-->
+<!--</string>-->
     <string name="delete_item_confirm_body">
     Permanently delete "%1$s" and its photos? This can't be undone.
 </string>
@@ -361,7 +398,7 @@
     <string name="label_items_pending">{n} item(s) pending</string>
     <string name="label_partial_total_note">Partial total — excludes items without a value</string>
     <string name="label_certified_appraiser">Certified Appraiser</string>
-    <string name="report_disclaimer">This appraisal report represents the professional opinion of the appraiser based on the information and market conditions available at the time of valuation.</string>
+<!--    <string name="report_disclaimer">This appraisal report represents the professional opinion of the appraiser based on the information and market conditions available at the time of valuation.</string>-->
     <string name="label_document_id">Document ID</string>
     <string name="label_date">Date</string>
     <string name="label_purpose">Purpose</string>

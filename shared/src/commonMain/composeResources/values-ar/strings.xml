@@ -127,7 +127,44 @@
     <string name="sort_date_added">تاريخ الإضافة</string>
     <string name="sort_estimated_value">القيمة المقدرة</string>
     <string name="sort_client_name">اسم العميل</string>
+    <string name="language_english">الإنجليزية</string>
+    <string name="language_arabic">العربية</string>
+    <string name="language_spanish">الإسبانية</string>
+    <string name="language_french">الفرنسية</string>
+<!--    <string name="report_preview_title">معاينة التقرير</string>-->
+    <string name="report_export_pdf">تصدير PDF</string>
+    <string name="report_itemized_valuation">تقييم العناصر بالتفصيل</string>
 
+    <string name="report_total_appraised_value">إجمالي القيمة المقدّرة</string>
+    <string name="report_pending_items">%1$d عنصر(عناصر) قيد الانتظار</string>
+    <string name="report_partial_total_note">إجمالي جزئي — لا يشمل العناصر التي لا تحتوي على قيمة</string>
+<!--    <string name="report_unpriced_items_notice">لا تزال قيمة %1$d عنصر(عناصر) غير محددة. الإجمالي أدناه يعكس العناصر التي تم تحديد قيمتها فقط.</string>-->
+
+    <string name="report_business_logo">شعار النشاط التجاري</string>
+    <string name="report_business_name_not_set">لم يتم تحديد اسم النشاط التجاري</string>
+    <string name="report_license">رقم الترخيص #%1$s</string>
+
+    <string name="report_document_id">معرّف المستند</string>
+    <string name="report_date">التاريخ</string>
+    <string name="report_purpose">الغرض</string>
+    <string name="report_client">العميل</string>
+    <string name="report_email">البريد الإلكتروني</string>
+    <string name="report_phone">الهاتف</string>
+
+    <string name="report_notes">ملاحظات: %1$s</string>
+    <string name="report_estimated_value">القيمة المقدّرة</string>
+
+    <string name="report_appraiser_signature">توقيع المثمّن</string>
+    <string name="report_appraiser_name">المثمّن</string>
+    <string name="report_certified_appraiser">مثمن معتمد</string>
+
+    <string name="report_purpose_insurance_replacement">استبدال التأمين</string>
+    <string name="report_purpose_fair_market_value">القيمة السوقية العادلة</string>
+    <string name="report_purpose_estate_valuation">تقييم التركة</string>
+    <string name="report_purpose_wholesale_liquidation">التصفية بالجملة</string>
+    <string name="report_purpose_other">أخرى</string>
+
+    <string name="report_disclaimer">يمثل هذا التقييم الرأي المهني للمثمّن الموقّع أدناه اعتبارًا من التاريخ الموضح أعلاه، بناءً على الفحص البصري والمعلومات المقدمة. ولا يُعد ضمانًا لسعر البيع أو مبلغ تعويض التأمين أو القيمة المستقبلية، وقد تؤدي ظروف السوق إلى اختلاف القيمة الفعلية. هذا التقرير مخصص للغرض المحدد والعميل المذكور فقط، ولا ينبغي الاعتماد عليه من قبل أي طرف آخر.</string>
     <!-- SEARCH -->
     <string name="search_title">البحث الشامل</string>
     <string name="search_placeholder">ابحث في التقييمات أو العملاء أو قطع المجوهرات...</string>
@@ -196,9 +233,7 @@
     <string name="delete_item_confirm_body">
     هل تريد حذف "%1$s" وصوره نهائيًا؟ لا يمكن التراجع عن هذا الإجراء.
 </string>
-    <string name="report_unpriced_items_notice">
-    %1$d عنصر/عناصر ليس لها قيمة حتى الآن — لن يشمل إجمالي التقرير هذه العناصر: %2$s
-</string>
+    <string name="report_unpriced_items_notice">لا تزال قيمة %1$d عنصر(عناصر) غير محددة. الإجمالي أدناه يعكس العناصر التي تم تحديد قيمتها فقط.</string>
     <string name="back">رجوع</string>
     <string name="more">المزيد</string>
     <string name="this_item">هذا العنصر</string>
@@ -339,7 +374,7 @@
     <string name="label_items_pending">{n} قطعة معلقة</string>
     <string name="label_partial_total_note">إجمالي جزئي — لا يشمل القطع التي لا تحتوي على قيمة</string>
     <string name="label_certified_appraiser">مقيّم معتمد</string>
-    <string name="report_disclaimer">يمثل تقرير التقييم هذا الرأي المهني للمقيّم بناءً على المعلومات وظروف السوق المتاحة وقت إجراء التقييم.</string>
+<!--    <string name="report_disclaimer">يمثل تقرير التقييم هذا الرأي المهني للمقيّم بناءً على المعلومات وظروف السوق المتاحة وقت إجراء التقييم.</string>-->
     <string name="label_document_id">معرّف المستند</string>
     <string name="label_date">التاريخ</string>
     <string name="label_purpose">الغرض</string>

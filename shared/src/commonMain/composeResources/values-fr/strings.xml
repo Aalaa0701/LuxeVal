@@ -113,7 +113,10 @@
     <string name="sort_date_added">Date d’ajout</string>
     <string name="sort_estimated_value">Valeur estimée</string>
     <string name="sort_client_name">Nom du client</string>
-
+    <string name="language_english">Anglais</string>
+    <string name="language_arabic">Arabe</string>
+    <string name="language_spanish">Espagnol</string>
+    <string name="language_french">Français</string>
     <string name="search_title">Recherche globale</string>
     <string name="search_placeholder">Rechercher des évaluations, clients ou bijoux...</string>
     <string name="search_prompt">Commencez à saisir du texte pour rechercher dans vos évaluations et vos clients.</string>
@@ -123,6 +126,41 @@
     <string name="action_clear_search">Effacer la recherche</string>
     <string name="search_appraisals_count">Évaluations · {n} résultats</string>
     <string name="search_customers_count">Clients · {n} résultat(s)</string>
+
+    <string name="report_preview_title">Aperçu du rapport</string>
+    <string name="report_export_pdf">Exporter en PDF</string>
+    <string name="report_itemized_valuation">Évaluation détaillée</string>
+
+    <string name="report_total_appraised_value">VALEUR TOTALE ÉVALUÉE</string>
+    <string name="report_pending_items">%1$d article(s) en attente</string>
+    <string name="report_partial_total_note">Total partiel — exclut les articles sans valeur</string>
+<!--    <string name="report_unpriced_items_notice">%1$d article(s) n'ont pas encore de valeur. Le total ci-dessous ne comprend que les articles évalués.</string>-->
+
+    <string name="report_business_logo">Logo de l'entreprise</string>
+    <string name="report_business_name_not_set">Nom de l'entreprise non défini</string>
+    <string name="report_license">Licence n° %1$s</string>
+
+    <string name="report_document_id">Identifiant du document</string>
+    <string name="report_date">Date</string>
+    <string name="report_purpose">Objet</string>
+    <string name="report_client">Client</string>
+    <string name="report_email">E-mail</string>
+    <string name="report_phone">Téléphone</string>
+
+    <string name="report_notes">Notes : %1$s</string>
+    <string name="report_estimated_value">Valeur estimée</string>
+
+    <string name="report_appraiser_signature">Signature de l'évaluateur</string>
+    <string name="report_appraiser_name">Évaluateur</string>
+    <string name="report_certified_appraiser">Évaluateur certifié</string>
+
+    <string name="report_purpose_insurance_replacement">Remplacement d'assurance</string>
+    <string name="report_purpose_fair_market_value">Valeur marchande équitable</string>
+    <string name="report_purpose_estate_valuation">Évaluation successorale</string>
+    <string name="report_purpose_wholesale_liquidation">Liquidation en gros</string>
+    <string name="report_purpose_other">Autre</string>
+
+    <string name="report_disclaimer">Cette évaluation représente l'opinion professionnelle de l'évaluateur soussigné à la date indiquée ci-dessus, fondée sur une inspection visuelle et sur les informations fournies. Elle ne constitue pas une garantie du prix de vente, du montant de l'indemnisation d'assurance ou de la valeur future, et les conditions du marché peuvent entraîner une différence entre la valeur réelle et la valeur indiquée. Ce rapport est destiné uniquement à l'objet indiqué et au client nommé et ne doit pas être utilisé comme référence par une autre partie.</string>
 
     <string name="settings_subtitle">Gérez les préférences de votre compte et les informations de votre entreprise.</string>
     <string name="settings_business_profile">Profil professionnel</string>
@@ -193,9 +231,7 @@
 </string>
     <string name="auth_hide_password">Masquer le mot de passe</string>
     <string name="auth_show_password">Afficher le mot de passe</string>
-    <string name="report_unpriced_items_notice">
-    %1$d article(s) n'ont pas encore de valeur — le total du rapport ne les inclura pas : %2$s
-</string>
+    <string name="report_unpriced_items_notice">%1$d article(s) n'ont pas encore de valeur. Le total ci-dessous ne comprend que les articles évalués.</string>
     <string name="back">Retour</string>
     <string name="more">Plus</string>
     <string name="this_item">cet article</string>
@@ -315,7 +351,7 @@
     <string name="hint_market_price_source">Source : prix du marché en direct — modifier pour remplacer</string>
     <string name="field_appraiser_notes_internal">Notes de l’évaluateur (internes)</string>
 
-    <string name="report_preview_title">Aperçu du rapport</string>
+<!--    <string name="report_preview_title">Aperçu du rapport</string>-->
     <string name="action_export_pdf">Exporter en PDF</string>
     <string name="section_itemized_valuation">Évaluation détaillée</string>
     <string name="report_partial_valuation_notice">{n} article(s) n’ont pas encore de valeur. Le total ci-dessous ne comprend que les articles évalués.</string>
@@ -323,7 +359,7 @@
     <string name="label_items_pending">{n} article(s) en attente</string>
     <string name="label_partial_total_note">Total partiel — exclut les articles sans valeur</string>
     <string name="label_certified_appraiser">Évaluateur certifié</string>
-    <string name="report_disclaimer">Ce rapport d’évaluation représente l’avis professionnel de l’évaluateur, fondé sur les informations et les conditions du marché disponibles au moment de l’évaluation.</string>
+<!--    <string name="report_disclaimer">Ce rapport d’évaluation représente l’avis professionnel de l’évaluateur, fondé sur les informations et les conditions du marché disponibles au moment de l’évaluation.</string>-->
     <string name="label_document_id">ID du document</string>
     <string name="label_date">Date</string>
     <string name="label_purpose">Objet</string>

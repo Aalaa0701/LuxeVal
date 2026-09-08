@@ -127,6 +127,45 @@
     <string name="action_clear_search">Borrar búsqueda</string>
     <string name="search_appraisals_count">Tasaciones · {n} resultados</string>
     <string name="search_customers_count">Clientes · {n} resultado(s)</string>
+    <string name="language_english">Inglés</string>
+    <string name="language_arabic">Árabe</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_french">Francés</string>
+
+<!--    <string name="report_preview_title">Vista previa del informe</string>-->
+    <string name="report_export_pdf">Exportar PDF</string>
+    <string name="report_itemized_valuation">Valoración detallada</string>
+
+    <string name="report_total_appraised_value">VALOR TOTAL TASADO</string>
+    <string name="report_pending_items">%1$d artículo(s) pendientes</string>
+    <string name="report_partial_total_note">Total parcial — excluye los artículos sin valor</string>
+<!--    <string name="report_unpriced_items_notice">%1$d artículo(s) aún no tienen un valor. El total que aparece a continuación solo incluye los artículos valorados.</string>-->
+
+    <string name="report_business_logo">Logotipo del negocio</string>
+    <string name="report_business_name_not_set">Nombre del negocio no establecido</string>
+    <string name="report_license">Licencia n.º %1$s</string>
+
+    <string name="report_document_id">ID del documento</string>
+    <string name="report_date">Fecha</string>
+    <string name="report_purpose">Propósito</string>
+    <string name="report_client">Cliente</string>
+    <string name="report_email">Correo electrónico</string>
+    <string name="report_phone">Teléfono</string>
+
+    <string name="report_notes">Notas: %1$s</string>
+    <string name="report_estimated_value">Valor estimado</string>
+
+    <string name="report_appraiser_signature">Firma del tasador</string>
+    <string name="report_appraiser_name">Tasador</string>
+    <string name="report_certified_appraiser">Tasador certificado</string>
+
+    <string name="report_purpose_insurance_replacement">Reemplazo para seguro</string>
+    <string name="report_purpose_fair_market_value">Valor justo de mercado</string>
+    <string name="report_purpose_estate_valuation">Valoración de patrimonio</string>
+    <string name="report_purpose_wholesale_liquidation">Liquidación al por mayor</string>
+    <string name="report_purpose_other">Otro</string>
+
+    <string name="report_disclaimer">Esta tasación representa la opinión profesional del tasador abajo firmante a la fecha indicada anteriormente, basada en una inspección visual y en la información proporcionada. No constituye una garantía del precio de venta, del pago del seguro ni del valor futuro, y las condiciones del mercado pueden hacer que el valor real sea diferente. Este informe está destinado exclusivamente al propósito indicado y al cliente nombrado, y ninguna otra parte debe basarse en él.</string>
 
     <string name="customers_results_one">Clientes · %1$d resultado</string>
     <string name="customers_results_other">Clientes · %1$d resultados</string>
@@ -193,9 +232,7 @@
 </string>
     <string name="auth_hide_password">Ocultar contraseña</string>
     <string name="auth_show_password">Mostrar contraseña</string>
-    <string name="report_unpriced_items_notice">
-    %1$d artículo(s) aún no tienen valor — el total del informe no los incluirá: %2$s
-</string>
+    <string name="report_unpriced_items_notice">%1$d artículo(s) aún no tienen un valor. El total que aparece a continuación solo incluye los artículos valorados.</string>
     <string name="back">Atrás</string>
     <string name="more">Más</string>
     <string name="this_item">este artículo</string>
@@ -324,7 +361,7 @@
     <string name="label_items_pending">{n} pieza(s) pendientes</string>
     <string name="label_partial_total_note">Total parcial — excluye las piezas sin valor</string>
     <string name="label_certified_appraiser">Tasador certificado</string>
-    <string name="report_disclaimer">Este informe de tasación representa la opinión profesional del tasador basada en la información y las condiciones del mercado disponibles en el momento de la valoración.</string>
+<!--    <string name="report_disclaimer">Este informe de tasación representa la opinión profesional del tasador basada en la información y las condiciones del mercado disponibles en el momento de la valoración.</string>-->
     <string name="label_document_id">ID del documento</string>
     <string name="label_date">Fecha</string>
     <string name="label_purpose">Propósito</string>
