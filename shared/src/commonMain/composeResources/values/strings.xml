@@ -268,7 +268,7 @@
     <string name="purpose_estate">Estate Valuation</string>
     <string name="purpose_wholesale">Wholesale Liquidation</string>
     <string name="purpose_other">Other</string>
-
+    <string name="settings_privacy_policy">Privacy Policy</string>
     <!-- ==================== CATEGORY PICKER ==================== -->
     <string name="category_picker_subtitle">Choose a category to continue.</string>
     <string name="category_ring">Ring</string>
