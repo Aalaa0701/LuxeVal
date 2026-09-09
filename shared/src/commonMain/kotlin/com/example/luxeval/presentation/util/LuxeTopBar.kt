@@ -15,10 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.app_name
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun LuxeTopBar(
-    title: String = "LuxeValuation",
+    title: String = stringResource(Res.string.app_name),
     onNotificationsClick: () -> Unit = {},
     onProfileClick: () -> Unit = {}
 ) {

@@ -7,9 +7,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import com.example.luxeval.domain.WatchComplication
 import com.example.luxeval.domain.WatchMovementType
 import com.example.luxeval.domain.WatchRunningCondition
+import com.example.luxeval.domain.label
 import com.example.luxeval.presentation.itemEditor.common.FormDropdown
 import com.example.luxeval.presentation.itemEditor.common.PhotoGridEditor
 import com.example.luxeval.presentation.itemEditor.common.ValuationSection
@@ -17,8 +21,31 @@ import com.example.luxeval.presentation.photo.rememberPhotoPickerLauncher
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import com.example.luxeval.presentation.util.ErrorDialog
 import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.action_save_item
+import luxeval.shared.generated.resources.back
+import luxeval.shared.generated.resources.editor_title_watch
+import luxeval.shared.generated.resources.field_band_material
+import luxeval.shared.generated.resources.field_brand
+import luxeval.shared.generated.resources.field_case_material
+import luxeval.shared.generated.resources.field_case_size
+import luxeval.shared.generated.resources.field_dial_color
+import luxeval.shared.generated.resources.field_has_box
+import luxeval.shared.generated.resources.field_has_papers
+import luxeval.shared.generated.resources.field_item_name
+import luxeval.shared.generated.resources.field_model
+import luxeval.shared.generated.resources.field_movement
+import luxeval.shared.generated.resources.field_reference_number
+import luxeval.shared.generated.resources.field_running_condition
+import luxeval.shared.generated.resources.field_serial_number
+import luxeval.shared.generated.resources.field_water_resistance
+import luxeval.shared.generated.resources.field_year_manufacture
 import luxeval.shared.generated.resources.ic_back
+import luxeval.shared.generated.resources.section_basic_info
+import luxeval.shared.generated.resources.section_complications
+import luxeval.shared.generated.resources.section_condition
+import luxeval.shared.generated.resources.section_specifications
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,12 +62,15 @@ fun WatchEditorScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Watch Editor") },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(painterResource(Res.drawable.ic_back), contentDescription = "Back"
+                title = { Text(stringResource(Res.string.editor_title_watch)) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(painterResource(Res.drawable.ic_back), contentDescription = stringResource(Res.string.back), modifier = Modifier.scale(
+                    scaleX = if (LocalLayoutDirection.current == LayoutDirection.Rtl) -1f else 1f,
+                    scaleY = 1f
+                )
                 ) } },
                 actions = {
                     TextButton(onClick = { viewModel.save(onSaved) }, enabled = uiState.canSave && !uiState.isSaving) {
-                        Text("Save Item")
+                        Text(stringResource(Res.string.action_save_item))
                     }
                 }
             )
@@ -67,85 +97,85 @@ fun WatchEditorScreen(
             }
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
-                    Text("Basic Info", style = MaterialTheme.typography.titleSmall)
+                    Text(stringResource(Res.string.section_basic_info), style = MaterialTheme.typography.titleSmall)
                     OutlinedTextField(
                         value = uiState.itemName,
                         onValueChange = { v -> viewModel.update { it.copy(itemName = v) } },
-                        label = { Text("Item Name") }, modifier = Modifier.fillMaxWidth(), singleLine = true
+                        label = { Text(stringResource(Res.string.field_item_name)) }, modifier = Modifier.fillMaxWidth(), singleLine = true
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
                         OutlinedTextField(
                             value = uiState.brand,
                             onValueChange = { v -> viewModel.update { it.copy(brand = v) } },
-                            label = { Text("Brand") }, modifier = Modifier.weight(1f), singleLine = true
+                            label = { Text(stringResource(Res.string.field_brand)) }, modifier = Modifier.weight(1f), singleLine = true
                         )
                         OutlinedTextField(
                             value = uiState.model,
                             onValueChange = { v -> viewModel.update { it.copy(model = v) } },
-                            label = { Text("Model") }, modifier = Modifier.weight(1f), singleLine = true
+                            label = { Text(stringResource(Res.string.field_model)) }, modifier = Modifier.weight(1f), singleLine = true
                         )
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
                         OutlinedTextField(
                             value = uiState.referenceNumber,
                             onValueChange = { v -> viewModel.update { it.copy(referenceNumber = v) } },
-                            label = { Text("Reference #") }, modifier = Modifier.weight(1f), singleLine = true
+                            label = { Text(stringResource(Res.string.field_reference_number)) }, modifier = Modifier.weight(1f), singleLine = true
                         )
                         OutlinedTextField(
                             value = uiState.serialNumber,
                             onValueChange = { v -> viewModel.update { it.copy(serialNumber = v) } },
-                            label = { Text("Serial #") }, modifier = Modifier.weight(1f), singleLine = true
+                            label = { Text(stringResource(Res.string.field_serial_number)) }, modifier = Modifier.weight(1f), singleLine = true
                         )
                     }
                 }
             }
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
-                    Text("Specifications", style = MaterialTheme.typography.titleSmall)
+                    Text(stringResource(Res.string.section_specifications), style = MaterialTheme.typography.titleSmall)
                     FormDropdown(
-                        label = "Movement", options = WatchMovementType.entries, selected = uiState.movementType,
-                        optionLabel = { it.name.replace("_", " ").lowercase().replaceFirstChar(Char::uppercase) },
+                        label = stringResource(Res.string.field_movement), options = WatchMovementType.entries, selected = uiState.movementType,
+                        optionLabel = { stringResource(it.label()) },
                         onSelected = { v -> viewModel.update { it.copy(movementType = v) } }
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
                         OutlinedTextField(
                             value = uiState.caseMaterial,
                             onValueChange = { v -> viewModel.update { it.copy(caseMaterial = v) } },
-                            label = { Text("Case Material") }, modifier = Modifier.weight(1f), singleLine = true
+                            label = { Text(stringResource(Res.string.field_case_material)) }, modifier = Modifier.weight(1f), singleLine = true
                         )
                         OutlinedTextField(
                             value = uiState.caseSizeMm,
                             onValueChange = { v -> viewModel.update { it.copy(caseSizeMm = v) } },
-                            label = { Text("Case Size (mm)") }, modifier = Modifier.weight(1f), singleLine = true
+                            label = { Text(stringResource(Res.string.field_case_size)) }, modifier = Modifier.weight(1f), singleLine = true
                         )
                     }
                     OutlinedTextField(
                         value = uiState.bandMaterial,
                         onValueChange = { v -> viewModel.update { it.copy(bandMaterial = v) } },
-                        label = { Text("Bracelet / Band Material") }, modifier = Modifier.fillMaxWidth(), singleLine = true
+                        label = { Text(stringResource(Res.string.field_band_material)) }, modifier = Modifier.fillMaxWidth(), singleLine = true
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
                         OutlinedTextField(
                             value = uiState.dialColor,
                             onValueChange = { v -> viewModel.update { it.copy(dialColor = v) } },
-                            label = { Text("Dial Color") }, modifier = Modifier.weight(1f), singleLine = true
+                            label = { Text(stringResource(Res.string.field_dial_color)) }, modifier = Modifier.weight(1f), singleLine = true
                         )
                         OutlinedTextField(
                             value = uiState.waterResistance,
                             onValueChange = { v -> viewModel.update { it.copy(waterResistance = v) } },
-                            label = { Text("Water Resistance") }, modifier = Modifier.weight(1f), singleLine = true
+                            label = { Text(stringResource(Res.string.field_water_resistance)) }, modifier = Modifier.weight(1f), singleLine = true
                         )
                     }
                     OutlinedTextField(
                         value = uiState.yearOfManufacture,
                         onValueChange = { v -> viewModel.update { it.copy(yearOfManufacture = v) } },
-                        label = { Text("Year of Manufacture") }, modifier = Modifier.fillMaxWidth(), singleLine = true
+                        label = { Text(stringResource(Res.string.field_year_manufacture)) }, modifier = Modifier.fillMaxWidth(), singleLine = true
                     )
                 }
             }
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
-                    Text("Complications", style = MaterialTheme.typography.titleSmall)
+                    Text(stringResource(Res.string.section_complications), style = MaterialTheme.typography.titleSmall)
                     FlowRow(
                         horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.xs),
                         verticalArrangement = Arrangement.spacedBy(LuxeSpacing.xs)
@@ -162,21 +192,21 @@ fun WatchEditorScreen(
             }
             item {
                 Column(verticalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
-                    Text("Condition", style = MaterialTheme.typography.titleSmall)
+                    Text(stringResource(Res.string.section_condition), style = MaterialTheme.typography.titleSmall)
                     FormDropdown(
-                        label = "Running Condition", options = WatchRunningCondition.entries, selected = uiState.runningCondition,
-                        optionLabel = { it.name.replace("_", " ").lowercase().replaceFirstChar(Char::uppercase) },
+                        label = stringResource(Res.string.field_running_condition), options = WatchRunningCondition.entries, selected = uiState.runningCondition,
+                        optionLabel = { stringResource(it.label()) },
                         onSelected = { v -> viewModel.update { it.copy(runningCondition = v) } }
                     )
                     Row {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Checkbox(checked = uiState.hasBox, onCheckedChange = { v -> viewModel.update { it.copy(hasBox = v) } })
-                            Text("Has Box")
+                            Text(stringResource(Res.string.field_has_box))
                         }
                         Spacer(Modifier.width(LuxeSpacing.md))
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Checkbox(checked = uiState.hasPapers, onCheckedChange = { v -> viewModel.update { it.copy(hasPapers = v) } })
-                            Text("Has Papers")
+                            Text(stringResource(Res.string.field_has_papers))
                         }
                     }
                 }

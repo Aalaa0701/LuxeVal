@@ -66,32 +66,32 @@ class ReportPreviewViewModel(
     fun dismissExportError() {
         _uiState.value = _uiState.value.copy(exportError = null)
     }
+    // ReportPreviewViewModel.kt — only exportPdf() changes
+
     fun exportPdf(onExported: (String) -> Unit, onError: (String) -> Unit) {
-        println("exportPdf: starting")
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isExporting = true, exportError = null)
-
-            println("exportPdf: isExporting set true, uiState now = ${_uiState.value.isExporting}")
             try {
                 val stateWithResolvedUrls = resolveAllPhotoUrls(uiState.value)
-                val html = ReportHtmlBuilder.build(stateWithResolvedUrls)   // use the resolved state
-                println("exportPdf: html built, length=${html.length}")
+                val strings = ReportStrings.resolve()   // <-- suspend, safe here
+                val html = ReportHtmlBuilder.build(stateWithResolvedUrls, strings)
                 val fileName = "${uiState.value.appraisal?.documentId ?: "report"}.pdf"
                 val path = withTimeout(15_000) {
                     pdfExporter.exportToPdf(html, fileName)
                 }
-                println("exportPdf: got path=$path")
                 _uiState.value = _uiState.value.copy(isExporting = false)
                 onExported(path)
             } catch (e: TimeoutCancellationException) {
-                println("exportPdf: TIMED OUT")
-                _uiState.value = _uiState.value.copy(isExporting = false, exportError = e.toUserError(ErrorContext.EXPORT))
+                _uiState.value = _uiState.value.copy(
+                    isExporting = false,
+                    exportError = e.toUserError(ErrorContext.EXPORT)
+                )
                 onError("PDF export timed out")
             } catch (e: Exception) {
-                println("exportPdf: EXCEPTION ${e::class.simpleName}: ${e.message}")
-                e.printStackTrace()
-                _uiState.value = _uiState.value.copy(isExporting = false, exportError = e.toUserError(
-                    ErrorContext.EXPORT))
+                _uiState.value = _uiState.value.copy(
+                    isExporting = false,
+                    exportError = e.toUserError(ErrorContext.EXPORT)
+                )
                 onError(e.message ?: "Export failed")
             }
         }

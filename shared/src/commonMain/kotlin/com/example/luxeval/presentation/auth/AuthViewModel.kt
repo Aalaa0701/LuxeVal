@@ -14,6 +14,20 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.auth_error_enter_credentials
+import luxeval.shared.generated.resources.auth_error_fill_all_fields
+import luxeval.shared.generated.resources.auth_error_generic
+import luxeval.shared.generated.resources.auth_error_google_failed
+import luxeval.shared.generated.resources.auth_error_incorrect_credentials
+import luxeval.shared.generated.resources.auth_error_must_agree_terms
+import luxeval.shared.generated.resources.auth_error_password_too_short
+import luxeval.shared.generated.resources.auth_error_passwords_dont_match
+import luxeval.shared.generated.resources.auth_error_resend_failed
+import luxeval.shared.generated.resources.auth_error_reset_failed
+import luxeval.shared.generated.resources.auth_error_signin_failed
+import luxeval.shared.generated.resources.auth_error_signup_failed
+import org.jetbrains.compose.resources.getString
 
 enum class AuthTab { LOGIN, SIGN_UP }
 
@@ -88,7 +102,10 @@ class AuthViewModel(
     private fun signIn() {
         val state = _formState.value
         if (!state.canSubmitLogin) {
-            update { it.copy(fieldError = "Enter your email and password") }
+            viewModelScope.launch {
+                val msg = getString(Res.string.auth_error_enter_credentials) // add this key
+                update { it.copy(fieldError = msg) }
+            }
             return
         }
         viewModelScope.launch {
@@ -97,17 +114,19 @@ class AuthViewModel(
                 authRepository.signIn(state.email.trim(), state.password)
                 if (state.rememberMe) settingsStore.setRememberedEmail(state.email.trim())
                 else settingsStore.setRememberedEmail(null)
-                // No manual navigation — RootNavHost reacts to authState flipping to LoggedIn.
                 update { it.copy(isSubmitting = false) }
             } catch (e: AuthException) {
                 update { it.copy(isSubmitting = false) }
                 when (val err = e.error) {
                     is AuthError.EmailNotConfirmed -> _events.emit(AuthUiEvent.EmailNotConfirmed(err.email))
-                    else -> _events.emit(AuthUiEvent.Error(err.message))
+                    is AuthError.InvalidCredentials ->
+                        _events.emit(AuthUiEvent.Error(getString(Res.string.auth_error_incorrect_credentials)))
+                    is AuthError.Other ->
+                        _events.emit(AuthUiEvent.Error(err.message.ifBlank { getString(Res.string.auth_error_generic) }))
                 }
             } catch (e: Exception) {
                 update { it.copy(isSubmitting = false) }
-                _events.emit(AuthUiEvent.Error("Something went wrong. Please try again."))
+                _events.emit(AuthUiEvent.Error(getString(Res.string.auth_error_signin_failed)))
             }
         }
     }
@@ -115,13 +134,14 @@ class AuthViewModel(
     private fun signUp() {
         val state = _formState.value
         if (!state.canSubmitSignUp) {
-            update {
-                it.copy(fieldError = when {
-                    it.password.length < 8 -> "Password must be at least 8 characters"
-                    it.password != it.confirmPassword -> "Passwords don't match"
-                    !it.agreedToTerms -> "Please agree to the Terms of Service"
-                    else -> "Please fill in all fields"
-                })
+            viewModelScope.launch {
+                val msg = when {
+                    state.password.length < 8 -> getString(Res.string.auth_error_password_too_short)
+                    state.password != state.confirmPassword -> getString(Res.string.auth_error_passwords_dont_match)
+                    !state.agreedToTerms -> getString(Res.string.auth_error_must_agree_terms)
+                    else -> getString(Res.string.auth_error_fill_all_fields)
+                }
+                update { it.copy(fieldError = msg) }
             }
             return
         }
@@ -137,7 +157,9 @@ class AuthViewModel(
                 }
             } catch (e: Exception) {
                 update { it.copy(isSubmitting = false) }
-                _events.emit(AuthUiEvent.Error(e.message ?: "Couldn't create your account. Please try again."))
+                _events.emit(
+                    AuthUiEvent.Error(e.message ?: getString(Res.string.auth_error_signup_failed))
+                )
             }
         }
     }
@@ -146,7 +168,7 @@ class AuthViewModel(
         viewModelScope.launch {
             runCatching { authRepository.resendConfirmationEmail(email) }
                 .onSuccess { _events.emit(AuthUiEvent.ResendConfirmationSent) }
-                .onFailure { _events.emit(AuthUiEvent.Error(it.message ?: "Couldn't resend the email.")) }
+                .onFailure { _events.emit(AuthUiEvent.Error(it.message ?: getString(Res.string.auth_error_resend_failed))) }
         }
     }
 
@@ -154,14 +176,14 @@ class AuthViewModel(
         viewModelScope.launch {
             runCatching { authRepository.sendPasswordReset(email) }
                 .onSuccess { _events.emit(AuthUiEvent.PasswordResetSent) }
-                .onFailure { _events.emit(AuthUiEvent.Error(it.message ?: "Couldn't send the reset link.")) }
+                .onFailure { _events.emit(AuthUiEvent.Error(it.message ?: getString(Res.string.auth_error_reset_failed))) }
         }
     }
 
     fun signInWithGoogle() {
         viewModelScope.launch {
             runCatching { authRepository.signInWithGoogle() }
-                .onFailure { _events.emit(AuthUiEvent.Error(it.message ?: "Google sign-in failed.")) }
+                .onFailure { _events.emit(AuthUiEvent.Error(it.message ?: getString(Res.string.auth_error_google_failed))) }
         }
     }
 }

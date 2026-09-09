@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LuxeValuation</string>
+    <string name="app_name">LuxVal</string>
 
     <!-- Bottom nav -->
     <string name="nav_home">الرئيسية</string>
@@ -573,5 +573,86 @@
     <string name="date_month_oct">أكتوبر</string>
     <string name="date_month_nov">نوفمبر</string>
     <string name="date_month_dec">ديسمبر</string>
+    <!-- Metal section -->
+    <string name="hint_plated_over">مطلي فوق %1$s</string>
 
+    <!-- Gemstone section -->
+    <string name="label_gemstone_enabled">حجر كريم</string>
+
+    <!-- Valuation -->
+    <string name="cd_fetch_market_price">جلب سعر السوق</string>
+
+    <!-- Status pill -->
+    <string name="status_draft">مسودة</string>
+    <string name="status_completed">مكتمل</string>
+    <string name="status_archived">مؤرشف</string>
+
+    <!-- Appraisal card -->
+    <string name="label_no_client_yet">لا يوجد عميل حتى الآن</string>
+    <string name="label_est_value">القيمة التقديرية</string>
+    <string name="label_pending">قيد الانتظار</string>
+    <string name="cd_open">فتح</string>
+
+    <!-- Editor titles -->
+<!--    <string name="editor_title_pendant">محرر القلادة</string>-->
+<!--    <string name="editor_title_bracelet">محرر السوار</string>-->
+<!--    <string name="editor_title_earrings">محرر الأقراط</string>-->
+<!--    <string name="editor_title_brooch">محرر الدبوس</string>-->
+    <string name="editor_title_loose_gemstone">محرر الأحجار الكريمة الملونة</string>
+
+    <!-- Watch editor -->
+    <string name="field_bracelet_band_material">مادة السوار / حزام الساعة</string>
+    <string name="field_water_resistance_field">مقاومة الماء</string>
+    <string name="field_shape">الشكل</string>
+    <string name="ring_engraving">النقش</string>
+    <string name="action_try_again">حاول مرة أخرى</string>
+    <string name="action_dismiss">تجاهل</string>
+    <string name="error_connection_title">مشكلة في الاتصال</string>
+    <string name="error_connection_body">تعذر الوصول إلى الخادم. تحقق من اتصالك بالإنترنت وحاول مرة أخرى.</string>
+    <string name="error_session_expired_title">انتهت الجلسة</string>
+    <string name="error_session_expired_body">يرجى تسجيل الدخول مرة أخرى للمتابعة.</string>
+    <string name="error_generic_title">حدث خطأ ما</string>
+    <string name="error_generic_body">يرجى المحاولة مرة أخرى. إذا استمرت المشكلة، تواصل مع الدعم.</string>
+    <string name="error_save_title">تعذر الحفظ</string>
+    <string name="error_save_body">تعذر حفظ تغييراتك. يرجى المحاولة مرة أخرى.</string>
+    <string name="error_upload_title">فشل الرفع</string>
+    <string name="error_upload_body">تعذر رفع صورتك. تحقق من اتصالك وحاول مرة أخرى.</string>
+    <string name="error_export_title">فشل التصدير</string>
+    <string name="error_export_body">تعذر إنشاء ملف PDF. يرجى المحاولة مرة أخرى.</string>
+    <string name="error_auth_title">مشكلة في تسجيل الدخول</string>
+    <string name="error_auth_body">تعذر تسجيل دخولك. تحقق من بريدك الإلكتروني وكلمة المرور وحاول مرة أخرى.</string>
+    <string name="error_price_fetch_title">السعر غير متاح</string>
+    <string name="error_price_fetch_body">تعذر الحصول على سعر السوق الحالي. يمكنك إدخال القيمة يدويًا.</string>
+
+    <string name="auth_error_email_not_confirmed">يرجى تأكيد بريدك الإلكتروني قبل تسجيل الدخول.</string>
+    <string name="auth_error_incorrect_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة.</string>
+    <string name="auth_error_generic">حدث خطأ ما. يرجى المحاولة مرة أخرى.</string>
+    <string name="auth_error_signin_failed">حدث خطأ ما. يرجى المحاولة مرة أخرى.</string>
+    <string name="auth_error_signup_failed">تعذر إنشاء حسابك. يرجى المحاولة مرة أخرى.</string>
+    <string name="auth_error_resend_failed">تعذر إعادة إرسال البريد الإلكتروني.</string>
+    <string name="auth_error_reset_failed">تعذر إرسال رابط إعادة التعيين.</string>
+    <string name="auth_error_google_failed">فشل تسجيل الدخول باستخدام Google.</string>
+    <string name="auth_error_enter_credentials">أدخل بريدك الإلكتروني وكلمة المرور</string>
+    <string name="auth_error_password_too_short">يجب أن تتكون كلمة المرور من 8 أحرف على الأقل</string>
+    <string name="auth_error_passwords_dont_match">كلمتا المرور غير متطابقتين</string>
+    <string name="auth_error_must_agree_terms">يرجى الموافقة على شروط الخدمة</string>
+    <string name="auth_error_fill_all_fields">يرجى ملء جميع الحقول</string>
+    <string name="report_gross_weight">الوزن الإجمالي</string>
+    <string name="report_hallmarks">العلامات المميزة</string>
+    <string name="report_partial_valuation_label">التقييم الجزئي</string>
+    <string name="report_pending_items_note">لا تزال هناك قيمة غير محددة لـ %1$d قطعة (قطع) في هذا التقييم. يعكس الإجمالي أدناه القطع التي تم تحديد قيمتها فقط، ولا يمثل القيمة الكاملة لهذه المجموعة.</string>
+    <string name="report_no_value_yet">لا أحدهما</string>
+    <string name="report_box_papers_label">العلبة / المستندات</string>
+    <string name="report_license_template">الترخيص رقم %1$s</string>
+    <string name="report_notes_template">ملاحظات: %1$s</string>
+    <string name="report_pending_label">قيد الانتظار</string>
+    <string name="new_appraisal">تقييم جديد</string>
+    <string name="date_day_mon">الاثنين</string>
+    <string name="date_day_tue">الثلاثاء</string>
+    <string name="date_day_wed">الأربعاء</string>
+    <string name="date_day_thu">الخميس</string>
+    <string name="date_day_fri">الجمعة</string>
+    <string name="date_day_sat">السبت</string>
+    <string name="date_day_sun">الأحد</string>
+    <string name="date_full">%1$s، %3$d %2$s %4$d</string>
 </resources>

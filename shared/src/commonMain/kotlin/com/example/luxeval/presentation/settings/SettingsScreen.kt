@@ -7,10 +7,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.example.luxeval.config.LuxValConfig
 import com.example.luxeval.data.MeasurementUnit
@@ -458,7 +461,10 @@ private fun SettingsRow(
             if (isLoading) {
                 CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
             } else {
-                Icon(painterResource(Res.drawable.ic_arrow_forward), contentDescription = null)
+                Icon(painterResource(Res.drawable.ic_arrow_forward), contentDescription = null, modifier = Modifier.scale(
+                    scaleX = if (LocalLayoutDirection.current == LayoutDirection.Rtl) -1f else 1f,
+                    scaleY = 1f
+                ))
             }
         }
     )

@@ -7,13 +7,21 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import com.example.luxeval.presentation.itemEditor.common.*
 import com.example.luxeval.presentation.photo.rememberPhotoPickerLauncher
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import com.example.luxeval.presentation.util.ErrorDialog
 import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.action_save_item
+import luxeval.shared.generated.resources.back
+import luxeval.shared.generated.resources.editor_title_loose_gemstone
+import luxeval.shared.generated.resources.field_item_name
 import luxeval.shared.generated.resources.ic_back
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,11 +38,14 @@ fun LooseGemstoneEditorScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Colored Gemstone Editor") },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(painterResource(Res.drawable.ic_back), contentDescription = "Back") } },
+                title = { Text(stringResource(Res.string.editor_title_loose_gemstone)) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(painterResource(Res.drawable.ic_back), contentDescription = stringResource(Res.string.back), modifier = Modifier.scale(
+                    scaleX = if (LocalLayoutDirection.current == LayoutDirection.Rtl) -1f else 1f,
+                    scaleY = 1f
+                )) } },
                 actions = {
                     TextButton(onClick = { viewModel.save(onSaved) }, enabled = uiState.canSave && !uiState.isSaving) {
-                        Text("Save")
+                        Text(stringResource(Res.string.action_save_item))
                     }
                 }
             )
@@ -59,7 +70,7 @@ fun LooseGemstoneEditorScreen(
             item {
                 OutlinedTextField(
                     value = uiState.itemName, onValueChange = { v -> viewModel.update { it.copy(itemName = v) } },
-                    label = { Text("Item Name") }, modifier = Modifier.fillMaxWidth(), singleLine = true
+                    label = { Text(stringResource(Res.string.field_item_name)) }, modifier = Modifier.fillMaxWidth(), singleLine = true
                 )
             }
             item {

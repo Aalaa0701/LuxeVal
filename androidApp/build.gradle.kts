@@ -16,7 +16,9 @@ dependencies {
     implementation("com.russhwolf:multiplatform-settings:1.1.1")
     implementation("com.russhwolf:multiplatform-settings-no-arg:1.1.1")
     implementation(libs.androidx.activity.compose)
-
+    implementation(libs.supabase.auth)
+    implementation(libs.supabase.postgrest)
+    implementation(libs.supabase.storage)
     implementation(libs.koin.android)
     implementation(libs.compose.uiToolingPreview)
     debugImplementation(libs.compose.uiTooling)

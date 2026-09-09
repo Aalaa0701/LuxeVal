@@ -66,13 +66,16 @@ fun AuthScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Box(
-                        Modifier.size(64.dp).clip(CircleShape).background(GoldGradient),
+                        Modifier.size(64.dp).clip(CircleShape).background(
+//                            GoldGradient
+                            MaterialTheme.colorScheme.primary
+                        ),
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
                             painterResource(Res.drawable.ic_other_jewelry),
                             contentDescription = null,
-                            tint = Color.White,
+                            tint = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier.size(28.dp)
                         )
                     }
@@ -202,7 +205,10 @@ fun AuthScreen(
                             .fillMaxWidth()
                             .height(50.dp)
                             .clip(LuxeShapes.full)
-                            .background(GoldGradient)
+                            .background(
+//                                GoldGradient
+                                MaterialTheme.colorScheme.primary
+                            )
                             .let { base ->
                                 if (formState.isSubmitting) base else base // clickable added below via Button overlay
                             },
@@ -218,7 +224,7 @@ fun AuthScreen(
                             } else {
                                 Text(
                                     if (formState.tab == AuthTab.LOGIN) stringResource(Res.string.auth_sign_in_button) else stringResource(Res.string.auth_create_account_button),
-                                    color = Color.White,
+                                    color = MaterialTheme.colorScheme.onPrimary,
                                     fontWeight = FontWeight.Bold
                                 )
                             }

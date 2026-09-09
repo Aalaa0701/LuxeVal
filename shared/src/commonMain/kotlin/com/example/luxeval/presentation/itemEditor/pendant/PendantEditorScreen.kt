@@ -7,13 +7,25 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import com.example.luxeval.presentation.itemEditor.common.*
 import com.example.luxeval.presentation.photo.rememberPhotoPickerLauncher
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import com.example.luxeval.presentation.util.ErrorDialog
 import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.action_save_item
+import luxeval.shared.generated.resources.back
+import luxeval.shared.generated.resources.editor_title_pendant
+import luxeval.shared.generated.resources.field_bail_type
+import luxeval.shared.generated.resources.field_height_mm
+import luxeval.shared.generated.resources.field_item_name
+import luxeval.shared.generated.resources.field_sold_with_chain
+import luxeval.shared.generated.resources.field_width_mm
 import luxeval.shared.generated.resources.ic_back
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,11 +42,14 @@ fun PendantEditorScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Pendant Editor") },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(painterResource(Res.drawable.ic_back), contentDescription = "Back") } },
+                title = { Text(stringResource(Res.string.editor_title_pendant)) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(painterResource(Res.drawable.ic_back), contentDescription = stringResource(Res.string.back), modifier = Modifier.scale(
+                    scaleX = if (LocalLayoutDirection.current == LayoutDirection.Rtl) -1f else 1f,
+                    scaleY = 1f
+                )) } },
                 actions = {
                     TextButton(onClick = { viewModel.save(onSaved) }, enabled = uiState.canSave && !uiState.isSaving) {
-                        Text("Save Item")
+                        Text(stringResource(Res.string.action_save_item))
                     }
                 }
             )
@@ -60,25 +75,25 @@ fun PendantEditorScreen(
                 Column(verticalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
                     OutlinedTextField(
                         value = uiState.itemName, onValueChange = { v -> viewModel.update { it.copy(itemName = v) } },
-                        label = { Text("Item Name") }, modifier = Modifier.fillMaxWidth(), singleLine = true
+                        label = { Text(stringResource(Res.string.field_item_name)) }, modifier = Modifier.fillMaxWidth(), singleLine = true
                     )
                     OutlinedTextField(
                         value = uiState.bailType, onValueChange = { v -> viewModel.update { it.copy(bailType = v) } },
-                        label = { Text("Bail Type") }, modifier = Modifier.fillMaxWidth(), singleLine = true
+                        label = { Text(stringResource(Res.string.field_bail_type)) }, modifier = Modifier.fillMaxWidth(), singleLine = true
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
                         OutlinedTextField(
                             value = uiState.heightMm, onValueChange = { v -> viewModel.update { it.copy(heightMm = v) } },
-                            label = { Text("Height (mm)") }, modifier = Modifier.weight(1f), singleLine = true
+                            label = { Text(stringResource(Res.string.field_height_mm)) }, modifier = Modifier.weight(1f), singleLine = true
                         )
                         OutlinedTextField(
                             value = uiState.widthMm, onValueChange = { v -> viewModel.update { it.copy(widthMm = v) } },
-                            label = { Text("Width (mm)") }, modifier = Modifier.weight(1f), singleLine = true
+                            label = { Text(stringResource(Res.string.field_width_mm)) }, modifier = Modifier.weight(1f), singleLine = true
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Checkbox(checked = uiState.soldWithChain, onCheckedChange = { v -> viewModel.update { it.copy(soldWithChain = v) } })
-                        Text("Sold With Chain")
+                        Text(stringResource(Res.string.field_sold_with_chain))
                     }
                 }
             }

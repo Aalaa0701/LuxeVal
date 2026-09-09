@@ -34,6 +34,7 @@ import luxeval.shared.generated.resources.filter_archived
 import luxeval.shared.generated.resources.filter_completed
 import luxeval.shared.generated.resources.filter_drafts
 import luxeval.shared.generated.resources.label_sort_by
+import luxeval.shared.generated.resources.new_appraisal
 import luxeval.shared.generated.resources.sort_client_name
 import luxeval.shared.generated.resources.sort_date_added
 import luxeval.shared.generated.resources.sort_estimated_value
@@ -93,14 +94,14 @@ fun AppraisalsListScreen(
                         {
                             Icon(painterResource(Res.drawable.ic_add), contentDescription = null, modifier = Modifier.size(18.dp))
                             Spacer(Modifier.width(4.dp))
-                            Text(stringResource(Res.string.action_new_appraisal))
+                            Text(stringResource(Res.string.new_appraisal))
                         }
                     }
                 }
 
                 item {
                     FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.xs),
+                        horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.md),
                         verticalArrangement = Arrangement.spacedBy(LuxeSpacing.xs)
                     ) {
                         AppraisalFilter.entries.forEach { filter ->

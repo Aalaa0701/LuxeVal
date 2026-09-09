@@ -13,11 +13,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.luxeval.data.AppSettingsStore
@@ -201,6 +204,7 @@ private fun OnboardingSlideContent(
                     .height(52.dp)
                     .clip(RoundedCornerShape(50))
                     .background(
+//                        MaterialTheme.colorScheme.primary
                         Brush.horizontalGradient(
                             listOf(Color(0xFFB89232), Color(0xFFF0D06A), Color(0xFFB89232))
                         )
@@ -218,7 +222,10 @@ private fun OnboardingSlideContent(
                 Spacer(Modifier.width(10.dp))
                 Text(stringResource(slide.ctaLabel), color = Color.White, fontWeight = FontWeight.Bold)
                 Spacer(Modifier.width(6.dp))
-                Icon(painterResource(Res.drawable.ic_arrow_forward), contentDescription = null, tint = Color.White, modifier = Modifier.size(16.dp))
+                Icon(painterResource(Res.drawable.ic_arrow_forward), contentDescription = null, tint = Color.White, modifier = Modifier.size(16.dp).scale(
+                        scaleX = if (LocalLayoutDirection.current == LayoutDirection.Rtl) -1f else 1f,
+                    scaleY = 1f
+                ))
             }
         }
     }

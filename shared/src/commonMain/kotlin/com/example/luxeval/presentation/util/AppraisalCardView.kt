@@ -11,8 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.luxeval.domain.AppraisalPurpose
@@ -20,7 +23,11 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.cd_open
 import luxeval.shared.generated.resources.ic_arrow_forward
+import luxeval.shared.generated.resources.label_est_value
+import luxeval.shared.generated.resources.label_no_client_yet
+import luxeval.shared.generated.resources.label_pending
 import luxeval.shared.generated.resources.purpose_estate
 import luxeval.shared.generated.resources.purpose_fair_market
 import luxeval.shared.generated.resources.purpose_insurance
@@ -69,7 +76,7 @@ fun AppraisalCardView(card: AppraisalCard, onClick: () -> Unit, modifier: Modifi
                 Text(formatDate(card.appraisal.appraisalDate), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             Text(
-                text = card.clientName ?: "No client yet",
+                text = card.clientName ?: stringResource(Res.string.label_no_client_yet),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -81,16 +88,23 @@ fun AppraisalCardView(card: AppraisalCard, onClick: () -> Unit, modifier: Modifi
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text("Est. Value", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(Res.string.label_est_value), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     val hasItems = card.representativeItem != null
                     Text(
-                        text = if (hasItems) formatCurrency(card.totalValue, card.representativeItem?.currency ?: "USD") else "Pending",
+                        text = if (hasItems) formatCurrency(card.totalValue, card.representativeItem?.currency ?: "USD") else stringResource(Res.string.label_pending),
                         style = MaterialTheme.typography.titleLarge,
                         color = if (hasItems) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 IconButton(onClick = onClick, modifier = Modifier.clip(RoundedCornerShape(50)).background(MaterialTheme.colorScheme.background)) {
-                    Icon(painterResource(Res.drawable.ic_arrow_forward), contentDescription = "Open")
+                    Icon(
+                        painterResource(Res.drawable.ic_arrow_forward),
+                        contentDescription = stringResource(Res.string.cd_open),
+                        modifier = Modifier.scale(
+                            scaleX = if (LocalLayoutDirection.current == LayoutDirection.Rtl) -1f else 1f,
+                            scaleY = 1f
+                        )
+                    )
                 }
             }
         }

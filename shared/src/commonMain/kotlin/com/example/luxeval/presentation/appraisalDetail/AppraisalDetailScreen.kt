@@ -22,6 +22,9 @@ import luxeval.shared.generated.resources.ic_delete
 import luxeval.shared.generated.resources.ic_more_vert
 import org.jetbrains.compose.resources.painterResource
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import com.example.luxeval.domain.AppraisalStatus
 import com.example.luxeval.presentation.theme.StatusColors
 import com.example.luxeval.presentation.util.ErrorDialog
@@ -93,7 +96,10 @@ fun AppraisalDetailScreen(
                 title = { Text(uiState.appraisal?.documentId ?: stringResource(Res.string.appraisal_detail_fallback_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(painterResource(Res.drawable.ic_back), contentDescription = stringResource(Res.string.back))
+                        Icon(painterResource(Res.drawable.ic_back), contentDescription = stringResource(Res.string.back), modifier = Modifier.scale(
+                            scaleX = if (LocalLayoutDirection.current == LayoutDirection.Rtl) -1f else 1f,
+                            scaleY = 1f
+                        ))
                     }
                 },
                 actions = {

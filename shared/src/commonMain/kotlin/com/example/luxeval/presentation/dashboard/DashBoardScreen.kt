@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.luxeval.presentation.util.AppraisalCardView
 import com.example.luxeval.presentation.util.LuxeTopBar
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import luxeval.shared.generated.resources.Res
@@ -37,6 +38,7 @@ import luxeval.shared.generated.resources.new_appraisal
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import kotlin.time.Clock
+import kotlinx.datetime.Month
 
 @Composable
 fun DashboardScreen(
@@ -46,6 +48,7 @@ fun DashboardScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var showIncompleteProfileDialog by remember { mutableStateOf(false) }
+    val dateStrings = DateStrings.resolve()
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -80,7 +83,7 @@ fun DashboardScreen(
             item {
                 Column {
                     Text(stringResource(Res.string.dashboard_greeting), style = MaterialTheme.typography.displayLarge, fontWeight = FontWeight.Bold)
-                    Text(currentDateLabel(), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(currentDateLabel(dateStrings), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 Spacer(Modifier.height(30.dp))
             }
@@ -181,11 +184,16 @@ private fun StatCard(
 //    }
 //}
 
-private fun currentDateLabel(): String {
+private fun currentDateLabel(dateStrings: DateStrings): String {
     val now = Clock.System.now()
         .toLocalDateTime(TimeZone.currentSystemDefault())
 
-    return "${now.dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }}, " +
-            "${now.month.name.lowercase().replaceFirstChar { it.uppercase() }} " +
-            "${now.dayOfMonth}, ${now.year}"
+    val day = dateStrings.dayName(now.dayOfWeek)
+    val month = dateStrings.monthName(now.month)
+
+    return dateStrings.fullDateTemplate
+        .replace("%1\$s", day)
+        .replace("%2\$s", month)
+        .replace("%3\$d", now.dayOfMonth.toString())
+        .replace("%4\$d", now.year.toString())
 }

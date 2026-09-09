@@ -20,9 +20,12 @@ import coil3.compose.AsyncImage
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import com.example.luxeval.presentation.util.PhotoImage
 import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.action_add_photo
+import luxeval.shared.generated.resources.cd_remove_photo
 import luxeval.shared.generated.resources.ic_add
 import luxeval.shared.generated.resources.ic_delete
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * Photo capture/selection is platform-specific (camera + gallery access differ on
@@ -56,10 +59,9 @@ fun PhotoGridEditor(
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize()
                 )
-                IconButton(
-                    onClick = { onRemovePhoto(uri) },
-                    modifier = Modifier.align(Alignment.TopEnd)
-                ) { Icon(painterResource(Res.drawable.ic_delete), contentDescription = "Remove") }
+                IconButton(onClick = { onRemovePhoto(uri) }, modifier = Modifier.align(Alignment.TopEnd)) {
+                    Icon(painterResource(Res.drawable.ic_delete), contentDescription = stringResource(Res.string.cd_remove_photo))
+                }
             }
         }
         item {
@@ -73,8 +75,9 @@ fun PhotoGridEditor(
                 contentAlignment = Alignment.Center
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(painterResource(Res.drawable.ic_add), contentDescription = null)
-                    Text("Add Photo", style = MaterialTheme.typography.labelSmall)
+                    Icon(painterResource(Res.drawable.ic_add), contentDescription = stringResource(Res.string.action_add_photo))
+                    Text(stringResource(Res.string.action_add_photo), style = MaterialTheme.typography.labelSmall)
+
                 }
             }
         }

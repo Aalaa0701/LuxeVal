@@ -19,6 +19,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
+import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.auth_error_generic
+import org.jetbrains.compose.resources.getString
 
 sealed class AuthState {
     data object Loading : AuthState()
@@ -36,12 +39,19 @@ sealed class SignUpResult {
 
 /** Classifies auth errors into buckets the UI can act on distinctly, instead
  *  of showing every failure as the same generic red text. */
-sealed class AuthError(val message: String) {
-    data class EmailNotConfirmed(val email: String) : AuthError("Please confirm your email before signing in.")
-    data class InvalidCredentials(val raw: String) : AuthError("Incorrect email or password.")
-    data class Other(val raw: String) : AuthError(raw)
+sealed class AuthError {
+    data class EmailNotConfirmed(val email: String) : AuthError()
+    data class InvalidCredentials(val raw: String) : AuthError()
+    data class Other(val message: String) : AuthError()
 }
 
+class AuthException(val error: AuthError) : Exception(
+    when (error) {
+        is AuthError.EmailNotConfirmed -> "Email not confirmed" // internal/debug only, not shown to user
+        is AuthError.InvalidCredentials -> error.raw
+        is AuthError.Other -> error.message
+    }
+)
 class AuthRepository(
     private val client: SupabaseClient,
     private val httpClient: HttpClient
@@ -121,7 +131,7 @@ class AuthRepository(
 
     fun currentUserId(): String? = client.auth.currentUserOrNull()?.id
 
-    private fun classify(e: Exception, email: String): AuthException {
+    private suspend fun classify(e: Exception, email: String): AuthException {
         val msg = e.message.orEmpty()
         return when {
             msg.contains("not confirmed", ignoreCase = true) ||
@@ -130,11 +140,12 @@ class AuthRepository(
             msg.contains("invalid", ignoreCase = true) ||
                     msg.contains("credentials", ignoreCase = true) ->
                 AuthException(AuthError.InvalidCredentials(msg))
-            else -> AuthException(AuthError.Other(msg.ifBlank { "Something went wrong. Please try again." }))
+            else -> AuthException(
+                AuthError.Other(msg.ifBlank { getString(Res.string.auth_error_generic) })
+            )
         }
     }
 }
 
 /** Wraps a classified AuthError so it can be thrown/caught while still
  *  carrying structured info the ViewModel can pattern-match on. */
-class AuthException(val error: AuthError) : Exception(error.message)

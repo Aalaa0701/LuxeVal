@@ -7,13 +7,23 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import com.example.luxeval.presentation.itemEditor.common.*
 import com.example.luxeval.presentation.photo.rememberPhotoPickerLauncher
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import com.example.luxeval.presentation.util.ErrorDialog
 import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.action_save_item
+import luxeval.shared.generated.resources.back
+import luxeval.shared.generated.resources.editor_title_pearl
+import luxeval.shared.generated.resources.field_appraiser_notes
+import luxeval.shared.generated.resources.field_clasp_metal
+import luxeval.shared.generated.resources.field_item_name
 import luxeval.shared.generated.resources.ic_back
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,12 +40,15 @@ fun PearlEditorScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Pearl Analysis") },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(painterResource(Res.drawable.ic_back), contentDescription = "Back"
+                title = { Text(stringResource(Res.string.editor_title_pearl)) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(painterResource(Res.drawable.ic_back), contentDescription = stringResource(Res.string.back), modifier = Modifier.scale(
+                    scaleX = if (LocalLayoutDirection.current == LayoutDirection.Rtl) -1f else 1f,
+                    scaleY = 1f
+                )
                 ) } },
                 actions = {
                     TextButton(onClick = { viewModel.save(onSaved) }, enabled = uiState.canSave && !uiState.isSaving) {
-                        Text("Save")
+                        Text(stringResource(Res.string.action_save_item))
                     }
                 }
             )
@@ -64,14 +77,14 @@ fun PearlEditorScreen(
                 OutlinedTextField(
                     value = uiState.itemName,
                     onValueChange = { v -> viewModel.update { it.copy(itemName = v) } },
-                    label = { Text("Item Name") }, modifier = Modifier.fillMaxWidth(), singleLine = true
+                    label = { Text(stringResource(Res.string.field_item_name)) }, modifier = Modifier.fillMaxWidth(), singleLine = true
                 )
             }
             item {
                 OutlinedTextField(
                     value = uiState.conditionNotes,
                     onValueChange = { v -> viewModel.update { it.copy(conditionNotes = v) } },
-                    label = { Text("Appraiser Notes") }, modifier = Modifier.fillMaxWidth(), minLines = 3
+                    label = { Text(stringResource(Res.string.field_appraiser_notes)) }, modifier = Modifier.fillMaxWidth(), minLines = 3
                 )
             }
             item {
@@ -87,7 +100,7 @@ fun PearlEditorScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Clasp / Setting Metal", style = MaterialTheme.typography.titleSmall)
+                        Text(stringResource(Res.string.field_clasp_metal), style = MaterialTheme.typography.titleSmall)
                         Switch(
                             checked = uiState.hasClaspMetal,
                             onCheckedChange = { v -> viewModel.update { it.copy(hasClaspMetal = v) } }

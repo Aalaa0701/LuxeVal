@@ -13,7 +13,10 @@ val supabaseModule = module {
             supabaseUrl = LuxValConfig.SUPABASE_URL,
             supabaseKey = LuxValConfig.SUPABASE_API_KEY    // safe to ship client-side; RLS policies do the real gating
         ) {
-            install(Auth)
+            install(Auth){
+                scheme = "luxeval"
+                host = "login-callback"
+            }
             install(Postgrest)
             install(Storage)
         }

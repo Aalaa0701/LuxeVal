@@ -1,6 +1,5 @@
 package com.example.luxeval.presentation.itemEditor.common
 
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -10,14 +9,15 @@ import androidx.compose.ui.unit.dp
 import com.example.luxeval.domain.ValueSource
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import luxeval.shared.generated.resources.Res
-import luxeval.shared.generated.resources.ic_money
+import luxeval.shared.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ValuationSection(
     estimatedValue: String,
     onValueChanged: (String) -> Unit,
-    onFetchMarketPrice: (() -> Unit)? = null,   // null when category has no metal (e.g. LooseGemstone could still support it via carat pricing later)
+    onFetchMarketPrice: (() -> Unit)? = null,
     isFetchingPrice: Boolean = false,
     valueSource: ValueSource,
     notes: String,
@@ -25,12 +25,12 @@ fun ValuationSection(
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
-        Text("Appraisal Value", style = MaterialTheme.typography.titleSmall)
+        Text(stringResource(Res.string.section_appraisal_value), style = MaterialTheme.typography.titleSmall)
         Row(verticalAlignment = Alignment.CenterVertically) {
             OutlinedTextField(
                 value = estimatedValue,
-                onValueChange = onValueChanged,   // any manual edit should flip ValueSource -> MANUAL in the ViewModel
-                label = { Text("Estimated Value (USD)") },
+                onValueChange = onValueChanged,
+                label = { Text(stringResource(Res.string.field_estimated_value)) },
                 modifier = Modifier.weight(1f),
                 singleLine = true
             )
@@ -40,17 +40,25 @@ fun ValuationSection(
                     CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
                 } else {
                     IconButton(onClick = onFetchMarketPrice) {
-                        Icon(painterResource(Res.drawable.ic_money), contentDescription = "Fetch market price")
+                        Icon(
+                            painterResource(Res.drawable.ic_money),
+                            contentDescription = stringResource(Res.string.cd_fetch_market_price)
+                        )
                     }
                 }
             }
         }
         if (valueSource == ValueSource.API_FETCHED) {
-            Text("Sourced from live market price — edit to override", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(
+                stringResource(Res.string.hint_market_price_source),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
         OutlinedTextField(
             value = notes, onValueChange = onNotesChanged,
-            label = { Text("Appraiser Notes (Internal)") }, modifier = Modifier.fillMaxWidth(), minLines = 3
+            label = { Text(stringResource(Res.string.field_appraiser_notes_internal)) },
+            modifier = Modifier.fillMaxWidth(), minLines = 3
         )
     }
 }

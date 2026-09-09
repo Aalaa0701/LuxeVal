@@ -6,8 +6,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import com.example.luxeval.domain.BraceletStyle
 import com.example.luxeval.domain.ClaspType
+import com.example.luxeval.domain.label
 import com.example.luxeval.presentation.itemEditor.common.*
 import com.example.luxeval.presentation.photo.rememberPhotoPickerLauncher
 import com.example.luxeval.presentation.theme.LuxeSpacing
@@ -15,6 +19,8 @@ import com.example.luxeval.presentation.util.ErrorDialog
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.ic_back
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import luxeval.shared.generated.resources.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,11 +37,14 @@ fun BraceletEditorScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Bracelet Editor") },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(painterResource(Res.drawable.ic_back), contentDescription = "Back") } },
+                title = { Text(stringResource(Res.string.editor_title_bracelet)) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(painterResource(Res.drawable.ic_back), contentDescription = stringResource(Res.string.back), modifier = Modifier.scale(
+                    scaleX = if (LocalLayoutDirection.current == LayoutDirection.Rtl) -1f else 1f,
+                    scaleY = 1f
+                )) } },
                 actions = {
                     TextButton(onClick = { viewModel.save(onSaved) }, enabled = uiState.canSave && !uiState.isSaving) {
-                        Text("Save Item")
+                        Text(stringResource(Res.string.action_save_item))
                     }
                 }
             )
@@ -61,35 +70,35 @@ fun BraceletEditorScreen(
                 Column(verticalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
                     OutlinedTextField(
                         value = uiState.itemName, onValueChange = { v -> viewModel.update { it.copy(itemName = v) } },
-                        label = { Text("Item Name") }, modifier = Modifier.fillMaxWidth(), singleLine = true
+                        label = { Text(stringResource(Res.string.field_item_name)) }, modifier = Modifier.fillMaxWidth(), singleLine = true
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
                         OutlinedTextField(
                             value = uiState.lengthCm, onValueChange = { v -> viewModel.update { it.copy(lengthCm = v) } },
-                            label = { Text("Length (cm)") }, modifier = Modifier.weight(1f), singleLine = true
+                            label = { Text(stringResource(Res.string.field_length_cm)) }, modifier = Modifier.weight(1f), singleLine = true
                         )
                         FormDropdown(
-                            label = "Style", options = BraceletStyle.entries, selected = uiState.style,
-                            optionLabel = { it.name.lowercase().replaceFirstChar(Char::uppercase) },
+                            label = stringResource(Res.string.field_style), options = BraceletStyle.entries, selected = uiState.style,
+                            optionLabel = { stringResource(it.label()) },
                             onSelected = { v -> viewModel.update { it.copy(style = v) } }, modifier = Modifier.weight(1f)
                         )
                     }
                     FormDropdown(
-                        label = "Clasp Type", options = ClaspType.entries, selected = uiState.claspType,
-                        optionLabel = { it.name.replace("_", " ").lowercase().replaceFirstChar(Char::uppercase) },
+                        label = stringResource(Res.string.field_clasp_type), options = ClaspType.entries, selected = uiState.claspType,
+                        optionLabel = { stringResource(it.label()) },
                         onSelected = { v -> viewModel.update { it.copy(claspType = v) } }
                     )
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Checkbox(checked = uiState.isAdjustable, onCheckedChange = { v -> viewModel.update { it.copy(isAdjustable = v) } })
-                        Text("Adjustable")
+                        Text(stringResource(Res.string.field_adjustable))
                     }
                     OutlinedTextField(
                         value = uiState.charmCount, onValueChange = { v -> viewModel.update { it.copy(charmCount = v) } },
-                        label = { Text("Charm Count") }, modifier = Modifier.fillMaxWidth(), singleLine = true
+                        label = { Text(stringResource(Res.string.field_charm_count)) }, modifier = Modifier.fillMaxWidth(), singleLine = true
                     )
                     OutlinedTextField(
                         value = uiState.charmDescriptions, onValueChange = { v -> viewModel.update { it.copy(charmDescriptions = v) } },
-                        label = { Text("Charm Descriptions (one per line)") }, modifier = Modifier.fillMaxWidth(), minLines = 2
+                        label = { Text(stringResource(Res.string.field_charm_descriptions)) }, modifier = Modifier.fillMaxWidth(), minLines = 2
                     )
                 }
             }

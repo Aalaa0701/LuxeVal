@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LuxeValuation</string>
+    <string name="app_name">LuxVal</string>
 
     <!-- Bottom nav -->
     <string name="nav_home">Inicio</string>
@@ -559,4 +559,86 @@
     <string name="date_month_oct">Octubre</string>
     <string name="date_month_nov">Noviembre</string>
     <string name="date_month_dec">Diciembre</string>
+    <!-- Metal section -->
+    <string name="hint_plated_over">Sobre %1$s</string>
+
+    <!-- Gemstone section -->
+    <string name="label_gemstone_enabled">Piedra preciosa</string>
+
+    <!-- Valuation -->
+    <string name="cd_fetch_market_price">Obtener precio de mercado</string>
+
+    <!-- Status pill -->
+    <string name="status_draft">Borrador</string>
+    <string name="status_completed">Completado</string>
+    <string name="status_archived">Archivado</string>
+
+    <!-- Appraisal card -->
+    <string name="label_no_client_yet">Aún no hay cliente</string>
+    <string name="label_est_value">Valor estimado</string>
+    <string name="label_pending">Pendiente</string>
+    <string name="cd_open">Abrir</string>
+
+    <!-- Editor titles -->
+<!--    <string name="editor_title_pendant">Editor de colgantes</string>-->
+<!--    <string name="editor_title_bracelet">Editor de pulseras</string>-->
+<!--    <string name="editor_title_earrings">Editor de pendientes</string>-->
+<!--    <string name="editor_title_brooch">Editor de broches</string>-->
+    <string name="editor_title_loose_gemstone">Editor de piedras preciosas de color</string>
+
+    <!-- Watch editor -->
+    <string name="field_bracelet_band_material">Material de la pulsera / correa</string>
+    <string name="field_water_resistance_field">Resistencia al agua</string>
+    <string name="field_shape">Forma</string>
+    <string name="ring_engraving">Grabado</string>
+    <string name="action_try_again">Intentar de nuevo</string>
+    <string name="action_dismiss">Descartar</string>
+    <string name="error_connection_title">Problema de conexión</string>
+    <string name="error_connection_body">No pudimos conectarnos al servidor. Comprueba tu conexión a Internet e inténtalo de nuevo.</string>
+    <string name="error_session_expired_title">Sesión caducada</string>
+    <string name="error_session_expired_body">Vuelve a iniciar sesión para continuar.</string>
+    <string name="error_generic_title">Algo salió mal</string>
+    <string name="error_generic_body">Inténtalo de nuevo. Si el problema persiste, contacta con soporte.</string>
+    <string name="error_save_title">No se pudo guardar</string>
+    <string name="error_save_body">No se pudieron guardar tus cambios. Inténtalo de nuevo.</string>
+    <string name="error_upload_title">Error al subir</string>
+    <string name="error_upload_body">No pudimos subir tu foto. Comprueba tu conexión e inténtalo de nuevo.</string>
+    <string name="error_export_title">Error al exportar</string>
+    <string name="error_export_body">No pudimos generar el PDF. Inténtalo de nuevo.</string>
+    <string name="error_auth_title">Problema al iniciar sesión</string>
+    <string name="error_auth_body">No pudimos iniciar tu sesión. Comprueba tu correo electrónico y contraseña e inténtalo de nuevo.</string>
+    <string name="error_price_fetch_title">Precio no disponible</string>
+    <string name="error_price_fetch_body">No se pudo obtener el precio actual del mercado. Puedes introducir un valor manualmente.</string>
+
+    <string name="auth_error_email_not_confirmed">Confirma tu correo electrónico antes de iniciar sesión.</string>
+    <string name="auth_error_incorrect_credentials">Correo electrónico o contraseña incorrectos.</string>
+    <string name="auth_error_generic">Algo salió mal. Inténtalo de nuevo.</string>
+    <string name="auth_error_signin_failed">Algo salió mal. Inténtalo de nuevo.</string>
+    <string name="auth_error_signup_failed">No se pudo crear tu cuenta. Inténtalo de nuevo.</string>
+    <string name="auth_error_resend_failed">No se pudo reenviar el correo electrónico.</string>
+    <string name="auth_error_reset_failed">No se pudo enviar el enlace de restablecimiento.</string>
+    <string name="auth_error_google_failed">No se pudo iniciar sesión con Google.</string>
+    <string name="auth_error_enter_credentials">Introduce tu correo electrónico y contraseña</string>
+    <string name="auth_error_password_too_short">La contraseña debe tener al menos 8 caracteres</string>
+    <string name="auth_error_passwords_dont_match">Las contraseñas no coinciden</string>
+    <string name="auth_error_must_agree_terms">Acepta los términos del servicio</string>
+    <string name="auth_error_fill_all_fields">Completa todos los campos</string>
+    <string name="report_gross_weight">Peso bruto</string>
+    <string name="report_hallmarks">Marcas de contraste</string>
+    <string name="report_partial_valuation_label">Valoración parcial</string>
+    <string name="report_pending_items_note">%1$d artículo(s) de esta tasación aún no tienen un valor asignado. El total que aparece a continuación solo refleja los artículos con precio y no representa el valor total de esta colección.</string>
+    <string name="report_no_value_yet">Ninguno</string>
+    <string name="report_box_papers_label">Caja / Documentación</string>
+    <string name="report_license_template">Licencia n.º %1$s</string>
+    <string name="report_notes_template">Notas: %1$s</string>
+    <string name="report_pending_label">Pendiente</string>
+    <string name="new_appraisal">Nueva tasación</string>
+    <string name="date_day_mon">Lunes</string>
+    <string name="date_day_tue">Martes</string>
+    <string name="date_day_wed">Miércoles</string>
+    <string name="date_day_thu">Jueves</string>
+    <string name="date_day_fri">Viernes</string>
+    <string name="date_day_sat">Sábado</string>
+    <string name="date_day_sun">Domingo</string>
+    <string name="date_full">%1$s, %3$d de %2$s de %4$d</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.example.luxeval.presentation.util
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -12,17 +11,24 @@ import com.example.luxeval.domain.AppraisalStatus
 import com.example.luxeval.presentation.theme.LocalDarkTheme
 import com.example.luxeval.presentation.theme.LuxeShapes
 import com.example.luxeval.presentation.theme.StatusColors
+import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.status_draft
+import luxeval.shared.generated.resources.status_completed
+import luxeval.shared.generated.resources.status_archived
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun StatusPill(status: AppraisalStatus, modifier: Modifier = Modifier) {
     val darkTheme = LocalDarkTheme.current
-    val (bg, fg, label) = when (status) {
-        AppraisalStatus.DRAFT -> if (darkTheme) Triple(StatusColors.DraftBgDark, StatusColors.DraftFgDark, "Draft")
-        else Triple(StatusColors.DraftBg, StatusColors.DraftFg, "Draft")
-        AppraisalStatus.COMPLETED -> if (darkTheme) Triple(StatusColors.CompletedBgDark, StatusColors.CompletedFgDark, "Completed")
-        else Triple(StatusColors.CompletedBg, StatusColors.CompletedFg, "Completed")
-        AppraisalStatus.ARCHIVED -> if (darkTheme) Triple(StatusColors.ArchivedBgDark, StatusColors.ArchivedFgDark, "Archived")
-        else Triple(StatusColors.ArchivedBg, StatusColors.ArchivedFg, "Archived")
+    val label = when (status) {
+        AppraisalStatus.DRAFT -> stringResource(Res.string.status_draft)
+        AppraisalStatus.COMPLETED -> stringResource(Res.string.status_completed)
+        AppraisalStatus.ARCHIVED -> stringResource(Res.string.status_archived)
+    }
+    val (bg, fg) = when (status) {
+        AppraisalStatus.DRAFT -> if (darkTheme) StatusColors.DraftBgDark to StatusColors.DraftFgDark else StatusColors.DraftBg to StatusColors.DraftFg
+        AppraisalStatus.COMPLETED -> if (darkTheme) StatusColors.CompletedBgDark to StatusColors.CompletedFgDark else StatusColors.CompletedBg to StatusColors.CompletedFg
+        AppraisalStatus.ARCHIVED -> if (darkTheme) StatusColors.ArchivedBgDark to StatusColors.ArchivedFgDark else StatusColors.ArchivedBg to StatusColors.ArchivedFg
     }
     Text(
         text = "• $label", color = fg, style = MaterialTheme.typography.labelSmall,

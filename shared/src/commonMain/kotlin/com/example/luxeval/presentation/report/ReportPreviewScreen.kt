@@ -14,8 +14,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import coil3.util.Logger
@@ -97,7 +100,11 @@ fun ReportPreviewScreen(
                     IconButton(onClick = onBack) {
                         Icon(
                             painterResource(Res.drawable.ic_back),
-                            contentDescription = stringResource(Res.string.back)
+                            contentDescription = stringResource(Res.string.back),
+                            modifier = Modifier.scale(
+                                scaleX = if (LocalLayoutDirection.current == LayoutDirection.Rtl) -1f else 1f,
+                                scaleY = 1f
+                            )
                         )
                     }
                 },

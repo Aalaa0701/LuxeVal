@@ -4,6 +4,11 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.action_dismiss
+import luxeval.shared.generated.resources.action_ok
+import luxeval.shared.generated.resources.action_try_again
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ErrorDialog(
@@ -18,14 +23,14 @@ fun ErrorDialog(
         text = { Text(error.message) },
         confirmButton = {
             if (error.retryable && onRetry != null) {
-                TextButton(onClick = { onDismiss(); onRetry() }) { Text("Try Again") }
+                TextButton(onClick = { onDismiss(); onRetry() }) { Text(stringResource(Res.string.action_try_again)) }
             } else {
-                TextButton(onClick = onDismiss) { Text("OK") }
+                TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_ok)) }
             }
         },
         dismissButton = {
             if (error.retryable && onRetry != null) {
-                TextButton(onClick = onDismiss) { Text("Dismiss") }
+                TextButton(onClick = onDismiss) { Text(stringResource(Res.string.action_dismiss)) }
             }
         }
     )

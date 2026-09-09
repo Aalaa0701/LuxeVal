@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.luxeval.presentation.util.AppraisalCardView
 import luxeval.shared.generated.resources.Res
+import luxeval.shared.generated.resources.action_clear_search
 import luxeval.shared.generated.resources.appraisals_results
 import luxeval.shared.generated.resources.business_profile_title
 import luxeval.shared.generated.resources.customers_results_one
@@ -24,6 +25,7 @@ import luxeval.shared.generated.resources.customers_results_other
 import luxeval.shared.generated.resources.ic_search
 import luxeval.shared.generated.resources.ic_search_off
 import luxeval.shared.generated.resources.search_no_results_body
+import luxeval.shared.generated.resources.search_no_results_title
 import luxeval.shared.generated.resources.search_placeholder
 import luxeval.shared.generated.resources.search_prompt
 import luxeval.shared.generated.resources.search_title
@@ -140,7 +142,7 @@ private fun NoResultsState(query: String, onClear: () -> Unit) {
             tint = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(Modifier.height(LuxeSpacing.sm))
-        Text("No results found", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+        Text( stringResource(Res.string.search_no_results_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(LuxeSpacing.xs))
         Text(
             stringResource(
@@ -151,6 +153,6 @@ private fun NoResultsState(query: String, onClear: () -> Unit) {
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(Modifier.height(LuxeSpacing.md))
-        Button(onClick = onClear) { Text("Clear Search") }
+        Button(onClick = onClear) { Text(stringResource(Res.string.action_clear_search)) }
     }
 }
