@@ -80,10 +80,11 @@ private val supportedLanguages = listOf(
 private fun String.toLanguageLabel(): String =
     supportedLanguages.firstOrNull { it.first == this }?.second ?: this
 
+@Composable
 private fun ThemeMode.label(): String = when (this) {
-    ThemeMode.SYSTEM -> "System Default"
-    ThemeMode.LIGHT -> "Light"
-    ThemeMode.DARK -> "Dark"
+    ThemeMode.SYSTEM -> stringResource(Res.string.theme_system)
+    ThemeMode.LIGHT -> stringResource(Res.string.theme_light)
+    ThemeMode.DARK -> stringResource(Res.string.theme_dark)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

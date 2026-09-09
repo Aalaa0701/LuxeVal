@@ -382,4 +382,181 @@
     <string name="cd_remove_photo">Eliminar</string>
     <string name="settings_delete_account">Eliminar cuenta</string>
     <string name="settings_privacy_policy">Política de privacidad</string>
+    <!-- MetalType -->
+    <string name="metal_type_gold">Oro</string>
+    <string name="metal_type_platinum">Platino</string>
+    <string name="metal_type_silver">Plata</string>
+    <string name="metal_type_palladium">Paladio</string>
+    <string name="metal_type_titanium">Titanio</string>
+    <string name="metal_type_stainless_steel">Acero inoxidable</string>
+    <string name="metal_type_mixed_unknown">Mixto / Desconocido</string>
+
+    <!-- MetalColor -->
+    <string name="metal_color_yellow">Amarillo</string>
+    <string name="metal_color_white">Blanco</string>
+    <string name="metal_color_rose">Rosa</string>
+    <string name="metal_color_two_tone">Bicolor</string>
+
+    <!-- StoneType -->
+    <string name="stone_type_diamond">Diamante</string>
+    <string name="stone_type_ruby">Rubí</string>
+    <string name="stone_type_sapphire">Zafiro</string>
+    <string name="stone_type_emerald">Esmeralda</string>
+    <string name="stone_type_amethyst">Amatista</string>
+    <string name="stone_type_topaz">Topacio</string>
+    <string name="stone_type_opal">Ópalo</string>
+    <string name="stone_type_other">Otro</string>
+
+    <!-- StoneOriginType -->
+    <string name="stone_origin_natural">Natural</string>
+    <string name="stone_origin_lab_grown">Creada en laboratorio</string>
+    <string name="stone_origin_simulant">Imitación</string>
+
+    <!-- StoneShape -->
+    <string name="stone_shape_round">Redonda</string>
+    <string name="stone_shape_princess">Princesa</string>
+    <string name="stone_shape_cushion">Cojín</string>
+    <string name="stone_shape_emerald_cut">Corte esmeralda</string>
+    <string name="stone_shape_oval">Ovalada</string>
+    <string name="stone_shape_pear">Pera</string>
+    <string name="stone_shape_marquise">Marquesa</string>
+    <string name="stone_shape_radiant">Radiante</string>
+    <string name="stone_shape_cabochon">Cabujón</string>
+    <string name="stone_shape_other">Otro</string>
+
+    <!-- StoneTreatment -->
+    <string name="stone_treatment_none">Ninguno</string>
+    <string name="stone_treatment_heat_treated">Tratada térmicamente</string>
+    <string name="stone_treatment_irradiated">Irradiada</string>
+    <string name="stone_treatment_clarity_enhanced">Claridad mejorada</string>
+    <string name="stone_treatment_dyed">Teñida</string>
+    <string name="stone_treatment_other">Otro</string>
+
+    <!-- Fluorescence -->
+    <string name="fluorescence_none">Ninguna</string>
+    <string name="fluorescence_faint">Débil</string>
+    <string name="fluorescence_medium">Media</string>
+    <string name="fluorescence_strong">Fuerte</string>
+
+    <!-- SettingType -->
+    <string name="setting_type_prong">Garras</string>
+    <string name="setting_type_bezel">Bisel</string>
+    <string name="setting_type_pave">Pavé</string>
+    <string name="setting_type_channel">Engaste en canal</string>
+    <string name="setting_type_halo">Halo</string>
+    <string name="setting_type_tension">Tensión</string>
+    <string name="setting_type_bead">Granulado</string>
+    <string name="setting_type_none">Ninguno</string>
+
+    <!-- RingBandStyle -->
+    <string name="ring_band_style_solitaire">Solitario</string>
+    <string name="ring_band_style_halo">Halo</string>
+    <string name="ring_band_style_eternity">Eternidad</string>
+    <string name="ring_band_style_three_stone">Tres piedras</string>
+    <string name="ring_band_style_signet">Sello</string>
+    <string name="ring_band_style_wedding_band">Alianza de boda</string>
+    <string name="ring_band_style_cocktail">Cóctel</string>
+    <string name="ring_band_style_other">Otro</string>
+
+    <!-- ShankType -->
+    <string name="shank_type_full">Completo</string>
+    <string name="shank_type_split">Dividido</string>
+    <string name="shank_type_cathedral">Catedral</string>
+
+    <!-- ClaspType -->
+    <string name="clasp_type_lobster_claw">Mosquetón</string>
+    <string name="clasp_type_spring_ring">Anilla de resorte</string>
+    <string name="clasp_type_toggle">Cierre de palanca</string>
+    <string name="clasp_type_box_clasp">Cierre de caja</string>
+    <string name="clasp_type_barrel">Cilíndrico</string>
+    <string name="clasp_type_other">Otro</string>
+
+    <!-- BraceletStyle -->
+    <string name="bracelet_style_tennis">Tennis</string>
+    <string name="bracelet_style_charm">De charms</string>
+    <string name="bracelet_style_bangle">Brazalete rígido</string>
+    <string name="bracelet_style_cuff">Puño</string>
+    <string name="bracelet_style_link">De eslabones</string>
+    <string name="bracelet_style_other">Otro</string>
+
+    <!-- EarringStyle -->
+    <string name="earring_style_stud">Pendientes de botón</string>
+    <string name="earring_style_hoop">Aros</string>
+    <string name="earring_style_drop_dangle">Colgantes</string>
+    <string name="earring_style_huggie">Huggies</string>
+    <string name="earring_style_chandelier">Candelabro</string>
+    <string name="earring_style_other">Otro</string>
+
+    <!-- EarringBacking -->
+    <string name="earring_backing_push_back">Cierre a presión</string>
+    <string name="earring_backing_screw_back">Cierre de rosca</string>
+    <string name="earring_backing_lever_back">Cierre de palanca</string>
+    <string name="earring_backing_clip_on">De clip</string>
+    <string name="earring_backing_french_wire">Gancho francés</string>
+    <string name="earring_backing_other">Otro</string>
+
+    <!-- BroochPinMechanism -->
+    <string name="brooch_pin_c_clasp">Cierre en C</string>
+    <string name="brooch_pin_safety_catch">Cierre de seguridad</string>
+    <string name="brooch_pin_hinged_pin">Alfiler articulado</string>
+
+    <!-- WatchMovementType -->
+    <string name="watch_movement_automatic">Automático</string>
+    <string name="watch_movement_manual_wind">Carga manual</string>
+    <string name="watch_movement_quartz">Cuarzo</string>
+
+    <!-- WatchComplication -->
+    <string name="watch_complication_none">Ninguna</string>
+    <string name="watch_complication_chronograph">Cronógrafo</string>
+    <string name="watch_complication_date">Fecha</string>
+    <string name="watch_complication_gmt">GMT</string>
+    <string name="watch_complication_moonphase">Fase lunar</string>
+    <string name="watch_complication_other">Otro</string>
+
+    <!-- WatchRunningCondition -->
+    <string name="watch_running_accurately">Funciona correctamente</string>
+    <string name="watch_running_needs_service">Necesita mantenimiento</string>
+    <string name="watch_running_not_running">No funciona</string>
+
+    <!-- PearlType -->
+    <string name="pearl_type_akoya">Akoya</string>
+    <string name="pearl_type_freshwater">Agua dulce</string>
+    <string name="pearl_type_tahitian">Tahitiana</string>
+    <string name="pearl_type_south_sea">Mar del Sur</string>
+    <string name="pearl_type_natural">Natural</string>
+
+    <!-- PearlShape -->
+    <string name="pearl_shape_round">Redonda</string>
+    <string name="pearl_shape_semi_round">Semirredonda</string>
+    <string name="pearl_shape_baroque">Barroca</string>
+    <string name="pearl_shape_button">Botón</string>
+
+    <!-- PearlLuster -->
+    <string name="pearl_luster_high">Alto</string>
+    <string name="pearl_luster_medium">Medio</string>
+    <string name="pearl_luster_low">Bajo</string>
+
+    <!-- PearlSurfaceQuality -->
+    <string name="pearl_surface_clean">Limpia</string>
+    <string name="pearl_surface_lightly_blemished">Ligeramente defectuosa</string>
+    <string name="pearl_surface_blemished">Defectuosa</string>
+
+    <!-- ItemCondition -->
+    <string name="item_condition_excellent">Excelente</string>
+    <string name="item_condition_good">Bueno</string>
+    <string name="item_condition_fair">Aceptable</string>
+    <string name="item_condition_poor">Malo</string>
+    <!-- Date Months -->
+    <string name="date_month_jan">Enero</string>
+    <string name="date_month_feb">Febrero</string>
+    <string name="date_month_mar">Marzo</string>
+    <string name="date_month_apr">Abril</string>
+    <string name="date_month_may">Mayo</string>
+    <string name="date_month_jun">Junio</string>
+    <string name="date_month_jul">Julio</string>
+    <string name="date_month_aug">Agosto</string>
+    <string name="date_month_sep">Septiembre</string>
+    <string name="date_month_oct">Octubre</string>
+    <string name="date_month_nov">Noviembre</string>
+    <string name="date_month_dec">Diciembre</string>
 </resources>

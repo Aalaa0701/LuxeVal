@@ -396,6 +396,182 @@
     <string name="action_add_photo">إضافة صورة</string>
     <string name="cd_remove_photo">إزالة</string>
     <string name="settings_delete_account">حذف الحساب</string>
+    <!-- MetalType -->
+    <string name="metal_type_gold">ذهب</string>
+    <string name="metal_type_platinum">بلاتين</string>
+    <string name="metal_type_silver">فضة</string>
+    <string name="metal_type_palladium">بالاديوم</string>
+    <string name="metal_type_titanium">تيتانيوم</string>
+    <string name="metal_type_stainless_steel">فولاذ مقاوم للصدأ</string>
+    <string name="metal_type_mixed_unknown">مختلط / غير معروف</string>
 
+    <!-- MetalColor -->
+    <string name="metal_color_yellow">أصفر</string>
+    <string name="metal_color_white">أبيض</string>
+    <string name="metal_color_rose">وردي</string>
+    <string name="metal_color_two_tone">ثنائي اللون</string>
+
+    <!-- StoneType -->
+    <string name="stone_type_diamond">ألماس</string>
+    <string name="stone_type_ruby">ياقوت</string>
+    <string name="stone_type_sapphire">ياقوت أزرق</string>
+    <string name="stone_type_emerald">زمرد</string>
+    <string name="stone_type_amethyst">جمشت</string>
+    <string name="stone_type_topaz">توباز</string>
+    <string name="stone_type_opal">أوبال</string>
+    <string name="stone_type_other">أخرى</string>
+
+    <!-- StoneOriginType -->
+    <string name="stone_origin_natural">طبيعي</string>
+    <string name="stone_origin_lab_grown">مصنّع في المختبر</string>
+    <string name="stone_origin_simulant">بديل محاكي</string>
+
+    <!-- StoneShape -->
+    <string name="stone_shape_round">دائري</string>
+    <string name="stone_shape_princess">برنسيس</string>
+    <string name="stone_shape_cushion">وسادة</string>
+    <string name="stone_shape_emerald_cut">قطع زمردي</string>
+    <string name="stone_shape_oval">بيضاوي</string>
+    <string name="stone_shape_pear">كمثري</string>
+    <string name="stone_shape_marquise">ماركيز</string>
+    <string name="stone_shape_radiant">راديانت</string>
+    <string name="stone_shape_cabochon">كابوشون</string>
+    <string name="stone_shape_other">أخرى</string>
+
+    <!-- StoneTreatment -->
+    <string name="stone_treatment_none">بدون معالجة</string>
+    <string name="stone_treatment_heat_treated">معالج بالحرارة</string>
+    <string name="stone_treatment_irradiated">معالج بالإشعاع</string>
+    <string name="stone_treatment_clarity_enhanced">محسّن النقاء</string>
+    <string name="stone_treatment_dyed">مصبوغ</string>
+    <string name="stone_treatment_other">أخرى</string>
+
+    <!-- Fluorescence -->
+    <string name="fluorescence_none">بدون</string>
+    <string name="fluorescence_faint">ضعيف</string>
+    <string name="fluorescence_medium">متوسط</string>
+    <string name="fluorescence_strong">قوي</string>
+
+    <!-- SettingType -->
+    <string name="setting_type_prong">مخالب</string>
+    <string name="setting_type_bezel">إطار</string>
+    <string name="setting_type_pave">مرصّع بالكامل</string>
+    <string name="setting_type_channel">قناة</string>
+    <string name="setting_type_halo">هالة</string>
+    <string name="setting_type_tension">شد</string>
+    <string name="setting_type_bead">خرزي</string>
+    <string name="setting_type_none">بدون</string>
+
+    <!-- RingBandStyle -->
+    <string name="ring_band_style_solitaire">سوليتير</string>
+    <string name="ring_band_style_halo">هالة</string>
+    <string name="ring_band_style_eternity">أبدية</string>
+    <string name="ring_band_style_three_stone">ثلاثة أحجار</string>
+    <string name="ring_band_style_signet">خاتم بختم</string>
+    <string name="ring_band_style_wedding_band">خاتم زفاف</string>
+    <string name="ring_band_style_cocktail">كوكتيل</string>
+    <string name="ring_band_style_other">أخرى</string>
+
+    <!-- ShankType -->
+    <string name="shank_type_full">كامل</string>
+    <string name="shank_type_split">منقسم</string>
+    <string name="shank_type_cathedral">كاتدرائي</string>
+
+    <!-- ClaspType -->
+    <string name="clasp_type_lobster_claw">مخلب الكركند</string>
+    <string name="clasp_type_spring_ring">حلقة زنبركية</string>
+    <string name="clasp_type_toggle">قفل تبديل</string>
+    <string name="clasp_type_box_clasp">قفل صندوقي</string>
+    <string name="clasp_type_barrel">أسطواني</string>
+    <string name="clasp_type_other">أخرى</string>
+
+    <!-- BraceletStyle -->
+    <string name="bracelet_style_tennis">تنس</string>
+    <string name="bracelet_style_charm">تعليقة</string>
+    <string name="bracelet_style_bangle">سوار صلب</string>
+    <string name="bracelet_style_cuff">سوار عريض</string>
+    <string name="bracelet_style_link">وصلات</string>
+    <string name="bracelet_style_other">أخرى</string>
+
+    <!-- EarringStyle -->
+    <string name="earring_style_stud">دبوس</string>
+    <string name="earring_style_hoop">حلقي</string>
+    <string name="earring_style_drop_dangle">متدلي</string>
+    <string name="earring_style_huggie">هاغي</string>
+    <string name="earring_style_chandelier">ثريا</string>
+    <string name="earring_style_other">أخرى</string>
+
+    <!-- EarringBacking -->
+    <string name="earring_backing_push_back">قفل ضاغط</string>
+    <string name="earring_backing_screw_back">قفل لولبي</string>
+    <string name="earring_backing_lever_back">قفل بذراع</string>
+    <string name="earring_backing_clip_on">مشبك</string>
+    <string name="earring_backing_french_wire">سلك فرنسي</string>
+    <string name="earring_backing_other">أخرى</string>
+
+    <!-- BroochPinMechanism -->
+    <string name="brooch_pin_c_clasp">قفل C</string>
+    <string name="brooch_pin_safety_catch">قفل أمان</string>
+    <string name="brooch_pin_hinged_pin">دبوس مفصلي</string>
+
+    <!-- WatchMovementType -->
+    <string name="watch_movement_automatic">أوتوماتيكي</string>
+    <string name="watch_movement_manual_wind">تعبئة يدوية</string>
+    <string name="watch_movement_quartz">كوارتز</string>
+
+    <!-- WatchComplication -->
+    <string name="watch_complication_none">بدون</string>
+    <string name="watch_complication_chronograph">كرونوغراف</string>
+    <string name="watch_complication_date">التاريخ</string>
+    <string name="watch_complication_gmt">GMT</string>
+    <string name="watch_complication_moonphase">أطوار القمر</string>
+    <string name="watch_complication_other">أخرى</string>
+
+    <!-- WatchRunningCondition -->
+    <string name="watch_running_accurately">يعمل بدقة</string>
+    <string name="watch_running_needs_service">يحتاج إلى صيانة</string>
+    <string name="watch_running_not_running">لا يعمل</string>
+
+    <!-- PearlType -->
+    <string name="pearl_type_akoya">أكويا</string>
+    <string name="pearl_type_freshwater">مياه عذبة</string>
+    <string name="pearl_type_tahitian">تاهيتي</string>
+    <string name="pearl_type_south_sea">بحار الجنوب</string>
+    <string name="pearl_type_natural">طبيعي</string>
+
+    <!-- PearlShape -->
+    <string name="pearl_shape_round">دائري</string>
+    <string name="pearl_shape_semi_round">شبه دائري</string>
+    <string name="pearl_shape_baroque">باروك</string>
+    <string name="pearl_shape_button">زر</string>
+
+    <!-- PearlLuster -->
+    <string name="pearl_luster_high">عالٍ</string>
+    <string name="pearl_luster_medium">متوسط</string>
+    <string name="pearl_luster_low">منخفض</string>
+
+    <!-- PearlSurfaceQuality -->
+    <string name="pearl_surface_clean">نظيف</string>
+    <string name="pearl_surface_lightly_blemished">به عيوب طفيفة</string>
+    <string name="pearl_surface_blemished">به عيوب</string>
+
+    <!-- ItemCondition -->
+    <string name="item_condition_excellent">ممتاز</string>
+    <string name="item_condition_good">جيد</string>
+    <string name="item_condition_fair">مقبول</string>
+    <string name="item_condition_poor">ضعيف</string>
+    <!-- Date Months -->
+    <string name="date_month_jan">يناير</string>
+    <string name="date_month_feb">فبراير</string>
+    <string name="date_month_mar">مارس</string>
+    <string name="date_month_apr">أبريل</string>
+    <string name="date_month_may">مايو</string>
+    <string name="date_month_jun">يونيو</string>
+    <string name="date_month_jul">يوليو</string>
+    <string name="date_month_aug">أغسطس</string>
+    <string name="date_month_sep">سبتمبر</string>
+    <string name="date_month_oct">أكتوبر</string>
+    <string name="date_month_nov">نوفمبر</string>
+    <string name="date_month_dec">ديسمبر</string>
 
 </resources>

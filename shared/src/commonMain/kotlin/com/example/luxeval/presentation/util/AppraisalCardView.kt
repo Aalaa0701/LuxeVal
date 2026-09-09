@@ -21,7 +21,13 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.ic_arrow_forward
+import luxeval.shared.generated.resources.purpose_estate
+import luxeval.shared.generated.resources.purpose_fair_market
+import luxeval.shared.generated.resources.purpose_insurance
+import luxeval.shared.generated.resources.purpose_other
+import luxeval.shared.generated.resources.purpose_wholesale
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun AppraisalCardView(card: AppraisalCard, onClick: () -> Unit, modifier: Modifier = Modifier) {
@@ -92,10 +98,12 @@ fun AppraisalCardView(card: AppraisalCard, onClick: () -> Unit, modifier: Modifi
 }
 
 
+// AppraisalCardView.kt
+@Composable
 private fun AppraisalPurpose.displayName(): String = when (this) {
-    AppraisalPurpose.INSURANCE_REPLACEMENT -> "Insurance Replacement"
-    AppraisalPurpose.FAIR_MARKET_VALUE -> "Fair Market Value"
-    AppraisalPurpose.ESTATE_VALUATION -> "Estate Valuation"
-    AppraisalPurpose.WHOLESALE_LIQUIDATION -> "Wholesale Liquidation"
-    AppraisalPurpose.OTHER -> "Other"
+    AppraisalPurpose.INSURANCE_REPLACEMENT -> stringResource(Res.string.purpose_insurance)
+    AppraisalPurpose.FAIR_MARKET_VALUE -> stringResource(Res.string.purpose_fair_market)
+    AppraisalPurpose.ESTATE_VALUATION -> stringResource(Res.string.purpose_estate)
+    AppraisalPurpose.WHOLESALE_LIQUIDATION -> stringResource(Res.string.purpose_wholesale)
+    AppraisalPurpose.OTHER -> stringResource(Res.string.purpose_other)
 }
