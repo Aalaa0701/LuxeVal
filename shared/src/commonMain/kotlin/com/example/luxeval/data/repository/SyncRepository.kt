@@ -23,6 +23,8 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlin.time.Clock
 
 class SyncRepository(
@@ -33,6 +35,7 @@ class SyncRepository(
     private val outboxDao: SyncOutboxDao,
     connectivityObserver: ConnectivityObserver
 ) {
+    private val syncMutex = Mutex()
     private val syncScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private fun currentUserIdOrNull(): String? = supabase.auth.currentUserOrNull()?.id
 
@@ -123,7 +126,7 @@ class SyncRepository(
      *  connectivity change, next pull-to-refresh) pick them up again. A
      *  missing local row (e.g. the item was deleted locally after the failed
      *  push) is treated as success — there's nothing left to push. */
-    suspend fun retryOutbox() {
+    suspend fun retryOutbox()  = syncMutex.withLock{
         val userId = currentUserIdOrNull() ?: return
         val pending = outboxDao.getAll()
         if (pending.isEmpty()) return
@@ -156,7 +159,11 @@ class SyncRepository(
                     "item" -> when (entry.operation) {
                         "upsert" -> {
                             val item = itemRepository.getItemById(entry.entityId)
-                            if (item != null) {
+                            if (item == null) {
+                                // Genuinely nothing to push (e.g. deleted locally after queuing).
+                                // Log it so a "missing details" bug is visible instead of silent.
+                                println("SYNC: item ${entry.entityId} not found locally, dropping outbox entry")
+                            } else {
                                 supabase.postgrest.from("items").upsert(item.toRemoteRow(userId))
                             }
                         }
@@ -175,7 +182,7 @@ class SyncRepository(
             }
         }
     }
-    suspend fun retryPendingPhotoUploads() {
+    suspend fun retryPendingPhotoUploads()  = syncMutex.withLock{
         val resolvedItemIds = itemRepository.retryPendingPhotoUploads()
         resolvedItemIds.forEach { itemId ->
             itemRepository.getItemById(itemId)?.let { pushItemAsync(it) }
@@ -185,39 +192,40 @@ class SyncRepository(
     // ───────────────────────────── Pull (login / manual refresh) ────────────────
     // unchanged from your existing pullAll() — kept exactly as-is below
 
-    suspend fun pullAll(): Result<Unit> = runCatching {
-        val remoteClients = supabase.postgrest.from("clients")
-            .select(Columns.ALL)
-            .decodeList<RemoteClient>()
-        remoteClients.forEach { rc ->
-            clientRepository.saveClient(
-                Client(id = rc.id, name = rc.name, phone = rc.phone, email = rc.email, address = rc.address)
-            )
-        }
-
-        val remoteAppraisals = supabase.postgrest.from("appraisals")
-            .select(Columns.ALL)
-            .decodeList<RemoteAppraisal>()
-        remoteAppraisals.forEach { ra ->
-            appraisalRepository.save(
-                Appraisal(
-                    id = ra.id,
-                    documentId = ra.documentId,
-                    clientId = ra.clientId,
-                    title = ra.title,
-                    purpose = AppraisalPurpose.valueOf(ra.purpose),
-                    status = AppraisalStatus.valueOf(ra.status),
-                    internalNotes = ra.internalNotes,
-                    appraisalDate = ra.appraisalDate,
-                    createdAt = ra.createdAt,
-                    updatedAt = ra.updatedAt
+    suspend fun pullAll(): Result<Unit> = syncMutex.withLock{
+        runCatching {
+            val remoteClients = supabase.postgrest.from("clients")
+                .select(Columns.ALL)
+                .decodeList<RemoteClient>()
+            remoteClients.forEach { rc ->
+                clientRepository.saveClient(
+                    Client(id = rc.id, name = rc.name, phone = rc.phone, email = rc.email, address = rc.address)
                 )
-            )
-        }
-        val remoteItems = supabase.postgrest.from("items").select(Columns.ALL).decodeList<RemoteItem>()
-        remoteItems.forEach { ri ->
-            ri.toDomain()?.let { itemRepository.applyRemoteItem(it) }   // CHANGED from saveItem(it)
-        }
+            }
+
+            val remoteAppraisals = supabase.postgrest.from("appraisals")
+                .select(Columns.ALL)
+                .decodeList<RemoteAppraisal>()
+            remoteAppraisals.forEach { ra ->
+                appraisalRepository.save(
+                    Appraisal(
+                        id = ra.id,
+                        documentId = ra.documentId,
+                        clientId = ra.clientId,
+                        title = ra.title,
+                        purpose = AppraisalPurpose.valueOf(ra.purpose),
+                        status = AppraisalStatus.valueOf(ra.status),
+                        internalNotes = ra.internalNotes,
+                        appraisalDate = ra.appraisalDate,
+                        createdAt = ra.createdAt,
+                        updatedAt = ra.updatedAt
+                    )
+                )
+            }
+            val remoteItems = supabase.postgrest.from("items").select(Columns.ALL).decodeList<RemoteItem>()
+            remoteItems.forEach { ri ->
+                ri.toDomain()?.let { itemRepository.applyRemoteItem(it) }   // CHANGED from saveItem(it)
+            }
 //        val remoteItems = supabase.postgrest.from("items")
 //            .select(Columns.ALL)
 //            .decodeList<RemoteItem>()
@@ -227,5 +235,6 @@ class SyncRepository(
 //        remoteItems.forEach { ri ->
 //            ri.toDomain()?.let { itemRepository.saveItem(it) }
 //        }
+        }
     }
 }

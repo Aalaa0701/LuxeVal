@@ -147,6 +147,7 @@ kotlin {
                 implementation("com.russhwolf:multiplatform-settings:1.1.1")
                 implementation("com.russhwolf:multiplatform-settings-no-arg:1.1.1")
                 implementation(libs.androidx.room.runtime)
+                implementation(libs.androidx.room.ktx)
                 implementation(libs.compose.runtime)
                 implementation(libs.compose.foundation)
                 implementation(libs.compose.material3)

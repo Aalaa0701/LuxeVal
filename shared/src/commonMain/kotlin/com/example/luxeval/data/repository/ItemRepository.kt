@@ -1,5 +1,6 @@
 package com.example.luxeval.data.repository
 
+import com.example.luxeval.data.database.AppDatabase
 import com.example.luxeval.data.database.daos.ItemDao
 import com.example.luxeval.data.database.daos.PendingPhotoUploadDao
 import com.example.luxeval.data.database.entities.ItemEntity
@@ -15,7 +16,8 @@ import com.example.luxeval.presentation.photo.PhotoStorage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlin.time.Clock
-
+import androidx.room.useWriterConnection
+import androidx.room.immediateTransaction
 /**
  * This is the class that actually justifies the whole design: it's the one
  * place that knows how to fan a sealed AppraisalItem out into (base row +
@@ -28,9 +30,9 @@ class ItemRepository(
     private val dao: ItemDao,
     private val photoStorage: PhotoStorage,
     private val photoRepository: PhotoRepository,
-    private val pendingPhotoUploadDao: PendingPhotoUploadDao
+    private val pendingPhotoUploadDao: PendingPhotoUploadDao,
+    private val database: AppDatabase,
 ) {
-
     suspend fun saveItem(item: AppraisalItem): AppraisalItem {
         val resolvedPhotoUris = item.photoUris.map { uri ->
             if (uri.startsWith("supabase://")) {
@@ -53,22 +55,65 @@ class ItemRepository(
             }
         }
         val resolvedItem = item.withPhotoUris(resolvedPhotoUris)
-
-        dao.insertItem(resolvedItem.toItemEntity())
-        when (resolvedItem) {
-            is AppraisalItem.Ring -> dao.insertRingDetails(resolvedItem.toDetailsEntity())
-            is AppraisalItem.Necklace -> dao.insertNecklaceDetails(resolvedItem.toDetailsEntity())
-            is AppraisalItem.Pendant -> dao.insertPendantDetails(resolvedItem.toDetailsEntity())
-            is AppraisalItem.Bracelet -> dao.insertBraceletDetails(resolvedItem.toDetailsEntity())
-            is AppraisalItem.Earrings -> dao.insertEarringsDetails(resolvedItem.toDetailsEntity())
-            is AppraisalItem.Brooch -> dao.insertBroochDetails(resolvedItem.toDetailsEntity())
-            is AppraisalItem.Watch -> dao.insertWatchDetails(resolvedItem.toDetailsEntity())
-            is AppraisalItem.LooseGemstone -> dao.insertLooseGemstoneDetails(resolvedItem.toDetailsEntity())
-            is AppraisalItem.PearlJewelry -> dao.insertPearlDetails(resolvedItem.toDetailsEntity())
-            is AppraisalItem.Other -> throw NotImplementedError("No detail table wired up yet for ${resolvedItem.category}")
+        database.useWriterConnection { transactor ->
+            transactor.immediateTransaction {
+                dao.insertItem(resolvedItem.toItemEntity())
+                when (resolvedItem) {
+                    is AppraisalItem.Ring -> dao.insertRingDetails(resolvedItem.toDetailsEntity())
+                    is AppraisalItem.Necklace -> dao.insertNecklaceDetails(resolvedItem.toDetailsEntity())
+                    is AppraisalItem.Pendant -> dao.insertPendantDetails(resolvedItem.toDetailsEntity())
+                    is AppraisalItem.Bracelet -> dao.insertBraceletDetails(resolvedItem.toDetailsEntity())
+                    is AppraisalItem.Earrings -> dao.insertEarringsDetails(resolvedItem.toDetailsEntity())
+                    is AppraisalItem.Brooch -> dao.insertBroochDetails(resolvedItem.toDetailsEntity())
+                    is AppraisalItem.Watch -> dao.insertWatchDetails(resolvedItem.toDetailsEntity())
+                    is AppraisalItem.LooseGemstone -> dao.insertLooseGemstoneDetails(resolvedItem.toDetailsEntity())
+                    is AppraisalItem.PearlJewelry -> dao.insertPearlDetails(resolvedItem.toDetailsEntity())
+                    is AppraisalItem.Other -> throw NotImplementedError("No detail table wired up yet for ${resolvedItem.category}")
+                }
+            }
         }
+
         return resolvedItem
     }
+
+//    suspend fun saveItem(item: AppraisalItem): AppraisalItem {
+//        val resolvedPhotoUris = item.photoUris.map { uri ->
+//            if (uri.startsWith("supabase://")) {
+//                uri
+//            } else {
+//                runCatching { photoRepository.uploadPhoto(item.id, uri) }
+//                    .onSuccess { pendingPhotoUploadDao.remove(pendingUploadId(item.id, uri)) }
+//                    .onFailure { e ->
+//                        pendingPhotoUploadDao.upsert(
+//                            PendingPhotoUploadEntity(
+//                                id = pendingUploadId(item.id, uri),
+//                                itemId = item.id,
+//                                localPath = uri,
+//                                createdAt = Clock.System.now().toEpochMilliseconds()
+//                            )
+//                        )
+//                        println("PHOTO UPLOAD: FAILED for $uri -> ${e.message}")
+//                    }
+//                    .getOrElse { uri }
+//            }
+//        }
+//        val resolvedItem = item.withPhotoUris(resolvedPhotoUris)
+//
+//        dao.insertItem(resolvedItem.toItemEntity())
+//        when (resolvedItem) {
+//            is AppraisalItem.Ring -> dao.insertRingDetails(resolvedItem.toDetailsEntity())
+//            is AppraisalItem.Necklace -> dao.insertNecklaceDetails(resolvedItem.toDetailsEntity())
+//            is AppraisalItem.Pendant -> dao.insertPendantDetails(resolvedItem.toDetailsEntity())
+//            is AppraisalItem.Bracelet -> dao.insertBraceletDetails(resolvedItem.toDetailsEntity())
+//            is AppraisalItem.Earrings -> dao.insertEarringsDetails(resolvedItem.toDetailsEntity())
+//            is AppraisalItem.Brooch -> dao.insertBroochDetails(resolvedItem.toDetailsEntity())
+//            is AppraisalItem.Watch -> dao.insertWatchDetails(resolvedItem.toDetailsEntity())
+//            is AppraisalItem.LooseGemstone -> dao.insertLooseGemstoneDetails(resolvedItem.toDetailsEntity())
+//            is AppraisalItem.PearlJewelry -> dao.insertPearlDetails(resolvedItem.toDetailsEntity())
+//            is AppraisalItem.Other -> throw NotImplementedError("No detail table wired up yet for ${resolvedItem.category}")
+//        }
+//        return resolvedItem
+//    }
 
     /** Used only when applying data that came FROM the remote (pull/sync). */
     suspend fun applyRemoteItem(item: AppraisalItem) {

@@ -20,7 +20,7 @@ import com.example.luxeval.presentation.theme.ThemeController
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    single { ItemRepository(get(), get(), get(), get()) }
+    single { ItemRepository(get(), get(), get(), get(), get()) }
     single { ClientRepository(get()) }
     single { PricingRepository(get()) }
     single { AuthRepository(get(), get()) }
