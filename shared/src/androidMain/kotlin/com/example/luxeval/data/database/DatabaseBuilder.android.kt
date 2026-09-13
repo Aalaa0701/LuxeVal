@@ -17,6 +17,6 @@ fun buildDatabase(context: Context): AppDatabase {
     )
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
-        .fallbackToDestructiveMigration(dropAllTables = true)
+        .fallbackToDestructiveMigration(dropAllTables = true)   // NEW
         .build()
 }

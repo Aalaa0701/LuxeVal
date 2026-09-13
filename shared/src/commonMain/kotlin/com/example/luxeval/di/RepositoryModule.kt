@@ -5,6 +5,7 @@ import com.example.luxeval.data.repository.AppraisalRepository
 import com.example.luxeval.data.AppraiserProfileStore
 import com.example.luxeval.data.AppSettingsStore
 import com.example.luxeval.data.database.AppDatabase
+import com.example.luxeval.data.database.daos.PendingPhotoUploadDao
 import com.example.luxeval.data.repository.AuthRepository
 import com.example.luxeval.data.repository.BusinessProfileRepository
 import com.example.luxeval.data.repository.ClientRepository
@@ -19,7 +20,7 @@ import com.example.luxeval.presentation.theme.ThemeController
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    single { ItemRepository(get(), get(), get()) }
+    single { ItemRepository(get(), get(), get(), get()) }
     single { ClientRepository(get()) }
     single { PricingRepository(get()) }
     single { AuthRepository(get(), get()) }
@@ -34,6 +35,9 @@ val repositoryModule = module {
     single { DeleteAppraisalUseCase(get(), get(), get()) }
     single { SessionRepository(get(), get(), get(), get()) }
     single { get<AppDatabase>().syncOutboxDao() }
+    single<PendingPhotoUploadDao> {
+        get<AppDatabase>().pendingPhotoUploadDao()
+    }
     single { LanguageBootstrapper(get()) }
 
 }

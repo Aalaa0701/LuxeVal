@@ -40,7 +40,10 @@ class SyncRepository(
         // Drain the outbox automatically the moment connectivity returns.
         connectivityObserver.observe()
             .filter { it == ConnectionStatus.AVAILABLE }
-            .onEach { retryOutbox() }
+            .onEach {
+                retryPendingPhotoUploads()
+                retryOutbox()
+            }
             .launchIn(syncScope)
     }
 
@@ -172,6 +175,12 @@ class SyncRepository(
             }
         }
     }
+    suspend fun retryPendingPhotoUploads() {
+        val resolvedItemIds = itemRepository.retryPendingPhotoUploads()
+        resolvedItemIds.forEach { itemId ->
+            itemRepository.getItemById(itemId)?.let { pushItemAsync(it) }
+        }
+    }
 
     // ───────────────────────────── Pull (login / manual refresh) ────────────────
     // unchanged from your existing pullAll() — kept exactly as-is below
@@ -205,12 +214,18 @@ class SyncRepository(
                 )
             )
         }
-
-        val remoteItems = supabase.postgrest.from("items")
-            .select(Columns.ALL)
-            .decodeList<RemoteItem>()
+        val remoteItems = supabase.postgrest.from("items").select(Columns.ALL).decodeList<RemoteItem>()
         remoteItems.forEach { ri ->
-            ri.toDomain()?.let { itemRepository.saveItem(it) }
+            ri.toDomain()?.let { itemRepository.applyRemoteItem(it) }   // CHANGED from saveItem(it)
         }
+//        val remoteItems = supabase.postgrest.from("items")
+//            .select(Columns.ALL)
+//            .decodeList<RemoteItem>()
+//        remoteItems.forEach { ri ->
+//            ri.toDomain()?.let { itemRepository.applyRemoteItem(it) }   // was saveItem(it)
+//        }
+//        remoteItems.forEach { ri ->
+//            ri.toDomain()?.let { itemRepository.saveItem(it) }
+//        }
     }
 }

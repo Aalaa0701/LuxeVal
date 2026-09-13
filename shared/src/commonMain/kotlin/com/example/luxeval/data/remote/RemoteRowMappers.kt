@@ -28,12 +28,32 @@ fun Appraisal.toRemoteRow(userId: String) = RemoteAppraisal(
     userId = userId
 )
 
+//fun AppraisalItem.toRemoteRow(userId: String) = RemoteItem(
+//    id = id,
+//    appraisalId = appraisalId,
+//    itemName = itemName,
+//    category = category.name,
+//    photoUris = photoUris.joinToString("‖"),
+//    condition = condition.name,
+//    conditionNotes = conditionNotes,
+//    grossWeightGrams = grossWeightGrams,
+//    hallmarks = hallmarks,
+//    estimatedValue = estimatedValue,
+//    currency = currency,
+//    valuationBasis = valuationBasis.name,
+//    valueSource = valueSource.name,
+//    notes = notes,
+//    createdAt = createdAt,
+//    updatedAt = updatedAt,
+//    details = detailsToJson(),
+//    userId = userId
+//)
 fun AppraisalItem.toRemoteRow(userId: String) = RemoteItem(
     id = id,
     appraisalId = appraisalId,
     itemName = itemName,
     category = category.name,
-    photoUris = photoUris.joinToString("‖"),
+    photoUris = photoUris.filter { it.startsWith("supabase://") }.joinToString("‖"),
     condition = condition.name,
     conditionNotes = conditionNotes,
     grossWeightGrams = grossWeightGrams,

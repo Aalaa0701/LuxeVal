@@ -10,6 +10,7 @@ import com.example.luxeval.data.database.daos.AppDao
 import com.example.luxeval.data.database.daos.AppraisalDao
 import com.example.luxeval.data.database.daos.ClientDao
 import com.example.luxeval.data.database.daos.ItemDao
+import com.example.luxeval.data.database.daos.PendingPhotoUploadDao
 import com.example.luxeval.data.database.daos.SyncOutboxDao
 import com.example.luxeval.data.database.entities.AppraisalEntity
 import com.example.luxeval.data.database.entities.BraceletDetailsEntity
@@ -21,6 +22,7 @@ import com.example.luxeval.data.database.entities.LooseGemstoneDetailsEntity
 import com.example.luxeval.data.database.entities.NecklaceDetailsEntity
 import com.example.luxeval.data.database.entities.PearlDetailsEntity
 import com.example.luxeval.data.database.entities.PendantDetailsEntity
+import com.example.luxeval.data.database.entities.PendingPhotoUploadEntity
 import com.example.luxeval.data.database.entities.RingDetailsEntity
 import com.example.luxeval.data.database.entities.SyncOutboxEntity
 import com.example.luxeval.data.database.entities.WatchDetailsEntity
@@ -40,8 +42,9 @@ import com.example.luxeval.data.database.entities.WatchDetailsEntity
         WatchDetailsEntity::class,
         LooseGemstoneDetailsEntity::class,
         SyncOutboxEntity::class,
+        PendingPhotoUploadEntity::class,   // NEW
     ],
-    version = 2,
+    version = 3,   // was 2
     exportSchema = true
 )
 @TypeConverters(ListStringConverters::class)
@@ -52,6 +55,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun appraisalDao(): AppraisalDao
     abstract fun syncOutboxDao(): SyncOutboxDao
     abstract fun appDao(): AppDao
+    abstract fun pendingPhotoUploadDao(): PendingPhotoUploadDao   // NEW
 }
 
 expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase> {

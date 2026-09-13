@@ -1,0 +1,1596 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "ea5248a7b6e09b685ee2199a1fae7458",
+    "entities": [
+      {
+        "tableName": "clients",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `phone` TEXT, `email` TEXT, `address` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "phone",
+            "columnName": "phone",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "address",
+            "columnName": "address",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "appraisals",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `documentId` TEXT NOT NULL, `clientId` TEXT, `title` TEXT, `purpose` TEXT NOT NULL, `status` TEXT NOT NULL, `internalNotes` TEXT, `appraisalDate` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`clientId`) REFERENCES `clients`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "documentId",
+            "columnName": "documentId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "clientId",
+            "columnName": "clientId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "purpose",
+            "columnName": "purpose",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "internalNotes",
+            "columnName": "internalNotes",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "appraisalDate",
+            "columnName": "appraisalDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_appraisals_documentId",
+            "unique": true,
+            "columnNames": [
+              "documentId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_appraisals_documentId` ON `${TABLE_NAME}` (`documentId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "clients",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "clientId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "items",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `appraisalId` TEXT NOT NULL, `itemName` TEXT NOT NULL, `category` TEXT NOT NULL, `photoUris` TEXT NOT NULL, `condition` TEXT NOT NULL, `conditionNotes` TEXT, `grossWeightGrams` REAL, `hallmarks` TEXT, `estimatedValue` REAL, `currency` TEXT NOT NULL, `valuationBasis` TEXT NOT NULL, `valueSource` TEXT NOT NULL, `notes` TEXT, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appraisalId",
+            "columnName": "appraisalId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "itemName",
+            "columnName": "itemName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "photoUris",
+            "columnName": "photoUris",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "condition",
+            "columnName": "condition",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "conditionNotes",
+            "columnName": "conditionNotes",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "grossWeightGrams",
+            "columnName": "grossWeightGrams",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "hallmarks",
+            "columnName": "hallmarks",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "estimatedValue",
+            "columnName": "estimatedValue",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "currency",
+            "columnName": "currency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "valuationBasis",
+            "columnName": "valuationBasis",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "valueSource",
+            "columnName": "valueSource",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "ring_details",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`itemId` TEXT NOT NULL, `ringSize` TEXT, `bandWidthMm` REAL, `bandStyle` TEXT NOT NULL, `shankType` TEXT, `engraving` TEXT, `metal_metalType` TEXT NOT NULL, `metal_purity` TEXT NOT NULL, `metal_color` TEXT NOT NULL, `metal_netWeightGrams` REAL, `metal_isPlated` INTEGER NOT NULL, `metal_platingBaseMetal` TEXT, `stone_stoneType` TEXT, `stone_originType` TEXT, `stone_caratWeight` REAL, `stone_shape` TEXT, `stone_colorGrade` TEXT, `stone_clarityGrade` TEXT, `stone_treatment` TEXT, `stone_fluorescence` TEXT, `stone_settingType` TEXT, `stone_stoneCount` INTEGER, `stone_certificationLab` TEXT, `stone_certificationNumber` TEXT, `stone_measurementsMm` TEXT, PRIMARY KEY(`itemId`), FOREIGN KEY(`itemId`) REFERENCES `items`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "itemId",
+            "columnName": "itemId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ringSize",
+            "columnName": "ringSize",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "bandWidthMm",
+            "columnName": "bandWidthMm",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "bandStyle",
+            "columnName": "bandStyle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "shankType",
+            "columnName": "shankType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "engraving",
+            "columnName": "engraving",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "metal.metalType",
+            "columnName": "metal_metalType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.purity",
+            "columnName": "metal_purity",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.color",
+            "columnName": "metal_color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.netWeightGrams",
+            "columnName": "metal_netWeightGrams",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "metal.isPlated",
+            "columnName": "metal_isPlated",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.platingBaseMetal",
+            "columnName": "metal_platingBaseMetal",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.stoneType",
+            "columnName": "stone_stoneType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.originType",
+            "columnName": "stone_originType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.caratWeight",
+            "columnName": "stone_caratWeight",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "gemstone.shape",
+            "columnName": "stone_shape",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.colorGrade",
+            "columnName": "stone_colorGrade",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.clarityGrade",
+            "columnName": "stone_clarityGrade",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.treatment",
+            "columnName": "stone_treatment",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.fluorescence",
+            "columnName": "stone_fluorescence",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.settingType",
+            "columnName": "stone_settingType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.stoneCount",
+            "columnName": "stone_stoneCount",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "gemstone.certificationLab",
+            "columnName": "stone_certificationLab",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.certificationNumber",
+            "columnName": "stone_certificationNumber",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.measurementsMm",
+            "columnName": "stone_measurementsMm",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "itemId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "items",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "itemId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "necklace_details",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`itemId` TEXT NOT NULL, `lengthCm` REAL, `chainStyle` TEXT, `claspType` TEXT, `hasPendantAttached` INTEGER NOT NULL, `metal_metalType` TEXT NOT NULL, `metal_purity` TEXT NOT NULL, `metal_color` TEXT NOT NULL, `metal_netWeightGrams` REAL, `metal_isPlated` INTEGER NOT NULL, `metal_platingBaseMetal` TEXT, `stone_stoneType` TEXT, `stone_originType` TEXT, `stone_caratWeight` REAL, `stone_shape` TEXT, `stone_colorGrade` TEXT, `stone_clarityGrade` TEXT, `stone_treatment` TEXT, `stone_fluorescence` TEXT, `stone_settingType` TEXT, `stone_stoneCount` INTEGER, `stone_certificationLab` TEXT, `stone_certificationNumber` TEXT, `stone_measurementsMm` TEXT, PRIMARY KEY(`itemId`), FOREIGN KEY(`itemId`) REFERENCES `items`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "itemId",
+            "columnName": "itemId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lengthCm",
+            "columnName": "lengthCm",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "chainStyle",
+            "columnName": "chainStyle",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "claspType",
+            "columnName": "claspType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "hasPendantAttached",
+            "columnName": "hasPendantAttached",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.metalType",
+            "columnName": "metal_metalType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.purity",
+            "columnName": "metal_purity",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.color",
+            "columnName": "metal_color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.netWeightGrams",
+            "columnName": "metal_netWeightGrams",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "metal.isPlated",
+            "columnName": "metal_isPlated",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.platingBaseMetal",
+            "columnName": "metal_platingBaseMetal",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.stoneType",
+            "columnName": "stone_stoneType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.originType",
+            "columnName": "stone_originType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.caratWeight",
+            "columnName": "stone_caratWeight",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "gemstone.shape",
+            "columnName": "stone_shape",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.colorGrade",
+            "columnName": "stone_colorGrade",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.clarityGrade",
+            "columnName": "stone_clarityGrade",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.treatment",
+            "columnName": "stone_treatment",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.fluorescence",
+            "columnName": "stone_fluorescence",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.settingType",
+            "columnName": "stone_settingType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.stoneCount",
+            "columnName": "stone_stoneCount",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "gemstone.certificationLab",
+            "columnName": "stone_certificationLab",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.certificationNumber",
+            "columnName": "stone_certificationNumber",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.measurementsMm",
+            "columnName": "stone_measurementsMm",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "itemId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "items",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "itemId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "pendant_details",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`itemId` TEXT NOT NULL, `bailType` TEXT, `heightMm` REAL, `widthMm` REAL, `soldWithChain` INTEGER NOT NULL, `metal_metalType` TEXT NOT NULL, `metal_purity` TEXT NOT NULL, `metal_color` TEXT NOT NULL, `metal_netWeightGrams` REAL, `metal_isPlated` INTEGER NOT NULL, `metal_platingBaseMetal` TEXT, `stone_stoneType` TEXT, `stone_originType` TEXT, `stone_caratWeight` REAL, `stone_shape` TEXT, `stone_colorGrade` TEXT, `stone_clarityGrade` TEXT, `stone_treatment` TEXT, `stone_fluorescence` TEXT, `stone_settingType` TEXT, `stone_stoneCount` INTEGER, `stone_certificationLab` TEXT, `stone_certificationNumber` TEXT, `stone_measurementsMm` TEXT, PRIMARY KEY(`itemId`), FOREIGN KEY(`itemId`) REFERENCES `items`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "itemId",
+            "columnName": "itemId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bailType",
+            "columnName": "bailType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "heightMm",
+            "columnName": "heightMm",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "widthMm",
+            "columnName": "widthMm",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "soldWithChain",
+            "columnName": "soldWithChain",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.metalType",
+            "columnName": "metal_metalType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.purity",
+            "columnName": "metal_purity",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.color",
+            "columnName": "metal_color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.netWeightGrams",
+            "columnName": "metal_netWeightGrams",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "metal.isPlated",
+            "columnName": "metal_isPlated",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.platingBaseMetal",
+            "columnName": "metal_platingBaseMetal",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.stoneType",
+            "columnName": "stone_stoneType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.originType",
+            "columnName": "stone_originType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.caratWeight",
+            "columnName": "stone_caratWeight",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "gemstone.shape",
+            "columnName": "stone_shape",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.colorGrade",
+            "columnName": "stone_colorGrade",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.clarityGrade",
+            "columnName": "stone_clarityGrade",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.treatment",
+            "columnName": "stone_treatment",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.fluorescence",
+            "columnName": "stone_fluorescence",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.settingType",
+            "columnName": "stone_settingType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.stoneCount",
+            "columnName": "stone_stoneCount",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "gemstone.certificationLab",
+            "columnName": "stone_certificationLab",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.certificationNumber",
+            "columnName": "stone_certificationNumber",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.measurementsMm",
+            "columnName": "stone_measurementsMm",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "itemId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "items",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "itemId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "bracelet_details",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`itemId` TEXT NOT NULL, `lengthCm` REAL, `style` TEXT NOT NULL, `claspType` TEXT, `isAdjustable` INTEGER NOT NULL, `charmCount` INTEGER NOT NULL, `charmDescriptions` TEXT, `metal_metalType` TEXT NOT NULL, `metal_purity` TEXT NOT NULL, `metal_color` TEXT NOT NULL, `metal_netWeightGrams` REAL, `metal_isPlated` INTEGER NOT NULL, `metal_platingBaseMetal` TEXT, `stone_stoneType` TEXT, `stone_originType` TEXT, `stone_caratWeight` REAL, `stone_shape` TEXT, `stone_colorGrade` TEXT, `stone_clarityGrade` TEXT, `stone_treatment` TEXT, `stone_fluorescence` TEXT, `stone_settingType` TEXT, `stone_stoneCount` INTEGER, `stone_certificationLab` TEXT, `stone_certificationNumber` TEXT, `stone_measurementsMm` TEXT, PRIMARY KEY(`itemId`), FOREIGN KEY(`itemId`) REFERENCES `items`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "itemId",
+            "columnName": "itemId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lengthCm",
+            "columnName": "lengthCm",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "style",
+            "columnName": "style",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "claspType",
+            "columnName": "claspType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isAdjustable",
+            "columnName": "isAdjustable",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "charmCount",
+            "columnName": "charmCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "charmDescriptions",
+            "columnName": "charmDescriptions",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "metal.metalType",
+            "columnName": "metal_metalType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.purity",
+            "columnName": "metal_purity",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.color",
+            "columnName": "metal_color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.netWeightGrams",
+            "columnName": "metal_netWeightGrams",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "metal.isPlated",
+            "columnName": "metal_isPlated",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.platingBaseMetal",
+            "columnName": "metal_platingBaseMetal",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.stoneType",
+            "columnName": "stone_stoneType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.originType",
+            "columnName": "stone_originType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.caratWeight",
+            "columnName": "stone_caratWeight",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "gemstone.shape",
+            "columnName": "stone_shape",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.colorGrade",
+            "columnName": "stone_colorGrade",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.clarityGrade",
+            "columnName": "stone_clarityGrade",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.treatment",
+            "columnName": "stone_treatment",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.fluorescence",
+            "columnName": "stone_fluorescence",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.settingType",
+            "columnName": "stone_settingType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.stoneCount",
+            "columnName": "stone_stoneCount",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "gemstone.certificationLab",
+            "columnName": "stone_certificationLab",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.certificationNumber",
+            "columnName": "stone_certificationNumber",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.measurementsMm",
+            "columnName": "stone_measurementsMm",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "itemId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "items",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "itemId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "earrings_details",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`itemId` TEXT NOT NULL, `style` TEXT NOT NULL, `backing` TEXT NOT NULL, `isConfirmedPair` INTEGER NOT NULL, `hoopDiameterMm` REAL, `metal_metalType` TEXT NOT NULL, `metal_purity` TEXT NOT NULL, `metal_color` TEXT NOT NULL, `metal_netWeightGrams` REAL, `metal_isPlated` INTEGER NOT NULL, `metal_platingBaseMetal` TEXT, `stone_stoneType` TEXT, `stone_originType` TEXT, `stone_caratWeight` REAL, `stone_shape` TEXT, `stone_colorGrade` TEXT, `stone_clarityGrade` TEXT, `stone_treatment` TEXT, `stone_fluorescence` TEXT, `stone_settingType` TEXT, `stone_stoneCount` INTEGER, `stone_certificationLab` TEXT, `stone_certificationNumber` TEXT, `stone_measurementsMm` TEXT, PRIMARY KEY(`itemId`), FOREIGN KEY(`itemId`) REFERENCES `items`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "itemId",
+            "columnName": "itemId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "style",
+            "columnName": "style",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "backing",
+            "columnName": "backing",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isConfirmedPair",
+            "columnName": "isConfirmedPair",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hoopDiameterMm",
+            "columnName": "hoopDiameterMm",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "metal.metalType",
+            "columnName": "metal_metalType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.purity",
+            "columnName": "metal_purity",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.color",
+            "columnName": "metal_color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.netWeightGrams",
+            "columnName": "metal_netWeightGrams",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "metal.isPlated",
+            "columnName": "metal_isPlated",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.platingBaseMetal",
+            "columnName": "metal_platingBaseMetal",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.stoneType",
+            "columnName": "stone_stoneType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.originType",
+            "columnName": "stone_originType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.caratWeight",
+            "columnName": "stone_caratWeight",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "gemstone.shape",
+            "columnName": "stone_shape",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.colorGrade",
+            "columnName": "stone_colorGrade",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.clarityGrade",
+            "columnName": "stone_clarityGrade",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.treatment",
+            "columnName": "stone_treatment",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.fluorescence",
+            "columnName": "stone_fluorescence",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.settingType",
+            "columnName": "stone_settingType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.stoneCount",
+            "columnName": "stone_stoneCount",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "gemstone.certificationLab",
+            "columnName": "stone_certificationLab",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.certificationNumber",
+            "columnName": "stone_certificationNumber",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.measurementsMm",
+            "columnName": "stone_measurementsMm",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "itemId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "items",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "itemId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "brooch_details",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`itemId` TEXT NOT NULL, `pinMechanism` TEXT NOT NULL, `heightMm` REAL, `widthMm` REAL, `motifDescription` TEXT, `metal_metalType` TEXT NOT NULL, `metal_purity` TEXT NOT NULL, `metal_color` TEXT NOT NULL, `metal_netWeightGrams` REAL, `metal_isPlated` INTEGER NOT NULL, `metal_platingBaseMetal` TEXT, `stone_stoneType` TEXT, `stone_originType` TEXT, `stone_caratWeight` REAL, `stone_shape` TEXT, `stone_colorGrade` TEXT, `stone_clarityGrade` TEXT, `stone_treatment` TEXT, `stone_fluorescence` TEXT, `stone_settingType` TEXT, `stone_stoneCount` INTEGER, `stone_certificationLab` TEXT, `stone_certificationNumber` TEXT, `stone_measurementsMm` TEXT, PRIMARY KEY(`itemId`), FOREIGN KEY(`itemId`) REFERENCES `items`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "itemId",
+            "columnName": "itemId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pinMechanism",
+            "columnName": "pinMechanism",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "heightMm",
+            "columnName": "heightMm",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "widthMm",
+            "columnName": "widthMm",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "motifDescription",
+            "columnName": "motifDescription",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "metal.metalType",
+            "columnName": "metal_metalType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.purity",
+            "columnName": "metal_purity",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.color",
+            "columnName": "metal_color",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.netWeightGrams",
+            "columnName": "metal_netWeightGrams",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "metal.isPlated",
+            "columnName": "metal_isPlated",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.platingBaseMetal",
+            "columnName": "metal_platingBaseMetal",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.stoneType",
+            "columnName": "stone_stoneType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.originType",
+            "columnName": "stone_originType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.caratWeight",
+            "columnName": "stone_caratWeight",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "gemstone.shape",
+            "columnName": "stone_shape",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.colorGrade",
+            "columnName": "stone_colorGrade",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.clarityGrade",
+            "columnName": "stone_clarityGrade",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.treatment",
+            "columnName": "stone_treatment",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.fluorescence",
+            "columnName": "stone_fluorescence",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.settingType",
+            "columnName": "stone_settingType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.stoneCount",
+            "columnName": "stone_stoneCount",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "gemstone.certificationLab",
+            "columnName": "stone_certificationLab",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.certificationNumber",
+            "columnName": "stone_certificationNumber",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.measurementsMm",
+            "columnName": "stone_measurementsMm",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "itemId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "items",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "itemId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "pearl_details",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`itemId` TEXT NOT NULL, `pearlType` TEXT NOT NULL, `sizeMm` REAL, `shape` TEXT NOT NULL, `luster` TEXT NOT NULL, `surfaceQuality` TEXT NOT NULL, `overtoneColor` TEXT, `pearlCount` INTEGER NOT NULL, `isMatchedStrand` INTEGER NOT NULL, `metal_metalType` TEXT, `metal_purity` TEXT, `metal_color` TEXT, `metal_netWeightGrams` REAL, `metal_isPlated` INTEGER, `metal_platingBaseMetal` TEXT, PRIMARY KEY(`itemId`), FOREIGN KEY(`itemId`) REFERENCES `items`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "itemId",
+            "columnName": "itemId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pearlType",
+            "columnName": "pearlType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sizeMm",
+            "columnName": "sizeMm",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "shape",
+            "columnName": "shape",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "luster",
+            "columnName": "luster",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "surfaceQuality",
+            "columnName": "surfaceQuality",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "overtoneColor",
+            "columnName": "overtoneColor",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "pearlCount",
+            "columnName": "pearlCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isMatchedStrand",
+            "columnName": "isMatchedStrand",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "metal.metalType",
+            "columnName": "metal_metalType",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "metal.purity",
+            "columnName": "metal_purity",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "metal.color",
+            "columnName": "metal_color",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "metal.netWeightGrams",
+            "columnName": "metal_netWeightGrams",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "metal.isPlated",
+            "columnName": "metal_isPlated",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "metal.platingBaseMetal",
+            "columnName": "metal_platingBaseMetal",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "itemId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "items",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "itemId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "watch_details",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`itemId` TEXT NOT NULL, `brand` TEXT NOT NULL, `model` TEXT, `referenceNumber` TEXT, `movementType` TEXT NOT NULL, `caseMaterial` TEXT NOT NULL, `caseSizeMm` REAL, `dialColor` TEXT, `complications` TEXT NOT NULL, `bandMaterial` TEXT, `waterResistance` TEXT, `serialNumber` TEXT, `hasBox` INTEGER NOT NULL, `hasPapers` INTEGER NOT NULL, `runningCondition` TEXT NOT NULL, `yearOfManufacture` INTEGER, PRIMARY KEY(`itemId`), FOREIGN KEY(`itemId`) REFERENCES `items`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "itemId",
+            "columnName": "itemId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brand",
+            "columnName": "brand",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "model",
+            "columnName": "model",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "referenceNumber",
+            "columnName": "referenceNumber",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "movementType",
+            "columnName": "movementType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "caseMaterial",
+            "columnName": "caseMaterial",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "caseSizeMm",
+            "columnName": "caseSizeMm",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "dialColor",
+            "columnName": "dialColor",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "complications",
+            "columnName": "complications",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bandMaterial",
+            "columnName": "bandMaterial",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "waterResistance",
+            "columnName": "waterResistance",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "serialNumber",
+            "columnName": "serialNumber",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "hasBox",
+            "columnName": "hasBox",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hasPapers",
+            "columnName": "hasPapers",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "runningCondition",
+            "columnName": "runningCondition",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "yearOfManufacture",
+            "columnName": "yearOfManufacture",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "itemId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "items",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "itemId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "loose_gemstone_details",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`itemId` TEXT NOT NULL, `stone_stoneType` TEXT NOT NULL, `stone_originType` TEXT NOT NULL, `stone_caratWeight` REAL NOT NULL, `stone_shape` TEXT NOT NULL, `stone_colorGrade` TEXT, `stone_clarityGrade` TEXT, `stone_treatment` TEXT NOT NULL, `stone_fluorescence` TEXT, `stone_settingType` TEXT NOT NULL, `stone_stoneCount` INTEGER NOT NULL, `stone_certificationLab` TEXT, `stone_certificationNumber` TEXT, `stone_measurementsMm` TEXT, PRIMARY KEY(`itemId`), FOREIGN KEY(`itemId`) REFERENCES `items`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "itemId",
+            "columnName": "itemId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gemstone.stoneType",
+            "columnName": "stone_stoneType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gemstone.originType",
+            "columnName": "stone_originType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gemstone.caratWeight",
+            "columnName": "stone_caratWeight",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gemstone.shape",
+            "columnName": "stone_shape",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gemstone.colorGrade",
+            "columnName": "stone_colorGrade",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.clarityGrade",
+            "columnName": "stone_clarityGrade",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.treatment",
+            "columnName": "stone_treatment",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gemstone.fluorescence",
+            "columnName": "stone_fluorescence",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.settingType",
+            "columnName": "stone_settingType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gemstone.stoneCount",
+            "columnName": "stone_stoneCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gemstone.certificationLab",
+            "columnName": "stone_certificationLab",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.certificationNumber",
+            "columnName": "stone_certificationNumber",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "gemstone.measurementsMm",
+            "columnName": "stone_measurementsMm",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "itemId"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "items",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "itemId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "sync_outbox",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `entityType` TEXT NOT NULL, `entityId` TEXT NOT NULL, `operation` TEXT NOT NULL, `attempts` INTEGER NOT NULL, `lastError` TEXT, `createdAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entityType",
+            "columnName": "entityType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entityId",
+            "columnName": "entityId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "operation",
+            "columnName": "operation",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attempts",
+            "columnName": "attempts",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastError",
+            "columnName": "lastError",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "pending_photo_uploads",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `itemId` TEXT NOT NULL, `localPath` TEXT NOT NULL, `attempts` INTEGER NOT NULL, `lastError` TEXT, `createdAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "itemId",
+            "columnName": "itemId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "localPath",
+            "columnName": "localPath",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attempts",
+            "columnName": "attempts",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastError",
+            "columnName": "lastError",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ea5248a7b6e09b685ee2199a1fae7458')"
+    ]
+  }
+}
