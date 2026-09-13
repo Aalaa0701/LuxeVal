@@ -75,7 +75,11 @@ class ItemRepository(
 
         return resolvedItem
     }
-
+    private suspend fun replacePhotoUri(itemId: String, oldUri: String, newUri: String) {
+        val entity = dao.getItemById(itemId) ?: return
+        val updatedUris = entity.photoUris.map { if (it == oldUri) newUri else it }
+        dao.updatePhotoUris(itemId, updatedUris)
+    }
 //    suspend fun saveItem(item: AppraisalItem): AppraisalItem {
 //        val resolvedPhotoUris = item.photoUris.map { uri ->
 //            if (uri.startsWith("supabase://")) {
@@ -148,10 +152,10 @@ class ItemRepository(
         return resolvedItemIds
     }
 
-    private suspend fun replacePhotoUri(itemId: String, oldUri: String, newUri: String) {
-        val entity = dao.getItemById(itemId) ?: return
-        dao.insertItem(entity.copy(photoUris = entity.photoUris.map { if (it == oldUri) newUri else it }))
-    }
+//    private suspend fun replacePhotoUri(itemId: String, oldUri: String, newUri: String) {
+//        val entity = dao.getItemById(itemId) ?: return
+//        dao.insertItem(entity.copy(photoUris = entity.photoUris.map { if (it == oldUri) newUri else it }))
+//    }
 
     private fun pendingUploadId(itemId: String, localPath: String) =
         "photo-${com.example.luxeval.presentation.photo.cacheKeyFor(itemId + localPath)}"

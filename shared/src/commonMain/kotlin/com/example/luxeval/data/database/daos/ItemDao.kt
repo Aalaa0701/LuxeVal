@@ -21,6 +21,9 @@ interface ItemDao {
 
     @Query("SELECT * FROM items WHERE id = :id")
     suspend fun getItemById(id: String): ItemEntity?
+    // ⚠️ OnConflictStrategy.REPLACE deletes-then-reinserts the row, which CASCADEs
+// and wipes the matching *_details row. Never call this for a partial-field
+// update — use a dedicated UPDATE query instead (see updatePhotoUris).
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertItem(item: ItemEntity)
 
@@ -39,7 +42,9 @@ interface ItemDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRingDetails(details: RingDetailsEntity)
-
+    // ItemDao.kt
+    @Query("UPDATE items SET photoUris = :photoUris WHERE id = :itemId")
+    suspend fun updatePhotoUris(itemId: String, photoUris: List<String>)
     @Query("SELECT * FROM ring_details WHERE itemId = :itemId")
     suspend fun getRingDetails(itemId: String): RingDetailsEntity?
 
