@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import com.example.luxeval.domain.*
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import androidx.compose.ui.Alignment
+import com.example.luxeval.presentation.util.lengthUnitLabel
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
@@ -26,7 +27,8 @@ data class PearlFormState(
 fun PearlDetailsSection(
     state: PearlFormState,
     onChange: (PearlFormState) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    measurementUnit: MeasurementUnit
 ) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
         Text(stringResource(Res.string.editor_title_pearl), style = MaterialTheme.typography.titleSmall)
@@ -45,7 +47,7 @@ fun PearlDetailsSection(
             )
             OutlinedTextField(
                 value = state.sizeMm, onValueChange = { onChange(state.copy(sizeMm = it)) },
-                label = { Text(stringResource(Res.string.field_size_mm)) },
+                label = { Text("${stringResource(Res.string.field_size_mm)} (${lengthUnitLabel(measurementUnit)})") },
                 modifier = Modifier.weight(1f), singleLine = true
             )
         }

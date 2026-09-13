@@ -90,7 +90,8 @@ fun PearlEditorScreen(
             item {
                 PearlDetailsSection(
                     state = uiState.pearl,
-                    onChange = { p -> viewModel.update { it.copy(pearl = p) } }
+                    onChange = { p -> viewModel.update { it.copy(pearl = p) } },
+                    measurementUnit = uiState.measurementUnit
                 )
             }
             item {
