@@ -20,6 +20,7 @@ import com.example.luxeval.presentation.itemEditor.common.ValuationSection
 import com.example.luxeval.presentation.photo.rememberPhotoPickerLauncher
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import com.example.luxeval.presentation.util.ErrorDialog
+import com.example.luxeval.presentation.util.lengthUnitLabel
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.action_save_item
 import luxeval.shared.generated.resources.back
@@ -146,7 +147,7 @@ fun WatchEditorScreen(
                         OutlinedTextField(
                             value = uiState.caseSizeMm,
                             onValueChange = { v -> viewModel.update { it.copy(caseSizeMm = v) } },
-                            label = { Text(stringResource(Res.string.field_case_size)) }, modifier = Modifier.weight(1f), singleLine = true
+                            label = { Text("${stringResource(Res.string.field_case_size)} (${lengthUnitLabel(uiState.measurementUnit)})") }, modifier = Modifier.weight(1f), singleLine = true
                         )
                     }
                     OutlinedTextField(
@@ -218,7 +219,7 @@ fun WatchEditorScreen(
                     notes = uiState.notes,
                     onNotesChanged = { v -> viewModel.update { it.copy(notes = v) } },
                     valueSource = uiState.valueSource,
-
+                    currencyCode = uiState.currencyCode,
                 )
                 uiState.saveError?.let {
                     ErrorDialog(error = uiState.saveError, onDismiss = viewModel::dismissSaveError, onRetry = { viewModel.save(onSaved) }) }

@@ -21,6 +21,7 @@ import com.example.luxeval.domain.EarringStyle
 import com.example.luxeval.domain.Fluorescence
 import com.example.luxeval.domain.GemstoneDetails
 import com.example.luxeval.domain.ItemCondition
+import com.example.luxeval.domain.MeasurementUnit
 import com.example.luxeval.domain.MetalColor
 import com.example.luxeval.domain.MetalDetails
 import com.example.luxeval.domain.MetalType
@@ -110,7 +111,8 @@ fun AppraisalItem.toItemEntity() = ItemEntity(
     valueSource = valueSource.name,
     notes = notes,
     createdAt = createdAt,
-    updatedAt = updatedAt
+    updatedAt = updatedAt,
+    measurementUnit = measurementUnit.name,
 )
 
 // ── Ring ─────────────────────────────────────────────────────
@@ -148,7 +150,8 @@ fun RingDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.Ring(
     shankType = shankType?.let { ShankType.valueOf(it) },
     engraving = engraving,
     metal = metal.toDomain(),
-    gemstone = gemstone?.toDomain()
+    gemstone = gemstone?.toDomain(),
+    measurementUnit = MeasurementUnit.valueOf(item.measurementUnit),
 )
 
 // ── Watch ────────────────────────────────────────────────────
@@ -202,7 +205,8 @@ fun WatchDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.Watch(
     hasBox = hasBox,
     hasPapers = hasPapers,
     runningCondition = WatchRunningCondition.valueOf(runningCondition),
-    yearOfManufacture = yearOfManufacture
+    yearOfManufacture = yearOfManufacture,
+    measurementUnit = MeasurementUnit.valueOf(item.measurementUnit),
 )
 
 // ── Loose Gemstone ─────────────────────────────────────────────
@@ -228,7 +232,8 @@ fun LooseGemstoneDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.LooseG
     notes = item.notes,
     createdAt = item.createdAt,
     updatedAt = item.updatedAt,
-    gemstone = gemstone.toDomain()
+    gemstone = gemstone.toDomain(),
+    measurementUnit = MeasurementUnit.valueOf(item.measurementUnit),
 )
 
 // ── Necklace ─────────────────────────────────────────────
@@ -264,7 +269,8 @@ fun NecklaceDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.Necklace(
     claspType = claspType?.let { ClaspType.valueOf(it) },
     hasPendantAttached = hasPendantAttached,
     metal = metal.toDomain(),
-    gemstone = gemstone?.toDomain()
+    gemstone = gemstone?.toDomain(),
+    measurementUnit = MeasurementUnit.valueOf(item.measurementUnit),
 )
 
 // ── Pendant ─────────────────────────────────────────────────────
@@ -300,7 +306,8 @@ fun PendantDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.Pendant(
     widthMm = widthMm,
     soldWithChain = soldWithChain,
     metal = metal.toDomain(),
-    gemstone = gemstone?.toDomain()
+    gemstone = gemstone?.toDomain(),
+    measurementUnit = MeasurementUnit.valueOf(item.measurementUnit),
 )
 
 // ── Bracelet ────────────────────────────────────────────────────
@@ -345,7 +352,8 @@ fun BraceletDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.Bracelet(
             charmDescriptions.split("\n")
         },
     metal = metal.toDomain(),
-    gemstone = gemstone?.toDomain()
+    gemstone = gemstone?.toDomain(),
+    measurementUnit = MeasurementUnit.valueOf(item.measurementUnit),
 )
 
 // ── Earrings ────────────────────────────────────────────────────
@@ -381,7 +389,8 @@ fun EarringsDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.Earrings(
     isConfirmedPair = isConfirmedPair,
     hoopDiameterMm = hoopDiameterMm,
     metal = metal.toDomain(),
-    gemstone = gemstone?.toDomain()
+    gemstone = gemstone?.toDomain(),
+    measurementUnit = MeasurementUnit.valueOf(item.measurementUnit),
 )
 
 // ── Brooch ──────────────────────────────────────────────────────
@@ -417,7 +426,8 @@ fun BroochDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.Brooch(
     widthMm = widthMm,
     motifDescription = motifDescription,
     metal = metal.toDomain(),
-    gemstone = gemstone?.toDomain()
+    gemstone = gemstone?.toDomain(),
+    measurementUnit = MeasurementUnit.valueOf(item.measurementUnit),
 )
 
 // ── Pearl Jewelry ───────────────────────────────────────────────
@@ -459,5 +469,6 @@ fun PearlDetailsEntity.toDomain(item: ItemEntity) = AppraisalItem.PearlJewelry(
     overtoneColor = overtoneColor,
     pearlCount = pearlCount,
     isMatchedStrand = isMatchedStrand,
-    metal = metal?.toDomain()
+    metal = metal?.toDomain(),
+    measurementUnit = MeasurementUnit.valueOf(item.measurementUnit),
 )

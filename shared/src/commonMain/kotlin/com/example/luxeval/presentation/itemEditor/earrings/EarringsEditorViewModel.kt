@@ -3,6 +3,7 @@ package com.example.luxeval.presentation.itemEditor.earrings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.luxeval.data.AppSettingsStore
 import com.example.luxeval.data.repository.ItemRepository
 import com.example.luxeval.data.repository.PhotoRepository
 import com.example.luxeval.data.repository.PricingRepository
@@ -26,10 +27,11 @@ class EarringsEditorViewModel(
     private val photoStorage: PhotoStorage,
     private val pricingRepository: PricingRepository,
     private val syncRepository: SyncRepository,
-    private val photoRepository: PhotoRepository
+    private val photoRepository: PhotoRepository,
+    private val settingsStore: AppSettingsStore
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(EarringsEditorUiState())
+    private val _uiState = MutableStateFlow(EarringsEditorUiState(currencyCode = settingsStore.getCurrencyCode(), measurementUnit = settingsStore.getMeasurementUnit()))
     val uiState: StateFlow<EarringsEditorUiState> = _uiState.asStateFlow()
 
     init {
@@ -100,7 +102,8 @@ class EarringsEditorViewModel(
                     grossWeightGrams = state.grossWeightGrams.toDoubleOrNull(),
                     hallmarks = state.hallmarks.ifBlank { null },
                     estimatedValue = state.estimatedValue.toDoubleOrNull(),
-                    currency = "USD",
+                    currency = state.currencyCode,
+                    measurementUnit = state.measurementUnit,
                     valuationBasis = ValuationBasis.RETAIL_REPLACEMENT,
                     valueSource = ValueSource.MANUAL,
                     notes = state.notes.ifBlank { null },
@@ -148,6 +151,8 @@ private fun AppraisalItem.Earrings.toUiState() = EarringsEditorUiState(
     hallmarks = hallmarks.orEmpty(),
     grossWeightGrams = grossWeightGrams?.toString().orEmpty(),
     style = style,
+    currencyCode = currency,
+    measurementUnit = measurementUnit,
     backing = backing,
     isConfirmedPair = isConfirmedPair,
     hoopDiameterMm = hoopDiameterMm?.toString().orEmpty(),

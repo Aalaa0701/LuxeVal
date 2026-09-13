@@ -81,7 +81,8 @@ fun LooseGemstoneEditorScreen(
                 // boolean param on GemstoneDetailsSection later.
                 GemstoneDetailsSection(
                     state = uiState.gemstone,
-                    onChange = { g -> viewModel.update { it.copy(gemstone = g.copy(enabled = true)) } }
+                    onChange = { g -> viewModel.update { it.copy(gemstone = g.copy(enabled = true)) } },
+                    measurementUnit = uiState.measurementUnit
                 )
             }
             item {
@@ -91,6 +92,7 @@ fun LooseGemstoneEditorScreen(
                     notes = uiState.notes,
                     onNotesChanged = { v -> viewModel.update { it.copy(notes = v) } },
                     valueSource = uiState.valueSource,
+                    currencyCode = uiState.currencyCode,
                 )
                 uiState.saveError?.let {
                     ErrorDialog(error = uiState.saveError, onDismiss = viewModel::dismissSaveError, onRetry = { viewModel.save(onSaved) }) }

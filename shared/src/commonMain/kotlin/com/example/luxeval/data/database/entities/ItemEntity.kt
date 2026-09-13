@@ -18,6 +18,7 @@ data class ItemEntity(
     val hallmarks: String? = null,
     val estimatedValue: Double? = null,
     val currency: String,
+    val measurementUnit: String,
     val valuationBasis: String,        // ValuationBasis.name
     val valueSource: String,           // ValueSource.name
     val notes: String? = null,

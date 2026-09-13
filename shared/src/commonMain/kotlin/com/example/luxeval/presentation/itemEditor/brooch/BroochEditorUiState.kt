@@ -3,6 +3,7 @@ package com.example.luxeval.presentation.itemEditor.brooch
 
 import com.example.luxeval.domain.BroochPinMechanism
 import com.example.luxeval.domain.ItemCondition
+import com.example.luxeval.domain.MeasurementUnit
 import com.example.luxeval.domain.ValueSource
 import com.example.luxeval.presentation.itemEditor.common.GemstoneFormState
 import com.example.luxeval.presentation.itemEditor.common.MetalFormState
@@ -32,7 +33,9 @@ data class BroochEditorUiState(
     val estimatedValue: String = "",
     val notes: String = "",
     val valueSource: ValueSource = ValueSource.MANUAL,
-    val isFetchingPrice: Boolean = false
+    val isFetchingPrice: Boolean = false,
+    val currencyCode: String = "USD",
+    val measurementUnit: MeasurementUnit = MeasurementUnit.METRIC
 ) {
     val canSave: Boolean get() = itemName.isNotBlank() && metal.purity.isNotBlank()
 }

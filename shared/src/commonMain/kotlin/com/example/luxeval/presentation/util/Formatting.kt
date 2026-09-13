@@ -1,5 +1,6 @@
 package com.example.luxeval.presentation.util
 
+import com.example.luxeval.domain.MeasurementUnit
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -15,9 +16,10 @@ import kotlin.math.roundToLong
  */
 
 private val currencySymbols = mapOf(
-    "USD" to "$", "EUR" to "€", "GBP" to "£", "CAD" to "$", "AUD" to "$"
+    "USD" to "$", "EUR" to "€", "GBP" to "£", "CAD" to "$", "AUD" to "$", "EGP" to "E£"
 )
-
+fun lengthUnitLabel(unit: MeasurementUnit): String = if (unit == MeasurementUnit.IMPERIAL) "in" else "mm"
+fun caratUnitLabel(unit: MeasurementUnit): String = if (unit == MeasurementUnit.IMPERIAL) "pt" else "ct"
 /** Groups a whole-number value with thousands separators, e.g. 1234567 -> "1,234,567".
  *  Handles negatives correctly (sign is applied after grouping, not reversed with it). */
 fun formatGroupedAmount(value: Long): String {

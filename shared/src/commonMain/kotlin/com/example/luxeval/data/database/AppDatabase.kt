@@ -44,7 +44,7 @@ import com.example.luxeval.data.database.entities.WatchDetailsEntity
         SyncOutboxEntity::class,
         PendingPhotoUploadEntity::class,   // NEW
     ],
-    version = 3,   // was 2
+    version = 4,
     exportSchema = true
 )
 @TypeConverters(ListStringConverters::class)

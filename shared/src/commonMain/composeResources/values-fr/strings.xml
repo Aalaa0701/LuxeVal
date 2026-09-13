@@ -347,7 +347,7 @@
     <string name="field_cert_number">Numéro de certificat</string>
 
     <string name="section_appraisal_value">Valeur d’évaluation</string>
-    <string name="field_estimated_value">Valeur estimée (USD)</string>
+    <string name="field_estimated_value">Valeur estimée </string>
     <string name="hint_market_price_source">Source : prix du marché en direct — modifier pour remplacer</string>
     <string name="field_appraiser_notes_internal">Notes de l’évaluateur (internes)</string>
 

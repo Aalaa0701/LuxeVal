@@ -66,5 +66,6 @@ fun AppraisalItem.toRemoteRow(userId: String) = RemoteItem(
     createdAt = createdAt,
     updatedAt = updatedAt,
     details = detailsToJson(),
-    userId = userId
+    userId = userId,
+    measurementUnit = measurementUnit.name,
 )

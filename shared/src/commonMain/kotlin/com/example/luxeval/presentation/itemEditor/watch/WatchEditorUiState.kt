@@ -1,6 +1,7 @@
 package com.example.luxeval.presentation.itemEditor.watch
 
 import com.example.luxeval.domain.ItemCondition
+import com.example.luxeval.domain.MeasurementUnit
 import com.example.luxeval.domain.ValueSource
 import com.example.luxeval.domain.WatchComplication
 import com.example.luxeval.domain.WatchMovementType
@@ -41,6 +42,8 @@ data class WatchEditorUiState(
 
     val isFetchingPrice: Boolean = false,
     val valueSource: ValueSource = ValueSource.MANUAL,
+    val currencyCode: String = "USD",
+    val measurementUnit: MeasurementUnit = MeasurementUnit.METRIC
 ) {
     val canSave: Boolean get() = itemName.isNotBlank() && brand.isNotBlank()
 }

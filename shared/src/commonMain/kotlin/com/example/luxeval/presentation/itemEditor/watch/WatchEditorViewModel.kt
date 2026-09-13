@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlin.time.Clock
+import com.example.luxeval.data.AppSettingsStore
+
 
 class WatchEditorViewModel(
     private val appraisalId: String,
@@ -24,10 +26,11 @@ class WatchEditorViewModel(
     private val photoStorage: PhotoStorage,
     private val pricingRepository: PricingRepository,
     private val syncRepository: SyncRepository,
-    private val photoRepository: PhotoRepository
+    private val photoRepository: PhotoRepository,
+    private val settingsStore: AppSettingsStore
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(WatchEditorUiState())
+    private val _uiState = MutableStateFlow(WatchEditorUiState(currencyCode = settingsStore.getCurrencyCode(), measurementUnit = settingsStore.getMeasurementUnit()))
     val uiState: StateFlow<WatchEditorUiState> = _uiState.asStateFlow()
 
     init {
@@ -106,7 +109,8 @@ class WatchEditorViewModel(
                     grossWeightGrams = state.grossWeightGrams.toDoubleOrNull(),
                     hallmarks = state.hallmarks.ifBlank { null },
                     estimatedValue = state.estimatedValue.toDoubleOrNull(),
-                    currency = "USD",
+                    currency = state.currencyCode,
+                    measurementUnit = state.measurementUnit,
                     valuationBasis = ValuationBasis.RETAIL_REPLACEMENT,
                     valueSource = ValueSource.MANUAL,
                     notes = state.notes.ifBlank { null },
@@ -152,6 +156,8 @@ private fun AppraisalItem.Watch.toUiState() = WatchEditorUiState(
     hallmarks = hallmarks.orEmpty(),
     grossWeightGrams = grossWeightGrams?.toString().orEmpty(),
     brand = brand,
+    currencyCode = currency,
+    measurementUnit = measurementUnit,
     model = model.orEmpty(),
     referenceNumber = referenceNumber.orEmpty(),
     movementType = movementType,

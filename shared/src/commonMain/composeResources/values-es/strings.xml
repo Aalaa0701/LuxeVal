@@ -349,7 +349,7 @@
     <string name="field_cert_number">Número de certificado</string>
 
     <string name="section_appraisal_value">Valor de tasación</string>
-    <string name="field_estimated_value">Valor estimado (USD)</string>
+    <string name="field_estimated_value">Valor estimado </string>
     <string name="hint_market_price_source">Obtenido del precio actual del mercado — edita para reemplazarlo</string>
     <string name="field_appraiser_notes_internal">Notas del tasador (internas)</string>
 

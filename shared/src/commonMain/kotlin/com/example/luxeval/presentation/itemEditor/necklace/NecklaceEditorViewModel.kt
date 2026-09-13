@@ -2,6 +2,7 @@ package com.example.luxeval.presentation.itemEditor.necklace
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.luxeval.data.AppSettingsStore
 import com.example.luxeval.data.repository.ItemRepository
 import com.example.luxeval.data.repository.PhotoRepository
 import com.example.luxeval.data.repository.PricingRepository
@@ -25,10 +26,11 @@ class NecklaceEditorViewModel(
     private val photoStorage: PhotoStorage,
     private val pricingRepository: PricingRepository,
     private val syncRepository: SyncRepository,
-    private val photoRepository: PhotoRepository
+    private val photoRepository: PhotoRepository,
+    private val settingsStore: AppSettingsStore
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(NecklaceEditorUiState())
+    private val _uiState = MutableStateFlow(NecklaceEditorUiState(currencyCode = settingsStore.getCurrencyCode(), measurementUnit = settingsStore.getMeasurementUnit()))
     val uiState: StateFlow<NecklaceEditorUiState> = _uiState.asStateFlow()
 
     init {
@@ -99,7 +101,8 @@ class NecklaceEditorViewModel(
                     grossWeightGrams = state.grossWeightGrams.toDoubleOrNull(),
                     hallmarks = state.hallmarks.ifBlank { null },
                     estimatedValue = state.estimatedValue.toDoubleOrNull(),
-                    currency = "USD",
+                    currency = state.currencyCode,
+                    measurementUnit = state.measurementUnit,
                     valuationBasis = ValuationBasis.RETAIL_REPLACEMENT,
                     valueSource = ValueSource.MANUAL,
                     notes = state.notes.ifBlank { null },
@@ -158,6 +161,8 @@ private fun AppraisalItem.Necklace.toUiState() = NecklaceEditorUiState(
     lengthCm = lengthCm?.toString().orEmpty(),
     chainStyle = chainStyle.orEmpty(),
     claspType = claspType,
+    currencyCode = currency,
+    measurementUnit = measurementUnit,
     hasPendantAttached = hasPendantAttached,
     metal = MetalFormState(
         metalType = metal.metalType, purity = metal.purity, color = metal.color,

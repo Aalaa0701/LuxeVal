@@ -2,6 +2,7 @@ package com.example.luxeval.presentation.itemEditor.ring
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.luxeval.data.AppSettingsStore
 import com.example.luxeval.data.repository.ItemRepository
 import com.example.luxeval.data.repository.PhotoRepository
 import com.example.luxeval.data.repository.PricingRepository
@@ -26,10 +27,11 @@ class RingEditorViewModel(
     private val photoStorage: PhotoStorage,
     private val pricingRepository: PricingRepository,
     private val syncRepository: SyncRepository,
-    private val photoRepository: PhotoRepository
+    private val photoRepository: PhotoRepository,
+    private val settingsStore: AppSettingsStore
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(RingEditorUiState(isNewItem = itemId == null))
+    private val _uiState = MutableStateFlow(RingEditorUiState(isNewItem = itemId == null, currencyCode = settingsStore.getCurrencyCode(), measurementUnit = settingsStore.getMeasurementUnit()))
     val uiState: StateFlow<RingEditorUiState> = _uiState.asStateFlow()
 
     init {
@@ -100,7 +102,8 @@ class RingEditorViewModel(
                     grossWeightGrams = state.grossWeightGrams.toDoubleOrNull(),
                     hallmarks = state.hallmarks.ifBlank { null },
                     estimatedValue = state.estimatedValue.toDoubleOrNull(),
-                    currency = "USD",
+                    currency = state.currencyCode,
+                    measurementUnit = state.measurementUnit,
                     valuationBasis = ValuationBasis.RETAIL_REPLACEMENT,
                     valueSource = ValueSource.MANUAL,
                     notes = state.notes.ifBlank { null },
@@ -166,6 +169,8 @@ private fun AppraisalItem.Ring.toUiState() = RingEditorUiState(
     bandWidthMm = bandWidthMm?.toString().orEmpty(),
     bandStyle = bandStyle,
     shankType = shankType,
+    currencyCode = currency,
+    measurementUnit = measurementUnit,
     engraving = engraving.orEmpty(),
     metal = MetalFormState(
         metalType = metal.metalType, purity = metal.purity, color = metal.color,

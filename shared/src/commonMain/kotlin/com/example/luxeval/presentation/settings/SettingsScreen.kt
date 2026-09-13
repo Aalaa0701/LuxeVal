@@ -317,7 +317,7 @@ fun SettingsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CurrencyPickerSheet(current: String, onSelected: (String) -> Unit, onDismiss: () -> Unit) {
-    val currencies = listOf("USD", "EUR", "GBP", "CAD", "AUD")
+    val currencies = listOf("USD", "EUR", "GBP", "CAD", "AUD", "EGP")
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(Modifier.padding(LuxeSpacing.md)) {
             Text(stringResource(Res.string.settings_select_currency), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)

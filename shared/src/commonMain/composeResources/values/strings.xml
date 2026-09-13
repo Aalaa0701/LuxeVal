@@ -308,18 +308,24 @@
     <!-- Ring -->
     <string name="field_ring_size">Ring Size</string>
     <string name="field_band_width">Band Width (mm)</string>
+    <string name="field_length_cm">Length (cm)</string>
+    <string name="field_height_mm">Height (mm)</string>
+    <string name="field_width_mm">Width (mm)</string>
+    <string name="field_hoop_diameter">Hoop Diameter (mm) — if applicable</string>
+    <string name="field_case_size">Case Size (mm)</string>
+    <string name="field_size_mm">Size (mm)</string>
+    <string name="field_measurements">Measurements (mm)</string>
+
     <string name="field_band_style">Band Style</string>
 
     <!-- Necklace -->
-    <string name="field_length_cm">Length (cm)</string>
     <string name="field_chain_style">Chain Style</string>
     <string name="field_clasp_type">Clasp Type</string>
 
     <!-- Pendant -->
     <string name="field_pendant_attached">Pendant Attached</string>
     <string name="field_bail_type">Bail Type</string>
-    <string name="field_height_mm">Height (mm)</string>
-    <string name="field_width_mm">Width (mm)</string>
+
     <string name="field_sold_with_chain">Sold With Chain</string>
 
     <!-- Bracelet -->
@@ -330,7 +336,6 @@
 
     <!-- Earrings -->
     <string name="field_backing">Backing</string>
-    <string name="field_hoop_diameter">Hoop Diameter (mm) — if applicable</string>
     <string name="field_confirmed_pair">Confirmed Matching Pair</string>
 
     <!-- Brooch -->
@@ -347,7 +352,6 @@
     <string name="section_specifications">Specifications</string>
     <string name="field_movement">Movement</string>
     <string name="field_case_material">Case Material</string>
-    <string name="field_case_size">Case Size (mm)</string>
     <string name="field_band_material">Bracelet / Band Material</string>
     <string name="field_dial_color">Dial Color</string>
     <string name="field_water_resistance">Water Resistance</string>
@@ -361,7 +365,6 @@
 
     <!-- Pearl -->
     <string name="field_origin_type">Origin Type</string>
-    <string name="field_size_mm">Size (mm)</string>
     <string name="field_overtone_color">Body Color / Overtone</string>
     <string name="label_gia_grading">Quality Grading (GIA System)</string>
     <string name="field_luster">Luster</string>
@@ -387,13 +390,12 @@
     <string name="field_color_grade">Color Grade</string>
     <string name="field_clarity_grade">Clarity Grade</string>
     <string name="field_setting_type">Setting Type</string>
-    <string name="field_measurements">Measurements (mm)</string>
     <string name="field_cert_lab">Cert. Lab</string>
     <string name="field_cert_number">Cert. Number</string>
 
     <!-- ==================== VALUATION ==================== -->
     <string name="section_appraisal_value">Appraisal Value</string>
-    <string name="field_estimated_value">Estimated Value (USD)</string>
+    <string name="field_estimated_value">Estimated Value </string>
     <string name="hint_market_price_source">Sourced from live market price — edit to override</string>
     <string name="field_appraiser_notes_internal">Appraiser Notes (Internal)</string>
 

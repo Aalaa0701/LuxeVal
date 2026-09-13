@@ -3,6 +3,7 @@ package com.example.luxeval.presentation.itemEditor.brooch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.luxeval.data.AppSettingsStore
 import com.example.luxeval.data.repository.ItemRepository
 import com.example.luxeval.data.repository.PhotoRepository
 import com.example.luxeval.data.repository.PricingRepository
@@ -26,10 +27,11 @@ class BroochEditorViewModel(
     private val photoStorage: PhotoStorage,
     private val pricingRepository: PricingRepository,
     private val syncRepository: SyncRepository,
-    private val photoRepository: PhotoRepository
+    private val photoRepository: PhotoRepository,
+    private val settingsStore: AppSettingsStore
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(BroochEditorUiState())
+    private val _uiState = MutableStateFlow(BroochEditorUiState(currencyCode = settingsStore.getCurrencyCode(), measurementUnit = settingsStore.getMeasurementUnit()))
     val uiState: StateFlow<BroochEditorUiState> = _uiState.asStateFlow()
 
     init {
@@ -96,7 +98,8 @@ class BroochEditorViewModel(
                     grossWeightGrams = state.grossWeightGrams.toDoubleOrNull(),
                     hallmarks = state.hallmarks.ifBlank { null },
                     estimatedValue = state.estimatedValue.toDoubleOrNull(),
-                    currency = "USD",
+                    currency = state.currencyCode,
+                    measurementUnit = state.measurementUnit,
                     valuationBasis = ValuationBasis.RETAIL_REPLACEMENT,
                     valueSource = ValueSource.MANUAL,
                     notes = state.notes.ifBlank { null },
@@ -155,6 +158,8 @@ private fun AppraisalItem.Brooch.toUiState() = BroochEditorUiState(
         netWeightGrams = metal.netWeightGrams?.toString().orEmpty(),
         isPlated = metal.isPlated, platingBaseMetal = metal.platingBaseMetal.orEmpty()
     ),
+    currencyCode = currency,
+    measurementUnit = measurementUnit,
     gemstone = gemstone?.let {
         GemstoneFormState(
             enabled = true, stoneType = it.stoneType, originType = it.originType,

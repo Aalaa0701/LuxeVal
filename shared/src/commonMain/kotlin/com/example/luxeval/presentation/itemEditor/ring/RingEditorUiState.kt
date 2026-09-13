@@ -31,6 +31,8 @@ data class RingEditorUiState(
     val notes: String = "",
     val isFetchingPrice: Boolean = false,
     val valueSource: ValueSource = ValueSource.MANUAL,
+    val currencyCode: String = "USD",
+    val measurementUnit: MeasurementUnit = MeasurementUnit.METRIC
 ) {
     /** Gate for the Save button — mirrors AppraisalDetailUiState.canFinalize style. */
     val canSave: Boolean get() = itemName.isNotBlank() && metal.purity.isNotBlank()

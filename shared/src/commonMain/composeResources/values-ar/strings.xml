@@ -361,7 +361,7 @@
 
     <!-- VALUATION -->
     <string name="section_appraisal_value">قيمة التقييم</string>
-    <string name="field_estimated_value">القيمة المقدرة (بالدولار الأمريكي)</string>
+    <string name="field_estimated_value">القيمة المقدرة </string>
     <string name="hint_market_price_source">مصدرها سعر السوق الحالي — عدّلها للتجاوز</string>
     <string name="field_appraiser_notes_internal">ملاحظات المقيّم (داخلية)</string>
 

@@ -17,6 +17,7 @@ import com.example.luxeval.presentation.itemEditor.common.*
 import com.example.luxeval.presentation.photo.rememberPhotoPickerLauncher
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import com.example.luxeval.presentation.util.ErrorDialog
+import com.example.luxeval.presentation.util.lengthUnitLabel
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.action_save_item
 import luxeval.shared.generated.resources.back
@@ -94,7 +95,7 @@ fun EarringsEditorScreen(
                     }
                     OutlinedTextField(
                         value = uiState.hoopDiameterMm, onValueChange = { v -> viewModel.update { it.copy(hoopDiameterMm = v) } },
-                        label = { Text(stringResource(Res.string.field_hoop_diameter)) }, modifier = Modifier.fillMaxWidth(), singleLine = true
+                        label = { Text("${stringResource(Res.string.field_hoop_diameter)} (${lengthUnitLabel(uiState.measurementUnit)})") }, modifier = Modifier.fillMaxWidth(), singleLine = true
                     )
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Checkbox(checked = uiState.isConfirmedPair, onCheckedChange = { v -> viewModel.update { it.copy(isConfirmedPair = v) } })
@@ -103,7 +104,7 @@ fun EarringsEditorScreen(
                 }
             }
             item { MetalDetailsSection(state = uiState.metal, onChange = { m -> viewModel.update { it.copy(metal = m) } }) }
-            item { GemstoneDetailsSection(state = uiState.gemstone, onChange = { g -> viewModel.update { it.copy(gemstone = g) } }) }
+            item { GemstoneDetailsSection(state = uiState.gemstone, onChange = { g -> viewModel.update { it.copy(gemstone = g) } }, measurementUnit = uiState.measurementUnit) }
             item {
                 ValuationSection(
                     estimatedValue = uiState.estimatedValue,
@@ -111,7 +112,7 @@ fun EarringsEditorScreen(
                     notes = uiState.notes,
                     onNotesChanged = { v -> viewModel.update { it.copy(notes = v) } },
                     valueSource = uiState.valueSource,
-
+                    currencyCode = uiState.currencyCode,
                 )
                 uiState.saveError?.let {
                     ErrorDialog(error = uiState.saveError, onDismiss = viewModel::dismissSaveError, onRetry = { viewModel.save(onSaved) }) }

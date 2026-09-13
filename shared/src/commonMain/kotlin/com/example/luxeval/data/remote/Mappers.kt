@@ -267,7 +267,8 @@ fun RemoteItem.toDomain(): AppraisalItem? {
             shankType = d.stringOrNull("shankType")?.let { ShankType.valueOf(it) },
             engraving = d.stringOrNull("engraving"),
             metal = d["metal"]!!.jsonObject.parseMetal(),
-            gemstone = d["gemstone"]?.jsonObject?.parseGemstone()
+            gemstone = d["gemstone"]?.jsonObject?.parseGemstone(),
+            measurementUnit = MeasurementUnit.valueOf(measurementUnit),
         )
 
         ItemCategory.NECKLACE -> AppraisalItem.Necklace(
@@ -282,7 +283,8 @@ fun RemoteItem.toDomain(): AppraisalItem? {
             claspType = d.stringOrNull("claspType")?.let { ClaspType.valueOf(it) },
             hasPendantAttached = d.bool("hasPendantAttached"),
             metal = d["metal"]!!.jsonObject.parseMetal(),
-            gemstone = d["gemstone"]?.jsonObject?.parseGemstone()
+            gemstone = d["gemstone"]?.jsonObject?.parseGemstone(),
+            measurementUnit = MeasurementUnit.valueOf(measurementUnit),
         )
 
         ItemCategory.PENDANT -> AppraisalItem.Pendant(
@@ -297,7 +299,8 @@ fun RemoteItem.toDomain(): AppraisalItem? {
             widthMm = d.doubleOrNull("widthMm"),
             soldWithChain = d.bool("soldWithChain"),
             metal = d["metal"]!!.jsonObject.parseMetal(),
-            gemstone = d["gemstone"]?.jsonObject?.parseGemstone()
+            gemstone = d["gemstone"]?.jsonObject?.parseGemstone(),
+            measurementUnit = MeasurementUnit.valueOf(measurementUnit),
         )
 
         ItemCategory.BRACELET -> AppraisalItem.Bracelet(
@@ -314,7 +317,8 @@ fun RemoteItem.toDomain(): AppraisalItem? {
             charmCount = d.intOrNull("charmCount"),
             charmDescriptions = d.stringList("charmDescriptions"),
             metal = d["metal"]!!.jsonObject.parseMetal(),
-            gemstone = d["gemstone"]?.jsonObject?.parseGemstone()
+            gemstone = d["gemstone"]?.jsonObject?.parseGemstone(),
+            measurementUnit = MeasurementUnit.valueOf(measurementUnit),
         )
 
         ItemCategory.EARRINGS -> AppraisalItem.Earrings(
@@ -329,7 +333,8 @@ fun RemoteItem.toDomain(): AppraisalItem? {
             isConfirmedPair = d.bool("isConfirmedPair"),
             hoopDiameterMm = d.doubleOrNull("hoopDiameterMm"),
             metal = d["metal"]!!.jsonObject.parseMetal(),
-            gemstone = d["gemstone"]?.jsonObject?.parseGemstone()
+            gemstone = d["gemstone"]?.jsonObject?.parseGemstone(),
+            measurementUnit = MeasurementUnit.valueOf(measurementUnit),
         )
 
         ItemCategory.BROOCH -> AppraisalItem.Brooch(
@@ -344,7 +349,8 @@ fun RemoteItem.toDomain(): AppraisalItem? {
             widthMm = d.doubleOrNull("widthMm"),
             motifDescription = d.stringOrNull("motifDescription"),
             metal = d["metal"]!!.jsonObject.parseMetal(),
-            gemstone = d["gemstone"]?.jsonObject?.parseGemstone()
+            gemstone = d["gemstone"]?.jsonObject?.parseGemstone(),
+            measurementUnit = MeasurementUnit.valueOf(measurementUnit),
         )
 
         ItemCategory.WATCH -> AppraisalItem.Watch(
@@ -368,7 +374,8 @@ fun RemoteItem.toDomain(): AppraisalItem? {
             hasBox = d.bool("hasBox"),
             hasPapers = d.bool("hasPapers"),
             runningCondition = WatchRunningCondition.valueOf(d.string("runningCondition")),
-            yearOfManufacture = d.intOrNull("yearOfManufacture")
+            yearOfManufacture = d.intOrNull("yearOfManufacture"),
+            measurementUnit = MeasurementUnit.valueOf(measurementUnit),
         )
 
         ItemCategory.LOOSE_GEMSTONE -> AppraisalItem.LooseGemstone(
@@ -378,7 +385,8 @@ fun RemoteItem.toDomain(): AppraisalItem? {
             estimatedValue = base.estimatedValue, currency = base.currency,
             valuationBasis = base.valuationBasis, valueSource = base.valueSource, notes = base.notes,
             createdAt = base.createdAt, updatedAt = base.updatedAt,
-            gemstone = d["gemstone"]!!.jsonObject.parseGemstone()
+            gemstone = d["gemstone"]!!.jsonObject.parseGemstone(),
+            measurementUnit = MeasurementUnit.valueOf(measurementUnit),
         )
 
         ItemCategory.PEARL_JEWELRY -> AppraisalItem.PearlJewelry(
@@ -396,7 +404,8 @@ fun RemoteItem.toDomain(): AppraisalItem? {
             overtoneColor = d.stringOrNull("overtoneColor"),
             pearlCount = d.int("pearlCount"),
             isMatchedStrand = d.bool("isMatchedStrand"),
-            metal = d["metal"]?.jsonObject?.parseMetal()
+            metal = d["metal"]?.jsonObject?.parseMetal(),
+            measurementUnit = MeasurementUnit.valueOf(measurementUnit),
         )
 
         ItemCategory.OTHER -> null // unreachable — guarded above

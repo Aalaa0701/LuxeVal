@@ -129,7 +129,8 @@ fun NecklaceEditorScreen(
             item {
                 GemstoneDetailsSection(
                     state = uiState.gemstone,
-                    onChange = { g -> viewModel.update { it.copy(gemstone = g) } }
+                    onChange = { g -> viewModel.update { it.copy(gemstone = g) } },
+                    measurementUnit = uiState.measurementUnit
                 )
             }
             item {
@@ -139,7 +140,7 @@ fun NecklaceEditorScreen(
                     notes = uiState.notes,
                     onNotesChanged = { v -> viewModel.update { it.copy(notes = v) } },
                     valueSource = uiState.valueSource,
-
+                    currencyCode = uiState.currencyCode,
                 )
                 uiState.saveError?.let {
                     ErrorDialog(error = uiState.saveError, onDismiss = viewModel::dismissSaveError, onRetry = { viewModel.save(onSaved) })

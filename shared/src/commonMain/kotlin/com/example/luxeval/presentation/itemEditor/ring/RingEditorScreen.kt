@@ -15,6 +15,7 @@ import com.example.luxeval.presentation.itemEditor.common.*
 import com.example.luxeval.presentation.photo.rememberPhotoPickerLauncher
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import com.example.luxeval.presentation.util.ErrorDialog
+import com.example.luxeval.presentation.util.lengthUnitLabel
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.*
 import org.jetbrains.compose.resources.painterResource
@@ -95,7 +96,7 @@ fun RingEditorScreen(
                         OutlinedTextField(
                             value = uiState.bandWidthMm,
                             onValueChange = { v -> viewModel.update { it.copy(bandWidthMm = v) } },
-                            label = { Text(stringResource(Res.string.field_band_width)) },
+                            label = { Text("${stringResource(Res.string.field_band_width)} (${lengthUnitLabel(uiState.measurementUnit)})") },
                             modifier = Modifier.weight(1f), singleLine = true
                         )
                     }
@@ -116,7 +117,8 @@ fun RingEditorScreen(
             item {
                 GemstoneDetailsSection(
                     state = uiState.gemstone,
-                    onChange = { g -> viewModel.update { it.copy(gemstone = g) } }
+                    onChange = { g -> viewModel.update { it.copy(gemstone = g) } },
+                    measurementUnit = uiState.measurementUnit
                 )
             }
             item {
@@ -127,6 +129,7 @@ fun RingEditorScreen(
                     notes = uiState.notes,
                     onNotesChanged = { v -> viewModel.update { it.copy(notes = v) } },
                     valueSource = uiState.valueSource,
+                    currencyCode = uiState.currencyCode,
                 )
                 uiState.saveError?.let {
                     ErrorDialog(error = uiState.saveError, onDismiss = viewModel::dismissSaveError, onRetry = { viewModel.save(onSaved) })

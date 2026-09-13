@@ -14,6 +14,7 @@ import com.example.luxeval.presentation.itemEditor.common.*
 import com.example.luxeval.presentation.photo.rememberPhotoPickerLauncher
 import com.example.luxeval.presentation.theme.LuxeSpacing
 import com.example.luxeval.presentation.util.ErrorDialog
+import com.example.luxeval.presentation.util.lengthUnitLabel
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.action_save_item
 import luxeval.shared.generated.resources.back
@@ -84,11 +85,11 @@ fun PendantEditorScreen(
                     Row(horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
                         OutlinedTextField(
                             value = uiState.heightMm, onValueChange = { v -> viewModel.update { it.copy(heightMm = v) } },
-                            label = { Text(stringResource(Res.string.field_height_mm)) }, modifier = Modifier.weight(1f), singleLine = true
+                            label = { Text("${stringResource(Res.string.field_height_mm)} (${lengthUnitLabel(uiState.measurementUnit)})") }, modifier = Modifier.weight(1f), singleLine = true
                         )
                         OutlinedTextField(
                             value = uiState.widthMm, onValueChange = { v -> viewModel.update { it.copy(widthMm = v) } },
-                            label = { Text(stringResource(Res.string.field_width_mm)) }, modifier = Modifier.weight(1f), singleLine = true
+                            label = { Text("${stringResource(Res.string.field_width_mm)} (${lengthUnitLabel(uiState.measurementUnit)})") }, modifier = Modifier.weight(1f), singleLine = true
                         )
                     }
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -98,7 +99,7 @@ fun PendantEditorScreen(
                 }
             }
             item { MetalDetailsSection(state = uiState.metal, onChange = { m -> viewModel.update { it.copy(metal = m) } }) }
-            item { GemstoneDetailsSection(state = uiState.gemstone, onChange = { g -> viewModel.update { it.copy(gemstone = g) } }) }
+            item { GemstoneDetailsSection(state = uiState.gemstone, onChange = { g -> viewModel.update { it.copy(gemstone = g) } }, measurementUnit = uiState.measurementUnit) }
             item {
                 ValuationSection(
                     estimatedValue = uiState.estimatedValue,
@@ -106,7 +107,7 @@ fun PendantEditorScreen(
                     notes = uiState.notes,
                     onNotesChanged = { v -> viewModel.update { it.copy(notes = v) } },
                     valueSource = uiState.valueSource,
-
+                    currencyCode = uiState.currencyCode,
                 )
                 uiState.saveError?.let {
                     ErrorDialog(error = uiState.saveError, onDismiss = viewModel::dismissSaveError, onRetry = { viewModel.save(onSaved) }) }

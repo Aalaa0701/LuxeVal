@@ -1,8 +1,8 @@
 package com.example.luxeval.data
 
+import com.example.luxeval.domain.MeasurementUnit
 import com.russhwolf.settings.Settings
 
-enum class MeasurementUnit { METRIC, IMPERIAL }
 enum class ThemeMode { SYSTEM, LIGHT, DARK }
 class AppSettingsStore(private val settings: Settings) {
     fun getCurrencyCode(): String = settings.getString("currency_code", "USD")

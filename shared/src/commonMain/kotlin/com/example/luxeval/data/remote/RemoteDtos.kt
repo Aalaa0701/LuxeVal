@@ -56,6 +56,7 @@ data class RemoteItem(
     val hallmarks: String? = null,
     @SerialName("estimated_value") val estimatedValue: Double? = null,
     val currency: String,
+    @SerialName("measurement_unit") val measurementUnit: String,
     @SerialName("valuation_basis") val valuationBasis: String,
     @SerialName("value_source") val valueSource: String,
     val notes: String? = null,

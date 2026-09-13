@@ -20,6 +20,7 @@ fun ValuationSection(
     onFetchMarketPrice: (() -> Unit)? = null,
     isFetchingPrice: Boolean = false,
     valueSource: ValueSource,
+    currencyCode: String,          // NEW
     notes: String,
     onNotesChanged: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -31,6 +32,7 @@ fun ValuationSection(
                 value = estimatedValue,
                 onValueChange = onValueChanged,
                 label = { Text(stringResource(Res.string.field_estimated_value)) },
+                prefix = { Text(currencyCode) },
                 modifier = Modifier.weight(1f),
                 singleLine = true
             )

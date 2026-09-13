@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.luxeval.domain.*
 import com.example.luxeval.presentation.theme.LuxeSpacing
+import com.example.luxeval.presentation.util.lengthUnitLabel
 import luxeval.shared.generated.resources.Res
 import luxeval.shared.generated.resources.*
 import org.jetbrains.compose.resources.stringResource
@@ -32,7 +33,8 @@ data class GemstoneFormState(
 fun GemstoneDetailsSection(
     state: GemstoneFormState,
     onChange: (GemstoneFormState) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    measurementUnit: MeasurementUnit
 ) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {
         Row(
@@ -92,7 +94,9 @@ fun GemstoneDetailsSection(
         )
         OutlinedTextField(
             value = state.measurementsMm, onValueChange = { onChange(state.copy(measurementsMm = it)) },
-            label = { Text(stringResource(Res.string.field_measurements)) },
+            label = {
+//                Text(stringResource(Res.string.field_measurements))
+                Text("${stringResource(Res.string.field_measurements)} (${lengthUnitLabel(measurementUnit)})") },
             modifier = Modifier.fillMaxWidth(), singleLine = true
         )
         Row(horizontalArrangement = Arrangement.spacedBy(LuxeSpacing.sm)) {

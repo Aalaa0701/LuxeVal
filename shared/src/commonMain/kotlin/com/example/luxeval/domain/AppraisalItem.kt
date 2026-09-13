@@ -5,6 +5,7 @@ package com.example.luxeval.domain
 // Keeping these as real enums (not raw strings) gives compile-time
 // safety in the UI and in the report generator's `when` blocks.
 // ─────────────────────────────────────────────────────────────
+enum class MeasurementUnit { METRIC, IMPERIAL }
 
 enum class ItemCategory {
     RING, NECKLACE, PENDANT, BRACELET, EARRINGS, BROOCH, WATCH,
@@ -99,6 +100,7 @@ sealed class AppraisalItem {
     abstract val hallmarks: String?
     abstract val estimatedValue: Double?
     abstract val currency: String
+    abstract val measurementUnit: MeasurementUnit
     abstract val valuationBasis: ValuationBasis
     abstract val valueSource: ValueSource
     abstract val notes: String?
@@ -116,6 +118,7 @@ sealed class AppraisalItem {
         override val hallmarks: String? = null,
         override val estimatedValue: Double? = null,
         override val currency: String,
+        override val measurementUnit: MeasurementUnit,
         override val valuationBasis: ValuationBasis,
         override val valueSource: ValueSource,
         override val notes: String? = null,
@@ -141,6 +144,7 @@ sealed class AppraisalItem {
         override val hallmarks: String? = null,
         override val estimatedValue: Double? = null,
         override val currency: String,
+        override val measurementUnit: MeasurementUnit,
         override val valuationBasis: ValuationBasis,
         override val valueSource: ValueSource,
         override val notes: String? = null,
@@ -165,6 +169,7 @@ sealed class AppraisalItem {
         override val hallmarks: String? = null,
         override val estimatedValue: Double? = null,
         override val currency: String,
+        override val measurementUnit: MeasurementUnit,
         override val valuationBasis: ValuationBasis,
         override val valueSource: ValueSource,
         override val notes: String? = null,
@@ -189,6 +194,7 @@ sealed class AppraisalItem {
         override val hallmarks: String? = null,
         override val estimatedValue: Double? = null,
         override val currency: String,
+        override val measurementUnit: MeasurementUnit,
         override val valuationBasis: ValuationBasis,
         override val valueSource: ValueSource,
         override val notes: String? = null,
@@ -215,6 +221,7 @@ sealed class AppraisalItem {
         override val hallmarks: String? = null,
         override val estimatedValue: Double? = null,
         override val currency: String,
+        override val measurementUnit: MeasurementUnit,
         override val valuationBasis: ValuationBasis,
         override val valueSource: ValueSource,
         override val notes: String? = null,
@@ -239,6 +246,7 @@ sealed class AppraisalItem {
         override val hallmarks: String? = null,
         override val estimatedValue: Double? = null,
         override val currency: String,
+        override val measurementUnit: MeasurementUnit,
         override val valuationBasis: ValuationBasis,
         override val valueSource: ValueSource,
         override val notes: String? = null,
@@ -264,6 +272,7 @@ sealed class AppraisalItem {
         override val hallmarks: String? = null,
         override val estimatedValue: Double? = null,
         override val currency: String,
+        override val measurementUnit: MeasurementUnit,
         override val valuationBasis: ValuationBasis,
         override val valueSource: ValueSource,
         override val notes: String? = null,
@@ -298,6 +307,7 @@ sealed class AppraisalItem {
         override val hallmarks: String? = null,
         override val estimatedValue: Double? = null,
         override val currency: String,
+        override val measurementUnit: MeasurementUnit,
         override val valuationBasis: ValuationBasis,
         override val valueSource: ValueSource,
         override val notes: String? = null,
@@ -318,6 +328,7 @@ sealed class AppraisalItem {
         override val hallmarks: String? = null,
         override val estimatedValue: Double? = null,
         override val currency: String,
+        override val measurementUnit: MeasurementUnit,
         override val valuationBasis: ValuationBasis,
         override val valueSource: ValueSource,
         override val notes: String? = null,
@@ -346,6 +357,7 @@ sealed class AppraisalItem {
         override val hallmarks: String? = null,
         override val estimatedValue: Double? = null,
         override val currency: String,
+        override val measurementUnit: MeasurementUnit,
         override val valuationBasis: ValuationBasis,
         override val valueSource: ValueSource,
         override val notes: String? = null,
